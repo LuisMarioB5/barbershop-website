@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Descripción y palabras claves de la web -->
+    <meta name="description" content="Barbería profesional que ofrece estilo en cada corte y elegancia en cada detalle. Reserva tu cita online.">
+    <meta name="keywords" content="barbería, cortes de cabello, afeitado, estilo, elegancia">
+    
+    <!-- Título de la página -->
+    <title>Barbería Estilo y Elegancia</title>
+    
+    <!-- Links CSS -->
+    <link rel="stylesheet" href="../reset.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Links Fuente Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Links CSS de la API externa (teléfono internacional) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.3.2/build/css/intlTelInput.css">
+</head>
+<!-- TODO: SE DEBE HACER QUE EL MENU DE NAVEGACION (header) SE QUEDE ESTATICO AL MOMENTO DE MOVER LA PAGINA HACIA ABAJO
+ Y CUANDO SE SELECCIONE O SE ENCUENTRE EN UNA SECCION EN EL MENU SE SUBRAYE AUTOMATICAMENTE. LUEGO EMPEZAR CON LA PARTE DE
+ LA AUTENTICACION DE USUARIOS EN EL BACKEND.  -->
+<body>
+    <!-- Sección de inicio -->
+    <section id="home">
+        <!-- Encabezado con navegación -->
+        <header>
+            <a href="#home">
+                <img class="logo-barberia" src="img/logo.png" alt="Logotipo blanco de Barbería Estilo y Elegancia">
+            </a>
+            
+            <nav>
+                <ul>
+                    <li class="sect-li"><a href="#home" class="active">Inicio</a></li>
+                    <li class="sect-li"><a href="#services">Servicios</a></li>
+                    <li class="sect-li"><a href="#pricing">Precios</a></li>
+                    <li class="sect-li"><a href="#gallery">Galería</a></li>
+                    <li class="sect-li"><a href="#barbers">Barberos</a></li>
+                    <li class="sect-li"><a href="#reviews">Reseñas</a></li>
+                    <li class="sect-li"><a href="#booking">Reservar</a></li>
+                    <li class="sect-li"><a href="#contact-us">Contáctanos</a></li>
+                </ul>
+
+                <div>
+                    <button class="account-btn" onclick="window.location.href='../account/login.html'">Iniciar sesión</button>
+
+                    <button class="account-btn" onclick="window.location.href='../account/signup.html'">Registrarse</button>
+                </div>
+            </nav>
+        </header>
+
+        <div id="home-content">
+            <h1>
+                ESTILO EN CADA <span>CORTE</span>,<br>
+                <span>ELEGANCIA</span> EN CADA<br>
+                DETALLE
+            </h1>
+            <button onclick="window.location.href='#booking'">RESERVAR</button>
+        </div>
+    </section>
+
+    <!-- Sección de servicios -->
+    <section id="services">
+        <h2>Servicios</h2>
+
+        <div id="services-content">
+            <div id="barber-service"></div>
+
+            <ul>
+                <li>
+                    <img src="img/icons/scissors.png" alt="Vector de tijeras de barbero de color oro.">
+
+                    <p>Corte de Cabello</p>
+                </li>
+
+                <li>
+                    <img src="img/icons/straight-razor.png" alt="Vector de una navaja de afeitar de color oro.">
+
+                    <p>Afeitado</p>
+                </li>
+
+                <li>
+                    <img src="img/icons/beard.png" alt="Vector de una barba de color oro.">
+                    <p>Corte de Barba</p>
+                </li>
+
+                <li>
+                    <img src="img/icons/hair-dryer.png" alt="Vector de una secadora de cabello de color oro.">
+
+                    <p>Peinados con Secador</p>
+                </li>
+
+                <li>
+                    <img src="img/icons/chair.png" alt="Vector de una silla de barbero de color oro.">
+
+                    <p>Corte Infantil</p>
+                </li>
+
+                <li>
+                    <img src="img/icons/brush.png" alt="Vector de una brocha de afeitar de color oro.">
+
+                    <p>Facial</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Sección de precios -->
+    <section id="pricing">
+        <h2>Precios</h2>
+
+        <div id="pricing-content">
+            <div id="service-tags">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+                    <circle cx="40" cy="40" r="39.5" transform="rotate(-90 40 40)" fill="#708090" stroke="#708090"/>
+                    <path d="M46 50.9999L34.3871 39.6259L46 29.0644" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+    
+                <ul>
+                    <li class="service-tag-active">
+                        <img src="img/icons/hair-clipper.png" alt="Vector de máquina de pelar">
+                        <p>Todos</p>
+                    </li>
+    
+                    <li>
+                        <img src="img/icons/scissors.png" alt="Vector de tijeras de barbero">
+                        <p>Corte de Cabello</p>
+                    </li>
+    
+                    <li>
+                        <img src="img/icons/straight-razor.png" alt="Vector de una navaja de afeitar">
+                        <p>Afeitado</p>
+                    </li>
+    
+                    <li>
+                        <img src="img/icons/beard.png" alt="Vector de una barba">
+                        <p>Corte de Barba</p>
+                    </li>
+    
+                    <li>
+                        <img src="img/icons/hair-dryer.png" alt="Vector de una secadora de cabello">
+                        <p>Peinados con Secador</p>
+                    </li>
+    
+                    <li>
+                        <img src="img/icons/chair.png" alt="Vector de una silla de barbero">
+                        <p>Corte Infantil</p>
+                    </li>
+    
+                    <li>
+                        <img src="img/icons/brush.png" alt="Vector de una brocha de afeitar">
+                        <p>Facial</p>
+                    </li>
+                </ul>
+    
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+                    <circle cx="40" cy="40" r="39.5" transform="rotate(90 40 40)" fill="#708090" stroke="#708090"/>
+                    <path d="M34 29.0001L45.6129 40.3741L34 50.9356" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+    
+            <div id="service-details">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+                    <circle cx="40" cy="40" r="39.5" transform="rotate(-90 40 40)" fill="#708090" stroke="#708090"/>
+                    <path d="M46 50.9999L34.3871 39.6259L46 29.0644" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+    
+                <ul>
+                    <li>
+                        <img src="img/pricing/haircut.jpg" alt="Imágen de un barbero cortándole el cabello con tijeras a un cliente">
+                        <div>
+                            <div>
+                                <p>Corte de Cabello</p>
+                                <p class="service-details-description">Simple 40 min.</p>
+                            </div>
+    
+                            <p class="service-details-price">$00.0</p>
+                        </div>
+                    </li>
+    
+                    <li>
+                        <img src="img/pricing/beard-cut.jpg" alt="Imágen de un barbero recortándole la barba a un cliente">
+                        <div>
+                            <div>
+                                <p>Corte de Barba</p>
+                                <p class="service-details-description">Completo 35 min.</p>
+                            </div>
+    
+                            <p class="service-details-price">$00.0</p>
+                        </div>
+                    </li>
+    
+                    <li>
+                        <img src="img/pricing/hair-dryer.jpg" alt="Imágen de un barbero peinando a un cliente con un secador de pelo">
+                        <div>
+                            <div>
+                                <p>Peinado con Secador</p>
+                                <p class="service-details-description">Simple 25 min.</p>
+                            </div>
+    
+                            <p class="service-details-price">$00.0</p>
+                        </div>
+                    </li>
+                </ul>
+    
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+                    <circle cx="40" cy="40" r="39.5" transform="rotate(90 40 40)" fill="#708090" stroke="#708090"/>
+                    <path d="M34 29.0001L45.6129 40.3741L34 50.9356" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de galería -->
+    <section id="gallery">
+        <h2>Experimenta el Mejor Corte de Cabello</h2>
+
+        <div id="gallery-content">
+            <img src="img/gallery/beard-shaving.jpg" alt="Imágen en la que le afeitan la barba a un hombre" width="376px" height="401px">
+            
+            <img src="img/gallery/combing-hair.png" alt="Imágen de un hombre peinándose" width="376px" height="401px">
+            
+            <img src="img/gallery/men-haircut.jpg" alt="Imágen en la que le realizan un corte de cabello a un hombre" width="376px" height="401px">
+            
+            <img src="img/gallery/men.jpg" alt="Imágen en la que le esta dando el corte a un hombre" width="376px" height="401px">
+            
+            <img src="img/gallery/kid-haircut.jpg" alt="Imágen en la que se le realiza un corte de cabello a un niño" width="376px" height="401px">
+            
+            <img src="img/gallery/styling-hairdryer.png" alt="Imágen en la que se esta peinando con un secador de pelo a un hombre" width="376px" height="401px">
+        </div>
+    </section>
+
+    <!-- Fondo degradado entre secciones -->
+    <div class="gradient-background"></div>
+
+    <!-- Sección de barberos -->
+    <section id="barbers">
+        <h2>Conoce a Nuestros Barberos</h2>
+
+        <div id="barbers-content">
+            <div id="barber-card-1" class="barber-card">
+                <div class="barber-card-details">
+                    <div>
+                        <p>Juan Pérez</p>
+                        <p>Barbero Principal</p>
+                    </div>
+
+                    <p class="barber-card-description">Experto en cortes de cabello clásicos y modernos. Apasionado por brindar a sus clientes un estilo único y personalizado.</p>
+
+                    <div class="barber-card-social-media">
+                        <!-- Logo de Facebook -->
+                         <a href="https://www.facebook.com/" target="_blank">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                 <path d="M27.5 15C27.5 8.1 21.9 2.5 15 2.5C8.1 2.5 2.5 8.1 2.5 15C2.5 21.05 6.8 26.0875 12.5 27.25V18.75H10V15H12.5V11.875C12.5 9.4625 14.4625 7.5 16.875 7.5H20V11.25H17.5C16.8125 11.25 16.25 11.8125 16.25 12.5V15H20V18.75H16.25V27.4375C22.5625 26.8125 27.5 21.4875 27.5 15Z" fill="#DAA520"/>
+                             </svg>
+                         </a>
+
+                        <!-- Logo de Instagram -->
+                         <a href="https://www.instagram.com/" target="_blank">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                 <path d="M9.75 2.5H20.25C24.25 2.5 27.5 5.75 27.5 9.75V20.25C27.5 22.1728 26.7362 24.0169 25.3765 25.3765C24.0169 26.7362 22.1728 27.5 20.25 27.5H9.75C5.75 27.5 2.5 24.25 2.5 20.25V9.75C2.5 7.82718 3.26384 5.98311 4.62348 4.62348C5.98311 3.26384 7.82718 2.5 9.75 2.5ZM9.5 5C8.30653 5 7.16193 5.47411 6.31802 6.31802C5.47411 7.16193 5 8.30653 5 9.5V20.5C5 22.9875 7.0125 25 9.5 25H20.5C21.6935 25 22.8381 24.5259 23.682 23.682C24.5259 22.8381 25 21.6935 25 20.5V9.5C25 7.0125 22.9875 5 20.5 5H9.5ZM21.5625 6.875C21.9769 6.875 22.3743 7.03962 22.6674 7.33265C22.9604 7.62567 23.125 8.0231 23.125 8.4375C23.125 8.8519 22.9604 9.24933 22.6674 9.54235C22.3743 9.83538 21.9769 10 21.5625 10C21.1481 10 20.7507 9.83538 20.4576 9.54235C20.1646 9.24933 20 8.8519 20 8.4375C20 8.0231 20.1646 7.62567 20.4576 7.33265C20.7507 7.03962 21.1481 6.875 21.5625 6.875ZM15 8.75C16.6576 8.75 18.2473 9.40848 19.4194 10.5806C20.5915 11.7527 21.25 13.3424 21.25 15C21.25 16.6576 20.5915 18.2473 19.4194 19.4194C18.2473 20.5915 16.6576 21.25 15 21.25C13.3424 21.25 11.7527 20.5915 10.5806 19.4194C9.40848 18.2473 8.75 16.6576 8.75 15C8.75 13.3424 9.40848 11.7527 10.5806 10.5806C11.7527 9.40848 13.3424 8.75 15 8.75ZM15 11.25C14.0054 11.25 13.0516 11.6451 12.3483 12.3483C11.6451 13.0516 11.25 14.0054 11.25 15C11.25 15.9946 11.6451 16.9484 12.3483 17.6516C13.0516 18.3549 14.0054 18.75 15 18.75C15.9946 18.75 16.9484 18.3549 17.6516 17.6516C18.3549 16.9484 18.75 15.9946 18.75 15C18.75 14.0054 18.3549 13.0516 17.6516 12.3483C16.9484 11.6451 15.9946 11.25 15 11.25Z" fill="#DAA520"/>
+                             </svg>
+                         </a>
+
+                        <!-- Logo de X (Twitter) -->
+                        <a href="https://www.x.com/" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                <path d="M22.1887 3.75H26.0225L17.6475 13.2812L27.5 26.25H19.785L13.7437 18.3837L6.83 26.25H2.9925L11.9512 16.0563L2.5 3.75H10.41L15.8725 10.94L22.1887 3.75ZM20.8437 23.965H22.9687L9.255 5.915H6.975L20.8437 23.965Z" fill="#DAA520"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="barber-card-2" class="barber-card">
+                <div class="barber-card-details">
+                    <div>
+                        <p>Carlos Rodríguez</p>
+                        <p>Barbero Especialista en Barbas</p>
+                    </div>
+
+                    <p class="barber-card-description">Maestro en el arte de dar forma y cuidar las barbas. Con amplia experiencia en estilos tradicionales y contemporáneos.</p>
+
+                    <div class="barber-card-social-media">
+                        <!-- Logo de Facebook -->
+                         <a href="https://www.facebook.com/" target="_blank">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                 <path d="M27.5 15C27.5 8.1 21.9 2.5 15 2.5C8.1 2.5 2.5 8.1 2.5 15C2.5 21.05 6.8 26.0875 12.5 27.25V18.75H10V15H12.5V11.875C12.5 9.4625 14.4625 7.5 16.875 7.5H20V11.25H17.5C16.8125 11.25 16.25 11.8125 16.25 12.5V15H20V18.75H16.25V27.4375C22.5625 26.8125 27.5 21.4875 27.5 15Z" fill="#DAA520"/>
+                             </svg>
+                         </a>
+
+                        <!-- Logo de Instagram -->
+                         <a href="https://www.instagram.com/" target="_blank">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                 <path d="M9.75 2.5H20.25C24.25 2.5 27.5 5.75 27.5 9.75V20.25C27.5 22.1728 26.7362 24.0169 25.3765 25.3765C24.0169 26.7362 22.1728 27.5 20.25 27.5H9.75C5.75 27.5 2.5 24.25 2.5 20.25V9.75C2.5 7.82718 3.26384 5.98311 4.62348 4.62348C5.98311 3.26384 7.82718 2.5 9.75 2.5ZM9.5 5C8.30653 5 7.16193 5.47411 6.31802 6.31802C5.47411 7.16193 5 8.30653 5 9.5V20.5C5 22.9875 7.0125 25 9.5 25H20.5C21.6935 25 22.8381 24.5259 23.682 23.682C24.5259 22.8381 25 21.6935 25 20.5V9.5C25 7.0125 22.9875 5 20.5 5H9.5ZM21.5625 6.875C21.9769 6.875 22.3743 7.03962 22.6674 7.33265C22.9604 7.62567 23.125 8.0231 23.125 8.4375C23.125 8.8519 22.9604 9.24933 22.6674 9.54235C22.3743 9.83538 21.9769 10 21.5625 10C21.1481 10 20.7507 9.83538 20.4576 9.54235C20.1646 9.24933 20 8.8519 20 8.4375C20 8.0231 20.1646 7.62567 20.4576 7.33265C20.7507 7.03962 21.1481 6.875 21.5625 6.875ZM15 8.75C16.6576 8.75 18.2473 9.40848 19.4194 10.5806C20.5915 11.7527 21.25 13.3424 21.25 15C21.25 16.6576 20.5915 18.2473 19.4194 19.4194C18.2473 20.5915 16.6576 21.25 15 21.25C13.3424 21.25 11.7527 20.5915 10.5806 19.4194C9.40848 18.2473 8.75 16.6576 8.75 15C8.75 13.3424 9.40848 11.7527 10.5806 10.5806C11.7527 9.40848 13.3424 8.75 15 8.75ZM15 11.25C14.0054 11.25 13.0516 11.6451 12.3483 12.3483C11.6451 13.0516 11.25 14.0054 11.25 15C11.25 15.9946 11.6451 16.9484 12.3483 17.6516C13.0516 18.3549 14.0054 18.75 15 18.75C15.9946 18.75 16.9484 18.3549 17.6516 17.6516C18.3549 16.9484 18.75 15.9946 18.75 15C18.75 14.0054 18.3549 13.0516 17.6516 12.3483C16.9484 11.6451 15.9946 11.25 15 11.25Z" fill="#DAA520"/>
+                             </svg>
+                         </a>
+
+                        <!-- Logo de X (Twitter) -->
+                        <a href="https://www.x.com/" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                <path d="M22.1887 3.75H26.0225L17.6475 13.2812L27.5 26.25H19.785L13.7437 18.3837L6.83 26.25H2.9925L11.9512 16.0563L2.5 3.75H10.41L15.8725 10.94L22.1887 3.75ZM20.8437 23.965H22.9687L9.255 5.915H6.975L20.8437 23.965Z" fill="#DAA520"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="barber-card-3" class="barber-card">
+                <div class="barber-card-details">
+                    <div>
+                        <p>Andrés Martínez</p>
+                        <p>Barbero Especialista en Afeitado</p>
+                    </div>
+
+                    <p class="barber-card-description">Habilidoso en el arte del afeitado clásico y moderno. Brinda una experiencia relajante y de lujo a sus clientes.</p>
+
+                    <div class="barber-card-social-media">
+                        <!-- Logo de Facebook -->
+                         <a href="https://www.facebook.com/" target="_blank">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                 <path d="M27.5 15C27.5 8.1 21.9 2.5 15 2.5C8.1 2.5 2.5 8.1 2.5 15C2.5 21.05 6.8 26.0875 12.5 27.25V18.75H10V15H12.5V11.875C12.5 9.4625 14.4625 7.5 16.875 7.5H20V11.25H17.5C16.8125 11.25 16.25 11.8125 16.25 12.5V15H20V18.75H16.25V27.4375C22.5625 26.8125 27.5 21.4875 27.5 15Z" fill="#DAA520"/>
+                             </svg>
+                         </a>
+
+                        <!-- Logo de Instagram -->
+                         <a href="https://www.instagram.com/" target="_blank">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                 <path d="M9.75 2.5H20.25C24.25 2.5 27.5 5.75 27.5 9.75V20.25C27.5 22.1728 26.7362 24.0169 25.3765 25.3765C24.0169 26.7362 22.1728 27.5 20.25 27.5H9.75C5.75 27.5 2.5 24.25 2.5 20.25V9.75C2.5 7.82718 3.26384 5.98311 4.62348 4.62348C5.98311 3.26384 7.82718 2.5 9.75 2.5ZM9.5 5C8.30653 5 7.16193 5.47411 6.31802 6.31802C5.47411 7.16193 5 8.30653 5 9.5V20.5C5 22.9875 7.0125 25 9.5 25H20.5C21.6935 25 22.8381 24.5259 23.682 23.682C24.5259 22.8381 25 21.6935 25 20.5V9.5C25 7.0125 22.9875 5 20.5 5H9.5ZM21.5625 6.875C21.9769 6.875 22.3743 7.03962 22.6674 7.33265C22.9604 7.62567 23.125 8.0231 23.125 8.4375C23.125 8.8519 22.9604 9.24933 22.6674 9.54235C22.3743 9.83538 21.9769 10 21.5625 10C21.1481 10 20.7507 9.83538 20.4576 9.54235C20.1646 9.24933 20 8.8519 20 8.4375C20 8.0231 20.1646 7.62567 20.4576 7.33265C20.7507 7.03962 21.1481 6.875 21.5625 6.875ZM15 8.75C16.6576 8.75 18.2473 9.40848 19.4194 10.5806C20.5915 11.7527 21.25 13.3424 21.25 15C21.25 16.6576 20.5915 18.2473 19.4194 19.4194C18.2473 20.5915 16.6576 21.25 15 21.25C13.3424 21.25 11.7527 20.5915 10.5806 19.4194C9.40848 18.2473 8.75 16.6576 8.75 15C8.75 13.3424 9.40848 11.7527 10.5806 10.5806C11.7527 9.40848 13.3424 8.75 15 8.75ZM15 11.25C14.0054 11.25 13.0516 11.6451 12.3483 12.3483C11.6451 13.0516 11.25 14.0054 11.25 15C11.25 15.9946 11.6451 16.9484 12.3483 17.6516C13.0516 18.3549 14.0054 18.75 15 18.75C15.9946 18.75 16.9484 18.3549 17.6516 17.6516C18.3549 16.9484 18.75 15.9946 18.75 15C18.75 14.0054 18.3549 13.0516 17.6516 12.3483C16.9484 11.6451 15.9946 11.25 15 11.25Z" fill="#DAA520"/>
+                             </svg>
+                         </a>
+
+                        <!-- Logo de X (Twitter) -->
+                        <a href="https://www.x.com/" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                <path d="M22.1887 3.75H26.0225L17.6475 13.2812L27.5 26.25H19.785L13.7437 18.3837L6.83 26.25H2.9925L11.9512 16.0563L2.5 3.75H10.41L15.8725 10.94L22.1887 3.75ZM20.8437 23.965H22.9687L9.255 5.915H6.975L20.8437 23.965Z" fill="#DAA520"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="barber-card-4" class="barber-card">
+                <div class="barber-card-details">
+                    <div>
+                        <p>Alejandro Torres</p>
+                        <p>Barbero Especialista en Peinados de Eventos</p>
+                    </div>
+
+                    <p class="barber-card-description">Creador de peinados elegantes y sofisticados con resultados impresionantes.</p>
+
+                    <div class="barber-card-social-media">
+                        <!-- Logo de Facebook -->
+                         <a href="https://www.facebook.com/" target="_blank">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                 <path d="M27.5 15C27.5 8.1 21.9 2.5 15 2.5C8.1 2.5 2.5 8.1 2.5 15C2.5 21.05 6.8 26.0875 12.5 27.25V18.75H10V15H12.5V11.875C12.5 9.4625 14.4625 7.5 16.875 7.5H20V11.25H17.5C16.8125 11.25 16.25 11.8125 16.25 12.5V15H20V18.75H16.25V27.4375C22.5625 26.8125 27.5 21.4875 27.5 15Z" fill="#DAA520"/>
+                             </svg>
+                         </a>
+
+                        <!-- Logo de Instagram -->
+                         <a href="https://www.instagram.com/" target="_blank">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                 <path d="M9.75 2.5H20.25C24.25 2.5 27.5 5.75 27.5 9.75V20.25C27.5 22.1728 26.7362 24.0169 25.3765 25.3765C24.0169 26.7362 22.1728 27.5 20.25 27.5H9.75C5.75 27.5 2.5 24.25 2.5 20.25V9.75C2.5 7.82718 3.26384 5.98311 4.62348 4.62348C5.98311 3.26384 7.82718 2.5 9.75 2.5ZM9.5 5C8.30653 5 7.16193 5.47411 6.31802 6.31802C5.47411 7.16193 5 8.30653 5 9.5V20.5C5 22.9875 7.0125 25 9.5 25H20.5C21.6935 25 22.8381 24.5259 23.682 23.682C24.5259 22.8381 25 21.6935 25 20.5V9.5C25 7.0125 22.9875 5 20.5 5H9.5ZM21.5625 6.875C21.9769 6.875 22.3743 7.03962 22.6674 7.33265C22.9604 7.62567 23.125 8.0231 23.125 8.4375C23.125 8.8519 22.9604 9.24933 22.6674 9.54235C22.3743 9.83538 21.9769 10 21.5625 10C21.1481 10 20.7507 9.83538 20.4576 9.54235C20.1646 9.24933 20 8.8519 20 8.4375C20 8.0231 20.1646 7.62567 20.4576 7.33265C20.7507 7.03962 21.1481 6.875 21.5625 6.875ZM15 8.75C16.6576 8.75 18.2473 9.40848 19.4194 10.5806C20.5915 11.7527 21.25 13.3424 21.25 15C21.25 16.6576 20.5915 18.2473 19.4194 19.4194C18.2473 20.5915 16.6576 21.25 15 21.25C13.3424 21.25 11.7527 20.5915 10.5806 19.4194C9.40848 18.2473 8.75 16.6576 8.75 15C8.75 13.3424 9.40848 11.7527 10.5806 10.5806C11.7527 9.40848 13.3424 8.75 15 8.75ZM15 11.25C14.0054 11.25 13.0516 11.6451 12.3483 12.3483C11.6451 13.0516 11.25 14.0054 11.25 15C11.25 15.9946 11.6451 16.9484 12.3483 17.6516C13.0516 18.3549 14.0054 18.75 15 18.75C15.9946 18.75 16.9484 18.3549 17.6516 17.6516C18.3549 16.9484 18.75 15.9946 18.75 15C18.75 14.0054 18.3549 13.0516 17.6516 12.3483C16.9484 11.6451 15.9946 11.25 15 11.25Z" fill="#DAA520"/>
+                             </svg>
+                         </a>
+
+                        <!-- Logo de X (Twitter) -->
+                        <a href="https://www.x.com/" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                <path d="M22.1887 3.75H26.0225L17.6475 13.2812L27.5 26.25H19.785L13.7437 18.3837L6.83 26.25H2.9925L11.9512 16.0563L2.5 3.75H10.41L15.8725 10.94L22.1887 3.75ZM20.8437 23.965H22.9687L9.255 5.915H6.975L20.8437 23.965Z" fill="#DAA520"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="barber-card-5" class="barber-card">
+                <div class="barber-card-details">
+                    <div>
+                        <p>Miguel Sánchez</p>
+                        <p>Barbero Especialista en Cortes Clásicos</p>
+                    </div>
+
+                    <p class="barber-card-description">Maestría en cortes clásicos y atención a los detalles.</p>
+
+                    <div class="barber-card-social-media">
+                        <!-- Logo de Facebook -->
+                         <a href="https://www.facebook.com/" target="_blank">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                 <path d="M27.5 15C27.5 8.1 21.9 2.5 15 2.5C8.1 2.5 2.5 8.1 2.5 15C2.5 21.05 6.8 26.0875 12.5 27.25V18.75H10V15H12.5V11.875C12.5 9.4625 14.4625 7.5 16.875 7.5H20V11.25H17.5C16.8125 11.25 16.25 11.8125 16.25 12.5V15H20V18.75H16.25V27.4375C22.5625 26.8125 27.5 21.4875 27.5 15Z" fill="#DAA520"/>
+                             </svg>
+                         </a>
+
+                        <!-- Logo de Instagram -->
+                         <a href="https://www.instagram.com/" target="_blank">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                 <path d="M9.75 2.5H20.25C24.25 2.5 27.5 5.75 27.5 9.75V20.25C27.5 22.1728 26.7362 24.0169 25.3765 25.3765C24.0169 26.7362 22.1728 27.5 20.25 27.5H9.75C5.75 27.5 2.5 24.25 2.5 20.25V9.75C2.5 7.82718 3.26384 5.98311 4.62348 4.62348C5.98311 3.26384 7.82718 2.5 9.75 2.5ZM9.5 5C8.30653 5 7.16193 5.47411 6.31802 6.31802C5.47411 7.16193 5 8.30653 5 9.5V20.5C5 22.9875 7.0125 25 9.5 25H20.5C21.6935 25 22.8381 24.5259 23.682 23.682C24.5259 22.8381 25 21.6935 25 20.5V9.5C25 7.0125 22.9875 5 20.5 5H9.5ZM21.5625 6.875C21.9769 6.875 22.3743 7.03962 22.6674 7.33265C22.9604 7.62567 23.125 8.0231 23.125 8.4375C23.125 8.8519 22.9604 9.24933 22.6674 9.54235C22.3743 9.83538 21.9769 10 21.5625 10C21.1481 10 20.7507 9.83538 20.4576 9.54235C20.1646 9.24933 20 8.8519 20 8.4375C20 8.0231 20.1646 7.62567 20.4576 7.33265C20.7507 7.03962 21.1481 6.875 21.5625 6.875ZM15 8.75C16.6576 8.75 18.2473 9.40848 19.4194 10.5806C20.5915 11.7527 21.25 13.3424 21.25 15C21.25 16.6576 20.5915 18.2473 19.4194 19.4194C18.2473 20.5915 16.6576 21.25 15 21.25C13.3424 21.25 11.7527 20.5915 10.5806 19.4194C9.40848 18.2473 8.75 16.6576 8.75 15C8.75 13.3424 9.40848 11.7527 10.5806 10.5806C11.7527 9.40848 13.3424 8.75 15 8.75ZM15 11.25C14.0054 11.25 13.0516 11.6451 12.3483 12.3483C11.6451 13.0516 11.25 14.0054 11.25 15C11.25 15.9946 11.6451 16.9484 12.3483 17.6516C13.0516 18.3549 14.0054 18.75 15 18.75C15.9946 18.75 16.9484 18.3549 17.6516 17.6516C18.3549 16.9484 18.75 15.9946 18.75 15C18.75 14.0054 18.3549 13.0516 17.6516 12.3483C16.9484 11.6451 15.9946 11.25 15 11.25Z" fill="#DAA520"/>
+                             </svg>
+                         </a>
+
+                        <!-- Logo de X (Twitter) -->
+                        <a href="https://www.x.com/" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                <path d="M22.1887 3.75H26.0225L17.6475 13.2812L27.5 26.25H19.785L13.7437 18.3837L6.83 26.25H2.9925L11.9512 16.0563L2.5 3.75H10.41L15.8725 10.94L22.1887 3.75ZM20.8437 23.965H22.9687L9.255 5.915H6.975L20.8437 23.965Z" fill="#DAA520"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="barber-card-6" class="barber-card">
+                <div class="barber-card-details">
+                    <div>
+                        <p>Gabriel López</p>
+                        <p>Barbero Experto en Barbas Largas</p>
+                    </div>
+
+                    <p class="barber-card-description">Cuidado de barbas largas con precisión y estilo.</p>
+
+                    <div class="barber-card-social-media">
+                        <!-- Logo de Facebook -->
+                         <a href="https://www.facebook.com/" target="_blank">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                 <path d="M27.5 15C27.5 8.1 21.9 2.5 15 2.5C8.1 2.5 2.5 8.1 2.5 15C2.5 21.05 6.8 26.0875 12.5 27.25V18.75H10V15H12.5V11.875C12.5 9.4625 14.4625 7.5 16.875 7.5H20V11.25H17.5C16.8125 11.25 16.25 11.8125 16.25 12.5V15H20V18.75H16.25V27.4375C22.5625 26.8125 27.5 21.4875 27.5 15Z" fill="#DAA520"/>
+                             </svg>
+                         </a>
+
+                        <!-- Logo de Instagram -->
+                         <a href="https://www.instagram.com/" target="_blank">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                 <path d="M9.75 2.5H20.25C24.25 2.5 27.5 5.75 27.5 9.75V20.25C27.5 22.1728 26.7362 24.0169 25.3765 25.3765C24.0169 26.7362 22.1728 27.5 20.25 27.5H9.75C5.75 27.5 2.5 24.25 2.5 20.25V9.75C2.5 7.82718 3.26384 5.98311 4.62348 4.62348C5.98311 3.26384 7.82718 2.5 9.75 2.5ZM9.5 5C8.30653 5 7.16193 5.47411 6.31802 6.31802C5.47411 7.16193 5 8.30653 5 9.5V20.5C5 22.9875 7.0125 25 9.5 25H20.5C21.6935 25 22.8381 24.5259 23.682 23.682C24.5259 22.8381 25 21.6935 25 20.5V9.5C25 7.0125 22.9875 5 20.5 5H9.5ZM21.5625 6.875C21.9769 6.875 22.3743 7.03962 22.6674 7.33265C22.9604 7.62567 23.125 8.0231 23.125 8.4375C23.125 8.8519 22.9604 9.24933 22.6674 9.54235C22.3743 9.83538 21.9769 10 21.5625 10C21.1481 10 20.7507 9.83538 20.4576 9.54235C20.1646 9.24933 20 8.8519 20 8.4375C20 8.0231 20.1646 7.62567 20.4576 7.33265C20.7507 7.03962 21.1481 6.875 21.5625 6.875ZM15 8.75C16.6576 8.75 18.2473 9.40848 19.4194 10.5806C20.5915 11.7527 21.25 13.3424 21.25 15C21.25 16.6576 20.5915 18.2473 19.4194 19.4194C18.2473 20.5915 16.6576 21.25 15 21.25C13.3424 21.25 11.7527 20.5915 10.5806 19.4194C9.40848 18.2473 8.75 16.6576 8.75 15C8.75 13.3424 9.40848 11.7527 10.5806 10.5806C11.7527 9.40848 13.3424 8.75 15 8.75ZM15 11.25C14.0054 11.25 13.0516 11.6451 12.3483 12.3483C11.6451 13.0516 11.25 14.0054 11.25 15C11.25 15.9946 11.6451 16.9484 12.3483 17.6516C13.0516 18.3549 14.0054 18.75 15 18.75C15.9946 18.75 16.9484 18.3549 17.6516 17.6516C18.3549 16.9484 18.75 15.9946 18.75 15C18.75 14.0054 18.3549 13.0516 17.6516 12.3483C16.9484 11.6451 15.9946 11.25 15 11.25Z" fill="#DAA520"/>
+                             </svg>
+                         </a>
+
+                        <!-- Logo de X (Twitter) -->
+                        <a href="https://www.x.com/" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                                <path d="M22.1887 3.75H26.0225L17.6475 13.2812L27.5 26.25H19.785L13.7437 18.3837L6.83 26.25H2.9925L11.9512 16.0563L2.5 3.75H10.41L15.8725 10.94L22.1887 3.75ZM20.8437 23.965H22.9687L9.255 5.915H6.975L20.8437 23.965Z" fill="#DAA520"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de reseñas -->
+    <section id="reviews">
+        <h2>Comentarios de Nuestros clientes</h2>
+
+        <div id="reviews-content">
+
+            <svg class="arrows" xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+                <circle cx="40" cy="40" r="40" transform="rotate(-90 40 40)" fill="#708090"/>
+                <path d="M46 50.9999L34.3871 39.6259L46 29.0644" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+
+            <div id="reviews-cards">
+                <div class="review-card">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="110" height="94" viewBox="0 0 110 94" fill="none">
+                            <path d="M49.4403 3.98861C50.0227 4.93365 50.4159 5.98579 50.5974 7.08493C50.7788 8.18408 50.745 9.30871 50.498 10.3946C50.2509 11.4805 49.7953 12.5064 49.1573 13.4138C48.5193 14.3211 47.7113 15.0921 46.7795 15.6828C36.5953 22.1163 28.5047 31.4491 23.5176 42.5166C28.5539 42.0895 33.6001 43.2141 37.9959 45.7432C42.3918 48.2724 45.9325 52.0883 48.1549 56.6918C50.3773 61.2953 51.1779 66.4719 50.4519 71.5444C49.7258 76.6169 47.5071 81.349 44.0858 85.1216C40.6646 88.8943 36.2002 91.5317 31.2767 92.6889C26.3533 93.8461 21.2001 93.4691 16.4914 91.6073C11.7826 89.7455 7.73767 86.4856 4.88566 82.2541C2.03366 78.0226 0.507446 73.0165 0.506714 67.8908V67.6617C0.515813 67.0047 0.543716 66.3482 0.59039 65.6929C0.665698 64.4199 0.816315 62.6378 1.10918 60.4483C1.69491 56.0948 2.84127 50.095 5.15909 43.3568C9.778 29.8635 19.133 13.1878 37.9098 1.28995C38.8416 0.69929 39.879 0.300559 40.9628 0.116518C42.0466 -0.0675227 43.1555 -0.0332685 44.2262 0.217325C45.2969 0.467919 46.3084 0.929944 47.2031 1.57702C48.0977 2.2241 48.858 3.04356 49.4403 3.98861ZM108.013 3.98861C108.596 4.93365 108.989 5.98579 109.17 7.08493C109.352 8.18408 109.318 9.30871 109.071 10.3946C108.824 11.4805 108.368 12.5064 107.73 13.4138C107.092 14.3211 106.284 15.0921 105.353 15.6828C95.1684 22.1163 87.0778 31.4491 82.0907 42.5166C87.127 42.0895 92.1732 43.2141 96.569 45.7432C100.965 48.2724 104.506 52.0883 106.728 56.6918C108.95 61.2953 109.751 66.4719 109.025 71.5444C108.299 76.6169 106.08 81.349 102.659 85.1216C99.2377 88.8943 94.7733 91.5317 89.8498 92.6889C84.9264 93.8461 79.7732 93.4691 75.0645 91.6073C70.3557 89.7455 66.3108 86.4856 63.4588 82.2541C60.6068 78.0226 59.0805 73.0165 59.0798 67.8908V67.6617C59.0889 67.0047 59.1168 66.3482 59.1635 65.6929C59.2388 64.4199 59.3894 62.6378 59.6823 60.4483C60.268 56.0948 61.4144 50.095 63.7322 43.3568C68.3511 29.8635 77.7061 13.1878 96.4829 1.28995C97.4147 0.69929 98.4521 0.300559 99.5359 0.116518C100.62 -0.0675227 101.729 -0.0332685 102.799 0.217325C103.87 0.467919 104.882 0.929944 105.776 1.57702C106.671 2.2241 107.431 3.04356 108.013 3.98861Z" fill="#DAA520" fill-opacity="0.5"/>
+                        </svg>
+
+                        <div>
+                            <p>Miguel Pérez</p>
+                            <img src="img/reviews/person1.png" alt="Imagen circular de la persona que realizo la reseña con un borde de color oro">
+                        </div>
+                    </div>
+
+                    <p>La mejor experiencia que he tenido en una barbería. Los barberos son muy profesionales y el ambiente es excelente. Definitivamente volveré!</p>
+                </div>
+
+                <div class="review-card">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="110" height="94" viewBox="0 0 110 94" fill="none">
+                            <path d="M49.4403 3.98861C50.0227 4.93365 50.4159 5.98579 50.5974 7.08493C50.7788 8.18408 50.745 9.30871 50.498 10.3946C50.2509 11.4805 49.7953 12.5064 49.1573 13.4138C48.5193 14.3211 47.7113 15.0921 46.7795 15.6828C36.5953 22.1163 28.5047 31.4491 23.5176 42.5166C28.5539 42.0895 33.6001 43.2141 37.9959 45.7432C42.3918 48.2724 45.9325 52.0883 48.1549 56.6918C50.3773 61.2953 51.1779 66.4719 50.4519 71.5444C49.7258 76.6169 47.5071 81.349 44.0858 85.1216C40.6646 88.8943 36.2002 91.5317 31.2767 92.6889C26.3533 93.8461 21.2001 93.4691 16.4914 91.6073C11.7826 89.7455 7.73767 86.4856 4.88566 82.2541C2.03366 78.0226 0.507446 73.0165 0.506714 67.8908V67.6617C0.515813 67.0047 0.543716 66.3482 0.59039 65.6929C0.665698 64.4199 0.816315 62.6378 1.10918 60.4483C1.69491 56.0948 2.84127 50.095 5.15909 43.3568C9.778 29.8635 19.133 13.1878 37.9098 1.28995C38.8416 0.69929 39.879 0.300559 40.9628 0.116518C42.0466 -0.0675227 43.1555 -0.0332685 44.2262 0.217325C45.2969 0.467919 46.3084 0.929944 47.2031 1.57702C48.0977 2.2241 48.858 3.04356 49.4403 3.98861ZM108.013 3.98861C108.596 4.93365 108.989 5.98579 109.17 7.08493C109.352 8.18408 109.318 9.30871 109.071 10.3946C108.824 11.4805 108.368 12.5064 107.73 13.4138C107.092 14.3211 106.284 15.0921 105.353 15.6828C95.1684 22.1163 87.0778 31.4491 82.0907 42.5166C87.127 42.0895 92.1732 43.2141 96.569 45.7432C100.965 48.2724 104.506 52.0883 106.728 56.6918C108.95 61.2953 109.751 66.4719 109.025 71.5444C108.299 76.6169 106.08 81.349 102.659 85.1216C99.2377 88.8943 94.7733 91.5317 89.8498 92.6889C84.9264 93.8461 79.7732 93.4691 75.0645 91.6073C70.3557 89.7455 66.3108 86.4856 63.4588 82.2541C60.6068 78.0226 59.0805 73.0165 59.0798 67.8908V67.6617C59.0889 67.0047 59.1168 66.3482 59.1635 65.6929C59.2388 64.4199 59.3894 62.6378 59.6823 60.4483C60.268 56.0948 61.4144 50.095 63.7322 43.3568C68.3511 29.8635 77.7061 13.1878 96.4829 1.28995C97.4147 0.69929 98.4521 0.300559 99.5359 0.116518C100.62 -0.0675227 101.729 -0.0332685 102.799 0.217325C103.87 0.467919 104.882 0.929944 105.776 1.57702C106.671 2.2241 107.431 3.04356 108.013 3.98861Z" fill="#DAA520" fill-opacity="0.5"/>
+                        </svg>
+
+                        <div>
+                            <p>Carlos Gómez</p>
+                            <img src="img/reviews/person2.png" alt="Imagen circular de la persona que realizo la reseña con un borde de color oro">
+                        </div>
+                    </div>
+
+                    <p>Excelente servicio y atención. Los barberos son muy profesionales y atentos a los detalles. ¡Recomendado!</p>
+                </div>
+
+            </div>
+
+            <svg class="arrows" xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+                <circle cx="40" cy="40" r="40" transform="rotate(90 40 40)" fill="#708090"/>
+                <path d="M34 29.0001L45.6129 40.3741L34 50.9356" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+
+        </div>
+    </section>
+
+    <!-- Fondo degradado entre secciones -->
+    <div class="gradient-background"></div>
+
+    <!-- Sección de reserva -->
+    <section id="booking">
+        <div id="booking-content">
+            <h2>Realiza una Cita con Nosotros</h2>
+    
+            <form>
+                <div class="form-content">
+                    <input type="text" placeholder="Nombre completo" required/>
+                    
+                    <input type="email" placeholder="Correo electrónico" required/>
+                    
+                    <input type="tel" class="phone" required/>
+                    
+                    <input list="select-service" name="service" placeholder="Servicio a realizar" required/>
+                    <datalist id="select-service">
+                        <option value="Afeitado">
+                        <option value="Corte de Barba">
+                        <option value="Corte de Cabello">
+                        <option value="Corte Infantil">
+                        <option value="Facial">
+                        <option value="Peinado con Secador">
+                    </datalist>
+        
+                    <input id="date" type="datetime-local" required/>
+        
+                    <input list="select-barber" name="barber" placeholder="Barbero a atenderte"/>
+                    <datalist id="select-barber">
+                        <option value="Alejandro Torres">
+                        <option value="Andrés Martínez">
+                        <option value="Carlos Rodríguez">
+                        <option value="Gabriel López">
+                        <option value="Juan Pérez">
+                        <option value="Miguel Sánchez">
+                    </datalist>
+                    
+                    <div class="textarea-div">
+                        <textarea placeholder="Deja algún mensaje"></textarea>
+                        
+                        <label><input type="checkbox" required/>Acepto los términos y condiciones</label>
+                    </div>
+                    
+                    <button>REALIZAR CITA</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Sección de contacto -->
+    <section id="contact-us">
+        <div id="contact-us-div">
+            <div id="contact-us-content-info">
+                <div id="contact-us-content">
+                    <h2>Contáctanos</h2>
+                    <p>Nos encantaría saber de ti. Si tienes alguna pregunta sobre nuestros servicios, deseas hacer una reserva especial, o simplemente quieres conocer más sobre nosotros, no dudes en ponerte en contacto.</p>
+                </div>
+
+                <div id="contact-us-info">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="31" height="30" viewBox="0 0 31 30" fill="none">
+                            <path d="M15.5 2.5C9.98623 2.5 5.49998 6.98625 5.49998 12.4938C5.46373 20.55 15.12 27.23 15.5 27.5C15.5 27.5 25.5362 20.55 25.5 12.5C25.5 6.98625 21.0137 2.5 15.5 2.5ZM15.5 17.5C12.7375 17.5 10.5 15.2625 10.5 12.5C10.5 9.7375 12.7375 7.5 15.5 7.5C18.2625 7.5 20.5 9.7375 20.5 12.5C20.5 15.2625 18.2625 17.5 15.5 17.5Z" fill="#DAA520"/>
+                        </svg>
+                        
+                        <p>Av. Salvador Estrella Sadhalá, Santiago de los Caballeros 51000, República Dominicana</p>
+                    </div>
+
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="31" height="30" viewBox="0 0 31 30" fill="none">
+                            <path d="M21.5 18.09L21.8 17.775C22.61 16.995 22.985 17.13 23.75 17.895L27.875 21.975C29.105 23.19 29.69 23.415 28.595 24.57L28.295 24.885L21.5 18.09ZM20.825 18.885L27.425 25.485C26.015 26.535 22.22 28.995 19.415 27.78C16.91 26.685 16.79 26.145 14.915 24.78C11.75 22.005 8.35999 18.51 5.80999 15.78C4.44499 13.89 3.81499 13.815 2.80999 11.28C1.74499 8.57996 4.14499 4.67996 5.14999 3.20996L11.75 9.80996L9.31999 11.58C8.62999 12.09 9.40999 13.38 10.31 14.28C11.885 15.84 15.08 19.05 16.415 20.28C17.3 21.165 18.59 21.96 19.115 21.27L20.825 18.885ZM5.74999 2.35496L6.06499 2.03996C7.17499 1.01996 7.41499 1.60496 8.61499 2.81996L12.695 6.92996C13.43 7.69496 13.595 8.05496 12.86 8.83496L12.545 9.13496L5.74999 2.35496Z" fill="#DAA520"/>
+                        </svg>
+
+                        <p>(123) 456 - 7890</p>
+                    </div>
+
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="31" height="30" viewBox="0 0 31 30" fill="none">
+                            <path d="M25.5 5H5.5C4.125 5 3.0125 6.125 3.0125 7.5L3 22.5C3 23.875 4.125 25 5.5 25H25.5C26.875 25 28 23.875 28 22.5V7.5C28 6.125 26.875 5 25.5 5ZM25.5 10L15.5 16.25L5.5 10V7.5L15.5 13.75L25.5 7.5V10Z" fill="#DAA520"/>
+                        </svg>
+
+                        <p>contacto@barberia.com</p>
+                    </div>
+
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="31" height="30" viewBox="0 0 31 30" fill="none">
+                            <path d="M24.25 23.75H6.75V10H24.25M20.5 1.25V3.75H10.5V1.25H8V3.75H6.75C5.3625 3.75 4.25 4.8625 4.25 6.25V23.75C4.25 24.413 4.51339 25.0489 4.98223 25.5178C5.45107 25.9866 6.08696 26.25 6.75 26.25H24.25C24.913 26.25 25.5489 25.9866 26.0178 25.5178C26.4866 25.0489 26.75 24.413 26.75 23.75V6.25C26.75 5.58696 26.4866 4.95107 26.0178 4.48223C25.5489 4.01339 24.913 3.75 24.25 3.75H23V1.25M21.75 15H15.5V21.25H21.75V15Z" fill="#DAA520"/>
+                        </svg>
+
+                        <p>Lunes a Viernes 9:00 AM - 7:00 PM, Sábado 10:00 AM - 5:00 PM</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <form> 
+                <div class="form-content">
+                    <input type="text" placeholder="Nombre completo" required/>
+                    
+                    <input type="email" placeholder="Correo electrónico" required/>
+                    
+                    <input type="tel" class="phone"/>
+                    
+                    <input type="text" placeholder="Tema" required/>
+                    
+                    <div class="textarea-div">
+                        <textarea placeholder="Mensaje" required></textarea>
+                        
+                        <label><input type="checkbox" required/>Acepto los términos y condiciones</label>
+                    </div>
+                </div>
+                
+                <button>Enviar</button>
+            </form>
+        </div>
+
+        <div id="map" style="background-color: red;"></div>
+        <iframe id="iframe-map" onload="iframLoaded()" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1881.2745671586936!2d-70.69427156120497!3d19.43187712488787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8eb1cf3fdf1b45c5%3A0xe8867ebe31d25d35!2sAv.%20Salvador%20Estrella%20Sadhal%C3%A1%2C%20Santiago%20de%20los%20Caballeros%2051000%2C%20Dominican%20Republic!5e0!3m2!1sen!2sus!4v1720752264269!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" referrerpolicy="no-referrer-when-downgrade"></iframe>    
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <section id="footer-left-side">
+            <div>
+                <a href="#home">
+                    <img class="logo-barberia" src="img/logo.png" alt="Logotipo blanco de Barbería Estilo y Elegancia">
+                </a>
+
+                <h3>¡Suscríbete a nuestro Newsletter!</h3>
+
+                <p>Sé el primero en enterarte de nuestras últimas novedades, promociones especiales y consejos de estilo. ¡Inscríbete ahora y no te pierdas nada!</p>
+            </div>
+
+            <form>
+                <input type="email" placeholder="Correo electrónico" required/>
+                
+                <button>Enviar</button>
+            </form>
+        </section>
+        
+        <section id="footer-center-side">
+            <h3>Accesos Rápidos</h3>
+
+            <ul>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2.4166 12.9489C2.21202 12.831 2.04246 12.6609 1.92531 12.4559C1.80817 12.2509 1.74765 12.0185 1.74996 11.7824V2.21756C1.74765 1.98147 1.80817 1.74902 1.92531 1.54404C2.04246 1.33905 2.21202 1.16892 2.4166 1.05107C2.61342 0.936087 2.83726 0.875488 3.0652 0.875488C3.29314 0.875488 3.51698 0.936087 3.71379 1.05107L12.0192 5.8324C12.2227 5.95191 12.3914 6.12252 12.5086 6.32732C12.6258 6.53212 12.6875 6.764 12.6875 6.99998C12.6875 7.23596 12.6258 7.46784 12.5086 7.67264C12.3914 7.87744 12.2227 8.04805 12.0192 8.16756L3.71379 12.95C3.51688 13.0648 3.29299 13.1252 3.06505 13.125C2.83711 13.1248 2.61332 13.064 2.4166 12.9489Z" fill="#DAA520"/>
+                    </svg>
+
+                    <a href="#home">Inicio</a>
+                </li>
+
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2.4166 12.9489C2.21202 12.831 2.04246 12.6609 1.92531 12.4559C1.80817 12.2509 1.74765 12.0185 1.74996 11.7824V2.21756C1.74765 1.98147 1.80817 1.74902 1.92531 1.54404C2.04246 1.33905 2.21202 1.16892 2.4166 1.05107C2.61342 0.936087 2.83726 0.875488 3.0652 0.875488C3.29314 0.875488 3.51698 0.936087 3.71379 1.05107L12.0192 5.8324C12.2227 5.95191 12.3914 6.12252 12.5086 6.32732C12.6258 6.53212 12.6875 6.764 12.6875 6.99998C12.6875 7.23596 12.6258 7.46784 12.5086 7.67264C12.3914 7.87744 12.2227 8.04805 12.0192 8.16756L3.71379 12.95C3.51688 13.0648 3.29299 13.1252 3.06505 13.125C2.83711 13.1248 2.61332 13.064 2.4166 12.9489Z" fill="#DAA520"/>
+                    </svg>
+
+                    <a href="#services">Servicios</a>
+                </li>
+
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2.4166 12.9489C2.21202 12.831 2.04246 12.6609 1.92531 12.4559C1.80817 12.2509 1.74765 12.0185 1.74996 11.7824V2.21756C1.74765 1.98147 1.80817 1.74902 1.92531 1.54404C2.04246 1.33905 2.21202 1.16892 2.4166 1.05107C2.61342 0.936087 2.83726 0.875488 3.0652 0.875488C3.29314 0.875488 3.51698 0.936087 3.71379 1.05107L12.0192 5.8324C12.2227 5.95191 12.3914 6.12252 12.5086 6.32732C12.6258 6.53212 12.6875 6.764 12.6875 6.99998C12.6875 7.23596 12.6258 7.46784 12.5086 7.67264C12.3914 7.87744 12.2227 8.04805 12.0192 8.16756L3.71379 12.95C3.51688 13.0648 3.29299 13.1252 3.06505 13.125C2.83711 13.1248 2.61332 13.064 2.4166 12.9489Z" fill="#DAA520"/>
+                    </svg>
+
+                    <a href="#pricing">Precios</a>
+                </li>
+
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2.4166 12.9489C2.21202 12.831 2.04246 12.6609 1.92531 12.4559C1.80817 12.2509 1.74765 12.0185 1.74996 11.7824V2.21756C1.74765 1.98147 1.80817 1.74902 1.92531 1.54404C2.04246 1.33905 2.21202 1.16892 2.4166 1.05107C2.61342 0.936087 2.83726 0.875488 3.0652 0.875488C3.29314 0.875488 3.51698 0.936087 3.71379 1.05107L12.0192 5.8324C12.2227 5.95191 12.3914 6.12252 12.5086 6.32732C12.6258 6.53212 12.6875 6.764 12.6875 6.99998C12.6875 7.23596 12.6258 7.46784 12.5086 7.67264C12.3914 7.87744 12.2227 8.04805 12.0192 8.16756L3.71379 12.95C3.51688 13.0648 3.29299 13.1252 3.06505 13.125C2.83711 13.1248 2.61332 13.064 2.4166 12.9489Z" fill="#DAA520"/>
+                    </svg>
+
+                    <a href="#gallery">Galería</a>
+                </li>
+
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2.4166 12.9489C2.21202 12.831 2.04246 12.6609 1.92531 12.4559C1.80817 12.2509 1.74765 12.0185 1.74996 11.7824V2.21756C1.74765 1.98147 1.80817 1.74902 1.92531 1.54404C2.04246 1.33905 2.21202 1.16892 2.4166 1.05107C2.61342 0.936087 2.83726 0.875488 3.0652 0.875488C3.29314 0.875488 3.51698 0.936087 3.71379 1.05107L12.0192 5.8324C12.2227 5.95191 12.3914 6.12252 12.5086 6.32732C12.6258 6.53212 12.6875 6.764 12.6875 6.99998C12.6875 7.23596 12.6258 7.46784 12.5086 7.67264C12.3914 7.87744 12.2227 8.04805 12.0192 8.16756L3.71379 12.95C3.51688 13.0648 3.29299 13.1252 3.06505 13.125C2.83711 13.1248 2.61332 13.064 2.4166 12.9489Z" fill="#DAA520"/>
+                    </svg>
+
+                    <a href="#barbers">Barberos</a>
+                </li>
+
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2.4166 12.9489C2.21202 12.831 2.04246 12.6609 1.92531 12.4559C1.80817 12.2509 1.74765 12.0185 1.74996 11.7824V2.21756C1.74765 1.98147 1.80817 1.74902 1.92531 1.54404C2.04246 1.33905 2.21202 1.16892 2.4166 1.05107C2.61342 0.936087 2.83726 0.875488 3.0652 0.875488C3.29314 0.875488 3.51698 0.936087 3.71379 1.05107L12.0192 5.8324C12.2227 5.95191 12.3914 6.12252 12.5086 6.32732C12.6258 6.53212 12.6875 6.764 12.6875 6.99998C12.6875 7.23596 12.6258 7.46784 12.5086 7.67264C12.3914 7.87744 12.2227 8.04805 12.0192 8.16756L3.71379 12.95C3.51688 13.0648 3.29299 13.1252 3.06505 13.125C2.83711 13.1248 2.61332 13.064 2.4166 12.9489Z" fill="#DAA520"/>
+                    </svg>
+
+                    <a href="#reviews">Reseñas</a>
+                </li>
+
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2.4166 12.9489C2.21202 12.831 2.04246 12.6609 1.92531 12.4559C1.80817 12.2509 1.74765 12.0185 1.74996 11.7824V2.21756C1.74765 1.98147 1.80817 1.74902 1.92531 1.54404C2.04246 1.33905 2.21202 1.16892 2.4166 1.05107C2.61342 0.936087 2.83726 0.875488 3.0652 0.875488C3.29314 0.875488 3.51698 0.936087 3.71379 1.05107L12.0192 5.8324C12.2227 5.95191 12.3914 6.12252 12.5086 6.32732C12.6258 6.53212 12.6875 6.764 12.6875 6.99998C12.6875 7.23596 12.6258 7.46784 12.5086 7.67264C12.3914 7.87744 12.2227 8.04805 12.0192 8.16756L3.71379 12.95C3.51688 13.0648 3.29299 13.1252 3.06505 13.125C2.83711 13.1248 2.61332 13.064 2.4166 12.9489Z" fill="#DAA520"/>
+                    </svg>
+
+                    <a href="#booking">Reservar</a>
+                </li>
+
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2.4166 12.9489C2.21202 12.831 2.04246 12.6609 1.92531 12.4559C1.80817 12.2509 1.74765 12.0185 1.74996 11.7824V2.21756C1.74765 1.98147 1.80817 1.74902 1.92531 1.54404C2.04246 1.33905 2.21202 1.16892 2.4166 1.05107C2.61342 0.936087 2.83726 0.875488 3.0652 0.875488C3.29314 0.875488 3.51698 0.936087 3.71379 1.05107L12.0192 5.8324C12.2227 5.95191 12.3914 6.12252 12.5086 6.32732C12.6258 6.53212 12.6875 6.764 12.6875 6.99998C12.6875 7.23596 12.6258 7.46784 12.5086 7.67264C12.3914 7.87744 12.2227 8.04805 12.0192 8.16756L3.71379 12.95C3.51688 13.0648 3.29299 13.1252 3.06505 13.125C2.83711 13.1248 2.61332 13.064 2.4166 12.9489Z" fill="#DAA520"/>
+                    </svg>
+
+                    <a href="#contact-us">Contáctanos</a>
+                </li>
+            </ul>
+        </section>
+        
+        <section id="footer-right-side">
+            <h3>Nuestra Barbería</h3>
+
+            <div id="footer-work-hours">
+                <div>
+                    <p>Lunes a Viernes</p>
+
+                    <p>9:00 AM - 7:00 PM</p>
+                </div>
+
+                <div>
+                    <p>Sábados</p>
+
+                    <p>10:00 AM - 5:00 PM</p>
+                </div>
+            </div>
+
+            <div id="footer-business-contact">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                        <path d="M15 2.5C9.48623 2.5 4.99998 6.98625 4.99998 12.4938C4.96373 20.55 14.62 27.23 15 27.5C15 27.5 25.0362 20.55 25 12.5C25 6.98625 20.5137 2.5 15 2.5ZM15 17.5C12.2375 17.5 9.99998 15.2625 9.99998 12.5C9.99998 9.7375 12.2375 7.5 15 7.5C17.7625 7.5 20 9.7375 20 12.5C20 15.2625 17.7625 17.5 15 17.5Z" fill="#DAA520"/>
+                    </svg>
+
+                    <p>Av. Salvador Estrella Sadhalá, Santiago de los Caballeros 51000, República Dominicana</p>
+                </div>
+
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                        <path d="M21 18.09L21.3 17.775C22.11 16.995 22.485 17.13 23.25 17.895L27.375 21.975C28.605 23.19 29.19 23.415 28.095 24.57L27.795 24.885L21 18.09ZM20.325 18.885L26.925 25.485C25.515 26.535 21.72 28.995 18.915 27.78C16.41 26.685 16.29 26.145 14.415 24.78C11.25 22.005 7.86005 18.51 5.31005 15.78C3.94505 13.89 3.31505 13.815 2.31005 11.28C1.24505 8.57996 3.64505 4.67996 4.65005 3.20996L11.25 9.80996L8.82005 11.58C8.13005 12.09 8.91005 13.38 9.81005 14.28C11.385 15.84 14.58 19.05 15.915 20.28C16.8 21.165 18.09 21.96 18.615 21.27L20.325 18.885ZM5.25005 2.35496L5.56505 2.03996C6.67505 1.01996 6.91505 1.60496 8.11505 2.81996L12.195 6.92996C12.93 7.69496 13.095 8.05496 12.36 8.83496L12.045 9.13496L5.25005 2.35496Z" fill="#DAA520"/>
+                    </svg>
+
+                    <p>(123) 456 - 7890</p>
+                </div>
+
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                        <path d="M25 5H5C3.625 5 2.5125 6.125 2.5125 7.5L2.5 22.5C2.5 23.875 3.625 25 5 25H25C26.375 25 27.5 23.875 27.5 22.5V7.5C27.5 6.125 26.375 5 25 5ZM25 10L15 16.25L5 10V7.5L15 13.75L25 7.5V10Z" fill="#DAA520"/>
+                    </svg>
+
+                    <p>contacto@barberia.com</p>
+                </div>
+            </div>
+
+            <div id="footer-social-media">
+                <!-- Logo de Facebook -->
+                <a href="https://www.facebook.com/" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                        <path d="M27.5 15C27.5 8.1 21.9 2.5 15 2.5C8.1 2.5 2.5 8.1 2.5 15C2.5 21.05 6.8 26.0875 12.5 27.25V18.75H10V15H12.5V11.875C12.5 9.4625 14.4625 7.5 16.875 7.5H20V11.25H17.5C16.8125 11.25 16.25 11.8125 16.25 12.5V15H20V18.75H16.25V27.4375C22.5625 26.8125 27.5 21.4875 27.5 15Z" fill="#DAA520"/>
+                    </svg>
+                </a>
+
+               <!-- Logo de Instagram -->
+                <a href="https://www.instagram.com/" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                        <path d="M9.75 2.5H20.25C24.25 2.5 27.5 5.75 27.5 9.75V20.25C27.5 22.1728 26.7362 24.0169 25.3765 25.3765C24.0169 26.7362 22.1728 27.5 20.25 27.5H9.75C5.75 27.5 2.5 24.25 2.5 20.25V9.75C2.5 7.82718 3.26384 5.98311 4.62348 4.62348C5.98311 3.26384 7.82718 2.5 9.75 2.5ZM9.5 5C8.30653 5 7.16193 5.47411 6.31802 6.31802C5.47411 7.16193 5 8.30653 5 9.5V20.5C5 22.9875 7.0125 25 9.5 25H20.5C21.6935 25 22.8381 24.5259 23.682 23.682C24.5259 22.8381 25 21.6935 25 20.5V9.5C25 7.0125 22.9875 5 20.5 5H9.5ZM21.5625 6.875C21.9769 6.875 22.3743 7.03962 22.6674 7.33265C22.9604 7.62567 23.125 8.0231 23.125 8.4375C23.125 8.8519 22.9604 9.24933 22.6674 9.54235C22.3743 9.83538 21.9769 10 21.5625 10C21.1481 10 20.7507 9.83538 20.4576 9.54235C20.1646 9.24933 20 8.8519 20 8.4375C20 8.0231 20.1646 7.62567 20.4576 7.33265C20.7507 7.03962 21.1481 6.875 21.5625 6.875ZM15 8.75C16.6576 8.75 18.2473 9.40848 19.4194 10.5806C20.5915 11.7527 21.25 13.3424 21.25 15C21.25 16.6576 20.5915 18.2473 19.4194 19.4194C18.2473 20.5915 16.6576 21.25 15 21.25C13.3424 21.25 11.7527 20.5915 10.5806 19.4194C9.40848 18.2473 8.75 16.6576 8.75 15C8.75 13.3424 9.40848 11.7527 10.5806 10.5806C11.7527 9.40848 13.3424 8.75 15 8.75ZM15 11.25C14.0054 11.25 13.0516 11.6451 12.3483 12.3483C11.6451 13.0516 11.25 14.0054 11.25 15C11.25 15.9946 11.6451 16.9484 12.3483 17.6516C13.0516 18.3549 14.0054 18.75 15 18.75C15.9946 18.75 16.9484 18.3549 17.6516 17.6516C18.3549 16.9484 18.75 15.9946 18.75 15C18.75 14.0054 18.3549 13.0516 17.6516 12.3483C16.9484 11.6451 15.9946 11.25 15 11.25Z" fill="#DAA520"/>
+                    </svg>
+                </a>
+
+               <!-- Logo de X (Twitter) -->
+               <a href="https://www.x.com/" target="_blank">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                       <path d="M22.1887 3.75H26.0225L17.6475 13.2812L27.5 26.25H19.785L13.7437 18.3837L6.83 26.25H2.9925L11.9512 16.0563L2.5 3.75H10.41L15.8725 10.94L22.1887 3.75ZM20.8437 23.965H22.9687L9.255 5.915H6.975L20.8437 23.965Z" fill="#DAA520"/>
+                   </svg>
+               </a>
+            </div>
+        </section>
+    </footer>
+
+    <!-- Scripts JS -->
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.3.2/build/js/intlTelInput.min.js"></script>
+    <script src="scripts/phoneAPI.js"></script>
+    <script src="scripts/mapa.js"></script>
+</body>
+</html>
