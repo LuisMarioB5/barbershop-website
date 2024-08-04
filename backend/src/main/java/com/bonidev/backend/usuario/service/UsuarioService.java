@@ -30,8 +30,10 @@ public class UsuarioService {
         // Codificar la contraseña con bcrypt
         String password = passwordEncoder.encode(dto.password());
 
+        Boolean isActive = dto.isActive() == null || dto.isActive();
+
         // Crear y guardar la entidad UsuarioEntity
-        UsuarioEntity user = new UsuarioEntity(dto.userName(), dto.email(), password, role);
+        UsuarioEntity user = new UsuarioEntity(dto.userName(), dto.email(), password, role, isActive);
         return repository.save(user);
     }
 

@@ -36,11 +36,14 @@ public class UsuarioEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Roles role;
 
-    public UsuarioEntity(String nombreUsuario, String email, String password, Roles role) {
+    private Boolean isActive;
+
+    public UsuarioEntity(String nombreUsuario, String email, String password, Roles role, Boolean isActive) {
         this.nombreUsuario = nombreUsuario;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.isActive = isActive;
     }
 
     @Override

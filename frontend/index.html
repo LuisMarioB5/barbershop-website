@@ -12,8 +12,8 @@
     <title>Barbería Estilo y Elegancia</title>
     
     <!-- Links CSS -->
-    <link rel="stylesheet" href="../reset.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="src/styles/reset.css">
+    <link rel="stylesheet" href="src/styles/style.css">
 
     <!-- Links Fuente Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,7 +32,7 @@
         <!-- Encabezado con navegación -->
         <header>
             <a href="#home">
-                <img class="logo-barberia" src="img/logo.png" alt="Logotipo blanco de Barbería Estilo y Elegancia">
+                <img class="logo-barberia" src="resources/img/logo.png" alt="Logotipo blanco de Barbería Estilo y Elegancia">
             </a>
             
             <nav>
@@ -47,10 +47,12 @@
                     <li class="sect-li"><a href="#contact-us">Contáctanos</a></li>
                 </ul>
 
-                <div>
-                    <button class="account-btn" onclick="window.location.href='../account/login.html'">Iniciar sesión</button>
+                <div id="account-btns">
+                    <button>Iniciar sesión</button>
 
-                    <button class="account-btn" onclick="window.location.href='../account/signup.html'">Registrarse</button>
+                    <button>Registrarse</button>
+                    
+                    <button>Cerrar sesión</button>
                 </div>
             </nav>
         </header>
@@ -61,160 +63,73 @@
                 <span>ELEGANCIA</span> EN CADA<br>
                 DETALLE
             </h1>
-            <button onclick="window.location.href='#booking'">RESERVAR</button>
+            <button>RESERVAR</button>
         </div>
     </section>
 
     <!-- Sección de servicios -->
     <section id="services">
         <h2>Servicios</h2>
+        <!-- Contenido dinámicamente con JS y estilado con CSS -->
+        <div id="services-content"></div>
 
-        <div id="services-content">
-            <div id="barber-service"></div>
+        <!-- Sección de precios -->
+        <section id="pricing">
+            <h2>Precios</h2>
 
-            <ul>
-                <li>
-                    <img src="img/icons/scissors.png" alt="Vector de tijeras de barbero de color oro.">
-
-                    <p>Corte de Cabello</p>
-                </li>
-
-                <li>
-                    <img src="img/icons/straight-razor.png" alt="Vector de una navaja de afeitar de color oro.">
-
-                    <p>Afeitado</p>
-                </li>
-
-                <li>
-                    <img src="img/icons/beard.png" alt="Vector de una barba de color oro.">
-                    <p>Corte de Barba</p>
-                </li>
-
-                <li>
-                    <img src="img/icons/hair-dryer.png" alt="Vector de una secadora de cabello de color oro.">
-
-                    <p>Peinados con Secador</p>
-                </li>
-
-                <li>
-                    <img src="img/icons/chair.png" alt="Vector de una silla de barbero de color oro.">
-
-                    <p>Corte Infantil</p>
-                </li>
-
-                <li>
-                    <img src="img/icons/brush.png" alt="Vector de una brocha de afeitar de color oro.">
-
-                    <p>Facial</p>
-                </li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- Sección de precios -->
-    <section id="pricing">
-        <h2>Precios</h2>
-
-        <div id="pricing-content">
-            <div id="service-tags">
-                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
-                    <circle cx="40" cy="40" r="39.5" transform="rotate(-90 40 40)" fill="#708090" stroke="#708090"/>
-                    <path d="M46 50.9999L34.3871 39.6259L46 29.0644" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-    
-                <ul>
-                    <li class="service-tag-active">
-                        <img src="img/icons/hair-clipper.png" alt="Vector de máquina de pelar">
-                        <p>Todos</p>
-                    </li>
-    
-                    <li>
-                        <img src="img/icons/scissors.png" alt="Vector de tijeras de barbero">
-                        <p>Corte de Cabello</p>
-                    </li>
-    
-                    <li>
-                        <img src="img/icons/straight-razor.png" alt="Vector de una navaja de afeitar">
-                        <p>Afeitado</p>
-                    </li>
-    
-                    <li>
-                        <img src="img/icons/beard.png" alt="Vector de una barba">
-                        <p>Corte de Barba</p>
-                    </li>
-    
-                    <li>
-                        <img src="img/icons/hair-dryer.png" alt="Vector de una secadora de cabello">
-                        <p>Peinados con Secador</p>
-                    </li>
-    
-                    <li>
-                        <img src="img/icons/chair.png" alt="Vector de una silla de barbero">
-                        <p>Corte Infantil</p>
-                    </li>
-    
-                    <li>
-                        <img src="img/icons/brush.png" alt="Vector de una brocha de afeitar">
-                        <p>Facial</p>
-                    </li>
-                </ul>
-    
-                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
-                    <circle cx="40" cy="40" r="39.5" transform="rotate(90 40 40)" fill="#708090" stroke="#708090"/>
-                    <path d="M34 29.0001L45.6129 40.3741L34 50.9356" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+            <div id="pricing-content">
+        
+                <div id="service-details">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+                        <circle cx="40" cy="40" r="39.5" transform="rotate(-90 40 40)" fill="#708090" stroke="#708090"/>
+                        <path d="M46 50.9999L34.3871 39.6259L46 29.0644" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+        
+                    <ul>
+                        <li>
+                            <img src="resources/img/pricing/haircut.jpg" alt="Imágen de un barbero cortándole el cabello con tijeras a un cliente">
+                            <div>
+                                <div>
+                                    <p>Corte de Cabello</p>
+                                    <p class="service-details-description">Simple 40 min.</p>
+                                </div>
+        
+                                <p class="service-details-price">$00.0</p>
+                            </div>
+                        </li>
+        
+                        <li>
+                            <img src="resources/img/pricing/beard-cut.jpg" alt="Imágen de un barbero recortándole la barba a un cliente">
+                            <div>
+                                <div>
+                                    <p>Corte de Barba</p>
+                                    <p class="service-details-description">Completo 35 min.</p>
+                                </div>
+        
+                                <p class="service-details-price">$00.0</p>
+                            </div>
+                        </li>
+        
+                        <li>
+                            <img src="resources/img/pricing/hair-dryer.jpg" alt="Imágen de un barbero peinando a un cliente con un secador de pelo">
+                            <div>
+                                <div>
+                                    <p>Peinado con Secador</p>
+                                    <p class="service-details-description">Simple 25 min.</p>
+                                </div>
+        
+                                <p class="service-details-price">$00.0</p>
+                            </div>
+                        </li>
+                    </ul>
+        
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+                        <circle cx="40" cy="40" r="39.5" transform="rotate(90 40 40)" fill="#708090" stroke="#708090"/>
+                        <path d="M34 29.0001L45.6129 40.3741L34 50.9356" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
             </div>
-    
-            <div id="service-details">
-                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
-                    <circle cx="40" cy="40" r="39.5" transform="rotate(-90 40 40)" fill="#708090" stroke="#708090"/>
-                    <path d="M46 50.9999L34.3871 39.6259L46 29.0644" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-    
-                <ul>
-                    <li>
-                        <img src="img/pricing/haircut.jpg" alt="Imágen de un barbero cortándole el cabello con tijeras a un cliente">
-                        <div>
-                            <div>
-                                <p>Corte de Cabello</p>
-                                <p class="service-details-description">Simple 40 min.</p>
-                            </div>
-    
-                            <p class="service-details-price">$00.0</p>
-                        </div>
-                    </li>
-    
-                    <li>
-                        <img src="img/pricing/beard-cut.jpg" alt="Imágen de un barbero recortándole la barba a un cliente">
-                        <div>
-                            <div>
-                                <p>Corte de Barba</p>
-                                <p class="service-details-description">Completo 35 min.</p>
-                            </div>
-    
-                            <p class="service-details-price">$00.0</p>
-                        </div>
-                    </li>
-    
-                    <li>
-                        <img src="img/pricing/hair-dryer.jpg" alt="Imágen de un barbero peinando a un cliente con un secador de pelo">
-                        <div>
-                            <div>
-                                <p>Peinado con Secador</p>
-                                <p class="service-details-description">Simple 25 min.</p>
-                            </div>
-    
-                            <p class="service-details-price">$00.0</p>
-                        </div>
-                    </li>
-                </ul>
-    
-                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
-                    <circle cx="40" cy="40" r="39.5" transform="rotate(90 40 40)" fill="#708090" stroke="#708090"/>
-                    <path d="M34 29.0001L45.6129 40.3741L34 50.9356" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-        </div>
+        </section>
     </section>
 
     <!-- Sección de galería -->
@@ -222,17 +137,17 @@
         <h2>Experimenta el Mejor Corte de Cabello</h2>
 
         <div id="gallery-content">
-            <img src="img/gallery/beard-shaving.jpg" alt="Imágen en la que le afeitan la barba a un hombre" width="376px" height="401px">
+            <img src="resources/img/gallery/beard-shaving.jpg" alt="Imágen en la que le afeitan la barba a un hombre">
             
-            <img src="img/gallery/combing-hair.png" alt="Imágen de un hombre peinándose" width="376px" height="401px">
+            <img src="resources/img/gallery/combing-hair.png" alt="Imágen de un hombre peinándose">
             
-            <img src="img/gallery/men-haircut.jpg" alt="Imágen en la que le realizan un corte de cabello a un hombre" width="376px" height="401px">
+            <img src="resources/img/gallery/men-haircut.jpg" alt="Imágen en la que le realizan un corte de cabello a un hombre">
             
-            <img src="img/gallery/men.jpg" alt="Imágen en la que le esta dando el corte a un hombre" width="376px" height="401px">
+            <img src="resources/img/gallery/men.jpg" alt="Imágen en la que le esta dando el corte a un hombre">
             
-            <img src="img/gallery/kid-haircut.jpg" alt="Imágen en la que se le realiza un corte de cabello a un niño" width="376px" height="401px">
+            <img src="resources/img/gallery/kid-haircut.jpg" alt="Imágen en la que se le realiza un corte de cabello a un niño">
             
-            <img src="img/gallery/styling-hairdryer.png" alt="Imágen en la que se esta peinando con un secador de pelo a un hombre" width="376px" height="401px">
+            <img src="resources/img/gallery/styling-hairdryer.png" alt="Imágen en la que se esta peinando con un secador de pelo a un hombre">
         </div>
     </section>
 
@@ -244,7 +159,7 @@
         <h2>Conoce a Nuestros Barberos</h2>
 
         <div id="barbers-content">
-            <div id="barber-card-1" class="barber-card">
+            <div class="barber-card">
                 <div class="barber-card-details">
                     <div>
                         <p>Juan Pérez</p>
@@ -278,7 +193,7 @@
                 </div>
             </div>
 
-            <div id="barber-card-2" class="barber-card">
+            <div class="barber-card">
                 <div class="barber-card-details">
                     <div>
                         <p>Carlos Rodríguez</p>
@@ -312,7 +227,7 @@
                 </div>
             </div>
 
-            <div id="barber-card-3" class="barber-card">
+            <div class="barber-card">
                 <div class="barber-card-details">
                     <div>
                         <p>Andrés Martínez</p>
@@ -346,7 +261,7 @@
                 </div>
             </div>
 
-            <div id="barber-card-4" class="barber-card">
+            <div class="barber-card">
                 <div class="barber-card-details">
                     <div>
                         <p>Alejandro Torres</p>
@@ -380,7 +295,7 @@
                 </div>
             </div>
 
-            <div id="barber-card-5" class="barber-card">
+            <div class="barber-card">
                 <div class="barber-card-details">
                     <div>
                         <p>Miguel Sánchez</p>
@@ -414,7 +329,7 @@
                 </div>
             </div>
 
-            <div id="barber-card-6" class="barber-card">
+            <div class="barber-card">
                 <div class="barber-card-details">
                     <div>
                         <p>Gabriel López</p>
@@ -470,7 +385,7 @@
 
                         <div>
                             <p>Miguel Pérez</p>
-                            <img src="img/reviews/person1.png" alt="Imagen circular de la persona que realizo la reseña con un borde de color oro">
+                            <img src="resources/img/reviews/person1.png" alt="Imagen circular de la persona que realizo la reseña con un borde de color oro">
                         </div>
                     </div>
 
@@ -485,7 +400,7 @@
 
                         <div>
                             <p>Carlos Gómez</p>
-                            <img src="img/reviews/person2.png" alt="Imagen circular de la persona que realizo la reseña con un borde de color oro">
+                            <img src="resources/img/reviews/person2.png" alt="Imagen circular de la persona que realizo la reseña con un borde de color oro">
                         </div>
                     </div>
 
@@ -618,8 +533,8 @@
             </form>
         </div>
 
-        <div id="map" style="background-color: red;"></div>
-        <iframe id="iframe-map" onload="iframLoaded()" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1881.2745671586936!2d-70.69427156120497!3d19.43187712488787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8eb1cf3fdf1b45c5%3A0xe8867ebe31d25d35!2sAv.%20Salvador%20Estrella%20Sadhal%C3%A1%2C%20Santiago%20de%20los%20Caballeros%2051000%2C%20Dominican%20Republic!5e0!3m2!1sen!2sus!4v1720752264269!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" referrerpolicy="no-referrer-when-downgrade"></iframe>    
+        <div id="map"></div>
+        <iframe id="iframe-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1881.2745671586936!2d-70.69427156120497!3d19.43187712488787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8eb1cf3fdf1b45c5%3A0xe8867ebe31d25d35!2sAv.%20Salvador%20Estrella%20Sadhal%C3%A1%2C%20Santiago%20de%20los%20Caballeros%2051000%2C%20Dominican%20Republic!5e0!3m2!1sen!2sus!4v1720752264269!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" referrerpolicy="no-referrer-when-downgrade"></iframe>    
     </section>
 
     <!-- Footer -->
@@ -627,7 +542,7 @@
         <section id="footer-left-side">
             <div>
                 <a href="#home">
-                    <img class="logo-barberia" src="img/logo.png" alt="Logotipo blanco de Barbería Estilo y Elegancia">
+                    <img class="logo-barberia" src="resources/img/logo.png" alt="Logotipo blanco de Barbería Estilo y Elegancia">
                 </a>
 
                 <h3>¡Suscríbete a nuestro Newsletter!</h3>
@@ -782,7 +697,6 @@
 
     <!-- Scripts JS -->
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.3.2/build/js/intlTelInput.min.js"></script>
-    <script src="scripts/phoneAPI.js"></script>
-    <script src="scripts/mapa.js"></script>
+    <script type="module" src="src/scripts/main.js"></script>
 </body>
 </html>

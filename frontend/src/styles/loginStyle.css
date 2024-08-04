@@ -9,7 +9,7 @@
 body {
     font-family: "Poppins", sans-serif;
     
-    background-image: url(background.png);
+    background-image: url(../../resources/img/authBackground.png);
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
@@ -73,6 +73,12 @@ form label input {
     border: none;
     border-radius: 8px;
     background: rgba(51, 51, 51, 0.15);
+
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 16px;
+    color: var(--charcoal, #333333);
 }
 
 form label input::placeholder {

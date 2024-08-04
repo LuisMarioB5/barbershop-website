@@ -24,7 +24,7 @@ form button {
 
 /* Sección de Inicio */
 #home {
-    background-image: url(img/home/header-background.jpg);
+    background-image: url(../../resources/img/home/header-background.jpg);
     background-size: cover;
     height: 100vh;
     display: flex;
@@ -65,7 +65,7 @@ nav div {
     gap: 16px;
 }
 
-.account-btn {
+#account-btns button {
     display: flex;
     padding: 12px 20px;
     justify-content: center;
@@ -85,8 +85,12 @@ nav div {
     letter-spacing: -0.16px;
 }
 
-.account-btn:first-child {
+#account-btns button:first-child {
     background-color: var(--rich-gold, #DAA520);
+}
+
+#account-btns button:nth-child(3) {
+    display: none;
 }
 
 .sect-li {
@@ -165,13 +169,13 @@ nav div {
     align-items: flex-start;
 }
 
-#barber-service {
+#services-content div {
     width: 440px;
     height: 100%;
 
     border-radius: 50px;
     border: 2px solid var(--slate-gray, #708090);
-    background: url(img/services/barber.jpg) var(--slate-gray, #708090) 50% / cover no-repeat;
+    background: url(../../resources/img/services/barber.jpg) var(--slate-gray, #708090) 50% / cover no-repeat;
 }
 
 #services-content ul {
@@ -223,8 +227,9 @@ nav div {
     gap: 25px;
 }
 
-#pricing svg, #pricing li {
+#pricing svg *, #pricing li {
     cursor: pointer;
+    user-select: none;
 }
 
 #service-tags {
@@ -232,9 +237,12 @@ nav div {
     justify-content: center;
     align-items: center;
     gap: 29px;
+    width: 100%;
+    overflow: hidden;
 }
 
 #service-tags ul {
+    transition: transform 0.5s ease-in-out;
     display: flex;
     gap: 40px;
 }
@@ -356,6 +364,8 @@ nav div {
 }
 
 #gallery-content img {
+    width: 376px;
+    height: 401px;
     border-radius: 30px;
     border: 2px solid var(--rich-gold, #DAA520);
 }
@@ -389,42 +399,6 @@ nav div {
     flex-wrap: wrap;
 }
 
-#barber-card-1 {
-    background-image: url(img/barbers/barber1.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-#barber-card-2 {
-    background-image: url(img/barbers/barber2.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-#barber-card-3 {
-    background-image: url(img/barbers/barber3.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-#barber-card-4 {
-    background-image: url(img/barbers/barber4.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-#barber-card-5 {
-    background-image: url(img/barbers/barber5.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-#barber-card-6 {
-    background-image: url(img/barbers/barber6.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
 .barber-card {
     display: flex;
     width: 316px;
@@ -434,9 +408,45 @@ nav div {
     justify-content: flex-end;
     align-items: center;
     flex-shrink: 0;
-
+    
     border-radius: 30px;
     border: 2px solid var(--rich-gold, #DAA520);
+}
+
+.barber-card:first-child {
+    background-image: url(../../resources/img/barbers/barber1.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.barber-card:nth-child(2) {
+    background-image: url(../../resources/img/barbers/barber2.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.barber-card:nth-child(3) {
+    background-image: url(../../resources/img/barbers/barber3.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.barber-card:nth-child(4) {
+    background-image: url(../../resources/img/barbers/barber4.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.barber-card:nth-child(5) {
+    background-image: url(../../resources/img/barbers/barber5.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.barber-card:nth-child(6) {
+    background-image: url(../../resources/img/barbers/barber6.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .barber-card-details {
@@ -485,6 +495,10 @@ nav div {
 }
 
 .barber-card-social-media {
+    display: none;
+}
+
+.barber-card:hover .barber-card-social-media {
     display: flex;
     align-items: flex-start;
     gap: 15px;
@@ -493,6 +507,7 @@ nav div {
 .barber-card-social-media svg, #contact-us-info div svg, #footer-right-side svg {
     width: 30px;
     height: 30px;
+    user-select: none;
 
     color: var(--rich-gold, #DAA520);
 }
@@ -554,6 +569,7 @@ nav div {
     width: 108.779px;
     height: 93.346px;
     cursor: none;
+    user-select: none;
 
     fill: rgba(218, 165, 32, 0.5);
 
@@ -620,7 +636,7 @@ nav div {
     gap: 30px;
     align-self: stretch;
 
-    background: url(img/booking/background-img.jpg) lightgray 50% / cover no-repeat;
+    background: url(../../resources/img/booking/background-img.jpg) lightgray 50% / cover no-repeat;
 }
 
 #booking h2 {
@@ -890,7 +906,7 @@ form input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 
 #map {
     display: none;
-    background: url(img/contact-us/map.png) var(--white, #FFFFFF) 50% / cover no-repeat;
+    background: url(../../resources/img/contact-us/map.png) var(--white, #FFFFFF) 50% / cover no-repeat;
     width: 100%;
     height: 450px;
 }
@@ -1023,6 +1039,7 @@ footer p {
 
 #footer-center-side ul li svg {
     fill: var(--rich-gold, #DAA520);
+    user-select: none;
 
     width: 14px;
     height: 14px;

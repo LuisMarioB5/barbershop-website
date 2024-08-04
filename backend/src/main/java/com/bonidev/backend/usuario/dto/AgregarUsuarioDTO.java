@@ -13,4 +13,6 @@ public record AgregarUsuarioDTO(
         @NotBlank
         String password,
 
-        Roles role) {}
+        Roles role,
+
+        Boolean isActive) {}

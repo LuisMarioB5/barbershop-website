@@ -12,8 +12,8 @@
     <title>Iniciar Sesión | Barbería Estilo y Elegancia</title>
     
     <!-- Links CSS -->
-    <link rel="stylesheet" href="../reset.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="src/styles/reset.css">
+    <link rel="stylesheet" href="src/styles/loginStyle.css">
 
     <!-- Links Fuente Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,25 +23,25 @@
 </head>
 <body>
     <main>
-        <h1>Crea tu cuenta gratis</h1>
+        <h1>Iniciar sección</h1>
 
-        <form>
-            <label><input type="text" placeholder="Nombre de usuario Aquí" required>Nombre de Usuario</label>
-            
-            <label><input type="email" placeholder="Correo electrónico Aquí" required>Correo Electrónico</label>
+        <form id="loginForm">
+            <label><input id="login" type="text" placeholder="Correo electrónico o Nombre de usuario Aquí" required>Correo Electrónico o Nombre de Usuario</label>
 
-            <label><input type="password" placeholder="Contraseña Aquí" required>Constraseña</label>    
+            <label><input id="password" type="password" placeholder="Contraseña Aquí" required>Constraseña</label>    
 
-            <button>Crear cuenta</button>
+            <button type="submit">Iniciar sesión</button>
         </form>
 
         <div>
-            <p>Tienes una cuenta?</p>
+            <p>No tienes una cuenta?</p>
 
-            <a href="login.html">Inicia Sesión</a>
+            <a href="signup.html">Registrate</a>
         </div>
 
-        <a href="">Seguir como invitado</a>
+        <a href="index.html">Seguir como invitado</a>
     </main>
+
+    <script type="module" src="src/scripts/main.js"></script>
 </body>
 </html>

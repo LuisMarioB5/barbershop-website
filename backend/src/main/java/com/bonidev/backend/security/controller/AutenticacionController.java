@@ -35,7 +35,7 @@ public class AutenticacionController {
         try {
             Authentication token = new UsernamePasswordAuthenticationToken(userAuth.login(), userAuth.password());
             Authentication usuarioAuth = authenticationManager.authenticate(token);
-            var JWTToken = tokenService.generarToken((UsuarioEntity) usuarioAuth.getPrincipal());
+            var JWTToken = tokenService.generarToken((UsuarioEntity) usuarioAuth.getPrincipal(), userAuth.login());
             return ResponseEntity.ok(new JWTTokenDTO(JWTToken));
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

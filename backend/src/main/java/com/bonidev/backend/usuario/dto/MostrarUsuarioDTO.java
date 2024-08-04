@@ -8,8 +8,10 @@ public record MostrarUsuarioDTO(
         String userName,
 
         @NotBlank
-        String email) {
+        String email,
+
+        Boolean isActive) {
     public MostrarUsuarioDTO(UsuarioEntity user) {
-        this(user.getUsername(), user.getEmail());
+        this(user.getUsername(), user.getEmail(), user.getIsActive());
     }
 }
