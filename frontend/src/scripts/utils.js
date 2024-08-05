@@ -33,11 +33,6 @@ export function manageIframeLoading() {
     }, 2000);
 }
 
-
-
-
-
-
 // Decodifica el JWT
 export function parseJwt(token) {
     try {
@@ -80,4 +75,17 @@ export function updateAccountButtons(loginBtn, signupBtn, logoutBtn) {
 export function isLoggedIn() {
     const JWT = localStorage.getItem('JWT');
     return JWT !== null;
+}
+
+export function memoizeFetch(fn) {
+    let data; // Variable para almacenar los datos del servidor
+    let isFetched = false; // Flag para controlar si la petición ya se realizó
+
+    return async function() {
+        if (!isFetched) {
+            data = await fn(); // Realiza la petición al servidor
+            isFetched = true; // Marca la petición como realizada
+        }
+        return data; // Devuelve los datos almacenados
+    };
 }

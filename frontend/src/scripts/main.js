@@ -1,4 +1,6 @@
-import { setupLoginForm, setupSignupForm, setAccountButtons, setButtons, setServices } from './dom.js';
+import { setAccountButtons, setButtons } from './dom/buttons.js';
+import { setupLoginForm, setupSignupForm } from './dom/forms.js';
+import { setServicesSection, setPricingSection } from './dom/services.js';
 import { manageIframeLoading, setPhonesInputs } from './utils.js';
 
 // Evento que se ejecuta cuando el DOM ha sido completamente cargado
@@ -10,11 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (window.location.pathname.endsWith('signup.html')) {
         setupSignupForm();
     } else {
-        setPhonesInputs();
-        manageIframeLoading();
         setAccountButtons();
         setButtons();
-        setServices();
+        setServicesSection();
+        setPricingSection();
+        
+        setPhonesInputs();
+        manageIframeLoading();
     }
 });
 

@@ -6,6 +6,8 @@ import com.bonidev.backend.servicio.entity.ServicioEntity;
 import java.math.BigDecimal;
 
 public record MostrarServicioDTO(
+        Long id,
+
         String name,
 
         BigDecimal price,
@@ -21,6 +23,7 @@ public record MostrarServicioDTO(
         Boolean isActive) {
     public MostrarServicioDTO(ServicioEntity service) {
         this(
+                service.getId(),
                 service.getName(),
                 service.getPrice(),
                 service.getEstimatedTime(),
