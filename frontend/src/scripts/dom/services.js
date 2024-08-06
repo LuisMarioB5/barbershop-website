@@ -146,9 +146,7 @@ async function setPricingCategories(serviceRenderer) {
 
                 const services = await fetchServices();
                 const filteredServices = services.filter(service => service.category.name == selectedCategory.name);
-                const filter = selectedCategory.name === 'Todos' ? services : filteredServices;
-                console.log(filter);
-                serviceRenderer.renderServices(filter);
+                serviceRenderer.renderServices(selectedCategory.name === 'Todos' ? services : filteredServices);
             });
 
             carousel.appendChild(li);
@@ -211,12 +209,13 @@ function createServicePrincingRenderer() {
     let selectedId = null;
     let currentIndex = 0;
     const serviceToShow = 2;
+    let visibleServices = null;
 
     function renderServiceCards(services) {
         const carousel = document.querySelector('#service-details ul');
         carousel.innerHTML = '';
 
-        const visibleServices = Math.min(serviceToShow, services.length);
+        visibleServices = Math.min(serviceToShow, services.length);
 
         for (let i = 0; i < visibleServices; i++) {
             const serviceIndex = (currentIndex + i) % services.length;
@@ -283,6 +282,17 @@ function createServicePrincingRenderer() {
             currentIndex = (currentIndex + 1) % services.length;
             renderServiceCards(services);
         });
+
+        if (visibleServices !== null) {
+            if (visibleServices >= services.length) {
+                newPrevArrow.style.visibility = 'hidden';
+                newNextArrow.style.visibility = 'hidden';
+            } else {
+                newPrevArrow.style.visibility = 'visible';
+                newNextArrow.style.visibility = 'visible';
+            }
+        }
+
 
         renderServiceCards(services);
     }

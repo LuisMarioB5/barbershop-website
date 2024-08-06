@@ -6,6 +6,7 @@ import com.bonidev.backend.usuario.enums.Roles;
 import com.bonidev.backend.usuario.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UsuarioEntity save(AgregarUsuarioDTO dto) {
+    public UsuarioEntity save(@Valid AgregarUsuarioDTO dto) {
         // Asignar ROLE_USER por defecto si el rol no se proporciona
         Roles role = dto.role() == null ? Roles.ROLE_USER : dto.role();
 

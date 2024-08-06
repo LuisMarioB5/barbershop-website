@@ -1,5 +1,7 @@
+import { setBarbers } from './dom/barbers.js';
 import { setAccountButtons, setButtons } from './dom/buttons.js';
 import { setupLoginForm, setupSignupForm } from './dom/forms.js';
+import { setGallery } from './dom/gallery.js';
 import { setServicesSection, setPricingSection } from './dom/services.js';
 import { manageIframeLoading, setPhonesInputs } from './utils.js';
 
@@ -16,7 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setButtons();
         setServicesSection();
         setPricingSection();
-        
+        setGallery();
+        setBarbers();
+
         setPhonesInputs();
         manageIframeLoading();
     }

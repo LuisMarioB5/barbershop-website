@@ -7,6 +7,7 @@ import com.bonidev.backend.servicio.entity.ServicioEntity;
 import com.bonidev.backend.servicio.repository.ServicioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class ServicioService {
         this.categoriaService = categoriaService;
     }
 
-    public ServicioEntity save(agregarServicioDTO service) {
+    public ServicioEntity save(@Valid agregarServicioDTO service) {
         CategoriaEntity category = categoriaService.findByName(service.category());
         return repository.save(new ServicioEntity(service, category));
     }

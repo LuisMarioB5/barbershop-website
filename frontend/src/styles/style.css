@@ -427,45 +427,22 @@ nav div {
     justify-content: flex-end;
     align-items: center;
     flex-shrink: 0;
+    cursor: pointer;
     
     border-radius: 30px;
+    border: 2px solid var(--slate-gray, #708090);
+}
+
+.barber-card-selected, .barber-card-selected .barber-card-details {    
     border: 2px solid var(--rich-gold, #DAA520);
 }
 
-.barber-card:first-child {
-    background-image: url(../../resources/img/barbers/barber1.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
+.barber-card-selected .barber-card-description {
+    display: block;
 }
 
-.barber-card:nth-child(2) {
-    background-image: url(../../resources/img/barbers/barber2.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-.barber-card:nth-child(3) {
-    background-image: url(../../resources/img/barbers/barber3.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-.barber-card:nth-child(4) {
-    background-image: url(../../resources/img/barbers/barber4.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-.barber-card:nth-child(5) {
-    background-image: url(../../resources/img/barbers/barber5.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-.barber-card:nth-child(6) {
-    background-image: url(../../resources/img/barbers/barber6.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
+.barber-card-selected .barber-card-social-media {
+    display: flex;
 }
 
 .barber-card-details {
@@ -475,9 +452,11 @@ nav div {
     align-items: flex-start;
     gap: 20px;
     align-self: stretch;
+    user-select: none;
 
     border-radius: 15px;
     background: rgba(51, 51, 51, 0.80);
+    border: 2px solid var(--slate-gray, #708090);
 }
 
 .barber-card-details p {
@@ -515,12 +494,12 @@ nav div {
 
 .barber-card-social-media {
     display: none;
+    align-items: flex-start;
+    gap: 15px;
 }
 
 .barber-card:hover .barber-card-social-media {
     display: flex;
-    align-items: flex-start;
-    gap: 15px;
 }
 
 .barber-card-social-media svg, #contact-us-info div svg, #footer-right-side svg {
