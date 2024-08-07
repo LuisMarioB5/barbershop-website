@@ -16,6 +16,16 @@ public class HttpErrorHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
+    @ExceptionHandler(EntityNotActiveException.class)
+    public ResponseEntity<String> errorEntityNotActiveException(EntityNotActiveException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(EntityNotAvailableException.class)
+    public ResponseEntity<String> errorEntityNotAvailableException(EntityNotAvailableException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<String> errorValidationException(ValidationException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

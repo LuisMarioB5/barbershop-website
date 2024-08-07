@@ -41,8 +41,6 @@ export async function setBarbers() {
         })
         barbersContent.appendChild(barberCard);
         
-
-
         const barberCardDetails = document.createElement('div');
         barberCardDetails.classList.add('barber-card-details');
         barberCard.appendChild(barberCardDetails);

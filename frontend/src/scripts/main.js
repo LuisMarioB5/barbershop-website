@@ -1,8 +1,7 @@
 import { setBarbers } from './dom/barbers.js';
-import { setAccountButtons, setButtons } from './dom/buttons.js';
+import { setButtons } from './dom/buttons.js';
 import { setupLoginForm, setupSignupForm } from './dom/forms.js';
-import { setGallery } from './dom/gallery.js';
-import { setServicesSection, setPricingSection } from './dom/services.js';
+import { setServices } from './dom/services.js';
 import { manageIframeLoading, setPhonesInputs } from './utils.js';
 
 // Evento que se ejecuta cuando el DOM ha sido completamente cargado
@@ -14,13 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (window.location.pathname.endsWith('signup.html')) {
         setupSignupForm();
     } else {
-        setAccountButtons();
         setButtons();
-        setServicesSection();
-        setPricingSection();
-        setGallery();
+        setServices();
         setBarbers();
-
+    
         setPhonesInputs();
         manageIframeLoading();
     }

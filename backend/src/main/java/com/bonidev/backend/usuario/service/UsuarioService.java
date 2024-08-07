@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class UsuarioService {
@@ -41,6 +43,10 @@ public class UsuarioService {
     public UsuarioEntity findById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario con el id: " + id + " no fue encontrado..."));
+    }
+
+    public List<UsuarioEntity> findAll() {
+        return repository.findAll();
     }
 
     public void changePassword(Long id, String newPassword) {

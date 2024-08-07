@@ -1,5 +1,6 @@
 package com.bonidev.backend.servicio.service;
 
+import com.bonidev.backend.errors.EntityNotActiveException;
 import com.bonidev.backend.servicio.categoria.entity.CategoriaEntity;
 import com.bonidev.backend.servicio.categoria.service.CategoriaService;
 import com.bonidev.backend.servicio.dto.agregarServicioDTO;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -39,5 +39,18 @@ public class ServicioService {
 
     public List<ServicioEntity> findAll() {
         return repository.findAll();
+    }
+
+    public ServicioEntity findByName(String name) {
+        return repository.findByName(name)
+                .orElseThrow(() -> new EntityNotFoundException("Servicio con el nombre: " + name + " no fue encontrado..."));
+    }
+
+    public ServicioEntity findByNameAndIsActive(String name) {
+        ServicioEntity servicio = findByName(name);
+        if (servicio.getIsActive()) {
+            return servicio;
+        }
+        throw new EntityNotActiveException("Servicio con el nombre: " + name + " no esta activo...");
     }
 }

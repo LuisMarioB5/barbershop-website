@@ -29,7 +29,7 @@ public class CategoriaService {
 
     public CategoriaEntity findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Categoria con el id: " + id + " no fue encontrado..."));
+                .orElseThrow(() -> new EntityNotFoundException("Categoria con el id: " + id + " no fue encontrada..."));
     }
 
     public List<CategoriaEntity> findAll() {

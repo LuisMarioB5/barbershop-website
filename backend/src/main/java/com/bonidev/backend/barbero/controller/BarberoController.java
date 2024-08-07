@@ -41,15 +41,15 @@ public class BarberoController {
 
     @GetMapping
     public ResponseEntity<List<MostrarBarberoDTO>> showBarbers() {
-        // Obtener todas las categorías desde el servicio
+        // Obtener todos los barberos desde el servicio
         var barbers = service.findAll();
 
-        // Transformar la lista de categorías en una lista de DTOs
-        List<MostrarBarberoDTO> showCategories = barbers.stream()
+        // Transformar la lista de barberos en una lista de DTOs
+        List<MostrarBarberoDTO> showBarbers = barbers.stream()
                 .map(MostrarBarberoDTO::new)
                 .collect(Collectors.toList());
 
         // Devolver la lista de DTOs en el cuerpo de la respuesta
-        return ResponseEntity.ok(showCategories);
+        return ResponseEntity.ok(showBarbers);
     }
 }

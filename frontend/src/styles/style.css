@@ -617,7 +617,7 @@ nav div {
 }
 
 /* Sección de Reserva */
-#booking {
+#reservation {
     background-color: var(--white, #FFFFFF);
     
     display: flex;
@@ -626,7 +626,11 @@ nav div {
     align-items: center;
 }
 
-#booking-content {
+#reservation h2 {
+    color: var(--white, #FFFFFF);
+}
+
+#reservation-content {
     display: flex;
     padding: 30px;
     flex-direction: column;
@@ -634,11 +638,35 @@ nav div {
     gap: 30px;
     align-self: stretch;
 
-    background: url(../../resources/img/booking/background-img.jpg) lightgray 50% / cover no-repeat;
+    background: url(../../resources/img/reservation/background-img.jpg) lightgray 50% / cover no-repeat;
 }
 
-#booking h2 {
+#reservation-content form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+#reservation-content form button:last-child {
+    display: flex;
+    height: 80px;
+    padding: 20px 50px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    border-radius: 8px;
+    border: none;
+    background-color: rgba(51, 51, 51, 0.90);
+
     color: var(--white, #FFFFFF);
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    letter-spacing: 0.32px;
 }
 
 form {
@@ -646,14 +674,6 @@ form {
     border-radius: 10px;
     width: 785px;
     padding: 50px;
-}
-
-.form-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 25px;
-    flex-wrap: wrap;
 }
 
 form input:not([type="checkbox"]) {
@@ -674,7 +694,7 @@ form input:not([type="checkbox"]) {
     color: var(--charcoal, #333333);
 }
 
-#booking-content .phone {
+#reservation-content .phone {
     padding: 0 15px 0 52px;
     width: 360px;
 }
@@ -686,7 +706,7 @@ form input:not([type="checkbox"]) {
     padding: 0 var(--iti-arrow-padding) 0 15px;
 }
 
-form input:not([type="checkbox"])::placeholder {
+form input:not([type="checkbox"])::placeholder, .textarea-div textarea::placeholder {
     color: rgba(51, 51, 51, 0.5);
 }
 
@@ -723,12 +743,8 @@ form input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     color: var(--charcoal, #333333);
     font-size: 16px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 16px;
-}
-
-.textarea-div textarea::placeholder {
-    color: rgba(51, 51, 51, 0.5);
 }
 
 .textarea-div label {
@@ -748,26 +764,6 @@ form input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     font-style: normal;
     font-weight: 600;
     line-height: 16px;
-}
-
-.form-content button:last-child {
-    display: flex;
-    height: 80px;
-    padding: 20px 50px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-
-    border-radius: 8px;
-    border: none;
-    background-color: rgba(51, 51, 51, 0.90);
-
-    color: var(--white, #FFFFFF);
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 120%;
-    letter-spacing: 0.32px;
 }
 
 /* Sección de Contáctanos */
@@ -852,34 +848,32 @@ form input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     width: 515px;
 }
 
-#contact-us form .form-content {
+#contact-us-form-content {
     width: 515px;
+    display: flex;
+    flex-wrap: wrap;
     align-content: center;
-    gap: 15px;
+    align-items: center;
     justify-content: flex-start;
+    gap: 15px;    
 }
 
 #contact-us form input:not([type="checkbox"]) {
     width: calc(250px - 30px);
-    flex-shrink: 0;
 }
 
-#contact-us .form-content .phone {
+#contact-us #contact-us-form-content .phone {
     width: 250px;
 }
 
-#contact-us .form-content .textarea-div {
+#contact-us-form-content .textarea-div {
     display: flex;
     width: 515px;
     flex-shrink: 0;
 }
 
 #contact-us .textarea-div textarea {
-    display: flex;
     width: calc(515px - 30px);
-    align-items: flex-start;
-    gap: 10px;
-    flex-shrink: 0;
 }
 
 #contact-us .textarea-div label {

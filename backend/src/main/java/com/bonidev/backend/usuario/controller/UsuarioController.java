@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -38,8 +40,15 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MostrarUsuarioDTO> showUser(@PathVariable Long id) {
-        UsuarioEntity user = usuarioService.findById(id);
-        return ResponseEntity.ok(new MostrarUsuarioDTO(user));
+        return ResponseEntity.ok(new MostrarUsuarioDTO(usuarioService.findById(id)));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<MostrarUsuarioDTO>> showUsers() {
+        List<MostrarUsuarioDTO> usersDTO = usuarioService.findAll().stream()
+                .map(MostrarUsuarioDTO::new)
+                .toList();
+        return ResponseEntity.ok(usersDTO);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

@@ -20,17 +20,17 @@ public record MostrarBarberoDTO(
         String imagePath,
 
         Boolean isActive) {
-    public MostrarBarberoDTO(BarberoEntity barber) {
-        this(
-                barber.getId(),
-                barber.getName(),
-                barber.getPosition(),
-                barber.getDescription(),
-                barber.getFacebookLink(),
-                barber.getInstagramLink(),
-                barber.getXLink(),
-                barber.getImagePath(),
-                barber.getIsActive()
-        );
-    }
+        public MostrarBarberoDTO(BarberoEntity barber) {
+                this(
+                        barber.getId(),
+                        barber.getName(),
+                        barber.getPosition(),
+                        barber.getDescription(),
+                        barber.getFacebookLink(),
+                        barber.getInstagramLink(),
+                        barber.getXLink(),
+                        barber.getImagePath(),
+                        barber.getIsActive()
+                );
+        }
 }

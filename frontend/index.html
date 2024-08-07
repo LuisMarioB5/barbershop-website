@@ -43,7 +43,7 @@
                     <li class="sect-li"><a href="#gallery">Galería</a></li>
                     <li class="sect-li"><a href="#barbers">Barberos</a></li>
                     <li class="sect-li"><a href="#reviews">Reseñas</a></li>
-                    <li class="sect-li"><a href="#booking">Reservar</a></li>
+                    <li class="sect-li"><a href="#reservation">Reservar</a></li>
                     <li class="sect-li"><a href="#contact-us">Contáctanos</a></li>
                 </ul>
 
@@ -70,7 +70,9 @@
     <!-- Sección de servicios -->
     <section id="services">
         <h2>Servicios</h2>
-        <div id="services-content"></div>
+        <div id="services-content">
+            <div></div>
+        </div>
 
         <!-- Sección de precios -->
         <section id="pricing">
@@ -84,7 +86,14 @@
     <section id="gallery">
         <h2>Experimenta el Mejor Corte de Cabello</h2>
 
-        <div id="gallery-content"></div>
+        <div id="gallery-content">
+            <img src="resources/img/gallery/beard-shaving.jpg" alt="Imágen en la que le afeitan la barba a un hombre">
+            <img src="resources/img/gallery/combing-hair.png" alt="Imágen de un hombre peinándose">
+            <img src="resources/img/gallery/men-haircut.jpg" alt="Imágen en la que le realizan un corte de cabello a un hombre">
+            <img src="resources/img/gallery/men.jpg" alt="Imágen en la que le esta dando el corte a un hombre">
+            <img src="resources/img/gallery/kid-haircut.jpg" alt="Imágen en la que se le realiza un corte de cabello a un niño">
+            <img src="resources/img/gallery/styling-hairdryer.png" alt="Imágen en la que se esta peinando con un secador de pelo a un hombre">
+        </div>
     </section>
 
     <!-- Fondo degradado entre secciones -->
@@ -153,48 +162,46 @@
     <div class="gradient-background"></div>
 
     <!-- Sección de reserva -->
-    <section id="booking">
-        <div id="booking-content">
+    <section id="reservation">
+        <div id="reservation-content">
             <h2>Realiza una Cita con Nosotros</h2>
     
             <form>
-                <div class="form-content">
-                    <input type="text" placeholder="Nombre completo" required/>
+                <input type="text" placeholder="Nombre completo" required/>
+                
+                <input type="email" placeholder="Correo electrónico" required/>
+                
+                <input type="tel" class="phone" required/>
+                
+                <input list="select-service" name="service" placeholder="Servicio a realizar" required/>
+                <datalist id="select-service">
+                    <option value="Afeitado">
+                    <option value="Corte de Barba">
+                    <option value="Corte de Cabello">
+                    <option value="Corte Infantil">
+                    <option value="Facial">
+                    <option value="Peinado con Secador">
+                </datalist>
+    
+                <input id="date" type="datetime-local" required/>
+    
+                <input list="select-barber" name="barber" placeholder="Barbero a atenderte"/>
+                <datalist id="select-barber">
+                    <option value="Alejandro Torres">
+                    <option value="Andrés Martínez">
+                    <option value="Carlos Rodríguez">
+                    <option value="Gabriel López">
+                    <option value="Juan Pérez">
+                    <option value="Miguel Sánchez">
+                </datalist>
+                
+                <div class="textarea-div">
+                    <textarea placeholder="Deja algún mensaje"></textarea>
                     
-                    <input type="email" placeholder="Correo electrónico" required/>
-                    
-                    <input type="tel" class="phone" required/>
-                    
-                    <input list="select-service" name="service" placeholder="Servicio a realizar" required/>
-                    <datalist id="select-service">
-                        <option value="Afeitado">
-                        <option value="Corte de Barba">
-                        <option value="Corte de Cabello">
-                        <option value="Corte Infantil">
-                        <option value="Facial">
-                        <option value="Peinado con Secador">
-                    </datalist>
-        
-                    <input id="date" type="datetime-local" required/>
-        
-                    <input list="select-barber" name="barber" placeholder="Barbero a atenderte"/>
-                    <datalist id="select-barber">
-                        <option value="Alejandro Torres">
-                        <option value="Andrés Martínez">
-                        <option value="Carlos Rodríguez">
-                        <option value="Gabriel López">
-                        <option value="Juan Pérez">
-                        <option value="Miguel Sánchez">
-                    </datalist>
-                    
-                    <div class="textarea-div">
-                        <textarea placeholder="Deja algún mensaje"></textarea>
-                        
-                        <label><input type="checkbox" required/>Acepto los términos y condiciones</label>
-                    </div>
-                    
-                    <button>REALIZAR CITA</button>
+                    <label><input type="checkbox" required/>Acepto los términos y condiciones</label>
                 </div>
+                
+                <button>REALIZAR CITA</button>
             </form>
         </div>
     </section>
@@ -245,7 +252,7 @@
             </div>
 
             <form> 
-                <div class="form-content">
+                <div id="contact-us-form-content">
                     <input type="text" placeholder="Nombre completo" required/>
                     
                     <input type="email" placeholder="Correo electrónico" required/>
@@ -346,7 +353,7 @@
                         <path d="M2.4166 12.9489C2.21202 12.831 2.04246 12.6609 1.92531 12.4559C1.80817 12.2509 1.74765 12.0185 1.74996 11.7824V2.21756C1.74765 1.98147 1.80817 1.74902 1.92531 1.54404C2.04246 1.33905 2.21202 1.16892 2.4166 1.05107C2.61342 0.936087 2.83726 0.875488 3.0652 0.875488C3.29314 0.875488 3.51698 0.936087 3.71379 1.05107L12.0192 5.8324C12.2227 5.95191 12.3914 6.12252 12.5086 6.32732C12.6258 6.53212 12.6875 6.764 12.6875 6.99998C12.6875 7.23596 12.6258 7.46784 12.5086 7.67264C12.3914 7.87744 12.2227 8.04805 12.0192 8.16756L3.71379 12.95C3.51688 13.0648 3.29299 13.1252 3.06505 13.125C2.83711 13.1248 2.61332 13.064 2.4166 12.9489Z" fill="#DAA520"/>
                     </svg>
 
-                    <a href="#booking">Reservar</a>
+                    <a href="#reservation">Reservar</a>
                 </li>
 
                 <li>

@@ -56,21 +56,6 @@ export function isTokenExpired(token) {
     return PAYLOAD.exp < currentTime;
 }
 
-// Actualiza la visibilidad de los botones de cuenta
-export function updateAccountButtons(loginBtn, signupBtn, logoutBtn) {
-    const JWT = localStorage.getItem('JWT');
-
-    if (JWT === null) {
-        loginBtn.style.display = "flex";
-        signupBtn.style.display = "flex";
-        logoutBtn.style.display = "none";
-    } else {
-        loginBtn.style.display = "none";
-        signupBtn.style.display = "none";
-        logoutBtn.style.display = "flex";
-    }
-}
-
 // Verifica si un usuario está logueado
 export function isLoggedIn() {
     const JWT = localStorage.getItem('JWT');

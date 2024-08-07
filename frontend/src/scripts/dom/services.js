@@ -45,7 +45,18 @@ async function getActiveServices() {
     }
 }
 
-export async function setServicesSection() {
+export async function setServices() {
+    // Estableciendo la sección inicial de los servicios
+    await setServicesSection();
+
+    const serviceRenderer = createServicePrincingRenderer();
+    // Estableciendo la sección de los precios dentro de los servicios
+    await setPricingCategories(serviceRenderer);
+    // Establecer los detalles de los servicios
+    await setPricingDetails(serviceRenderer); 
+}
+
+async function setServicesSection() {
     try {
         // Categorías de los servicios activas
         const categories = await fetchServiceCategories();
@@ -55,9 +66,6 @@ export async function setServicesSection() {
 
         // Contenedor principal del contenido de los servicios
         const servicesContent = document.getElementById('services-content');
-        
-        // Imagen del barbero
-        servicesContent.appendChild(document.createElement('div'));
         
         // Lista de las categorías
         servicesContent.appendChild(document.createElement('ul'));
@@ -75,15 +83,6 @@ export async function setServicesSection() {
     } catch (error) {
         console.error('Error al agregar las categorías de los servicios al DOM:', error);
     }
-}
-
-export async function setPricingSection() {
-    const serviceRenderer = createServicePrincingRenderer();
-
-    // Estableciendo la sección de los precios dentro de los servicios
-    await setPricingCategories(serviceRenderer);
-    // Establecer los detalles de los servicios
-    await setPricingDetails(serviceRenderer);
 }
 
 async function setPricingCategories(serviceRenderer) {
