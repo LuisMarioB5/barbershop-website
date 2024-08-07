@@ -44,15 +44,14 @@ public class ReservaService {
         reserva.setService(servicioService.findByNameAndIsActive(reservation.serviceName()));
         reserva.setStartDateTime(reservation.dateTime());
         reserva.setEndDateTime(reservation.dateTime().plusMinutes(reserva.getService().getEstimatedTime()));
-        reserva.setBarber(getBarberForReservation(reservation));
+        reserva.setBarber(getBarberForReservation(reservation, reserva.getService()));
         reserva.setMessage(reservation.message());
         reserva.setTermsAccepted(reservation.termsAccepted());
         reserva.setIsActive(reservation.isActive() == null || reservation.isActive());
         return repository.save(reserva);
     }
 
-    private BarberoEntity getBarberForReservation(AgregarReservaDTO reservation) {
-        ServicioEntity service = servicioService.findByNameAndIsActive(reservation.serviceName());
+    private BarberoEntity getBarberForReservation(AgregarReservaDTO reservation, ServicioEntity service) {
         LocalDateTime startDateTime = reservation.dateTime();
         LocalDateTime endDateTime = startDateTime.plusMinutes(service.getEstimatedTime());
 

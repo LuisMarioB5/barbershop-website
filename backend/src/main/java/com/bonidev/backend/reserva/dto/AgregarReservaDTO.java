@@ -1,7 +1,5 @@
 package com.bonidev.backend.reserva.dto;
 
-import com.bonidev.backend.barbero.entity.BarberoEntity;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
