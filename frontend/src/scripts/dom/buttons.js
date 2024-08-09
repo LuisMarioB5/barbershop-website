@@ -27,7 +27,7 @@ export function setButtons() {
         const bookingBtn = document.querySelector("#home-content button");
         if (bookingBtn) {
             bookingBtn.addEventListener('click', () => {
-                window.location.href = '#booking';
+                window.location.href = '#reservation';
             });
         }
 

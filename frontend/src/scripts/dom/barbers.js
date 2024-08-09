@@ -1,6 +1,6 @@
 import { memoizeFetch } from "../utils.js";
 
-const fetchActiveBarbers = memoizeFetch(getActiveBarbers);
+export const fetchActiveBarbers = memoizeFetch(getActiveBarbers);
 
 // Obtiene los servicios desde el backend y devuelve solo los activos
 async function getActiveBarbers() {

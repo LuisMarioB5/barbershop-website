@@ -1,7 +1,7 @@
 import { memoizeFetch } from '../utils.js';
 
 const fetchServiceCategories = memoizeFetch(getActiveServiceCategories);
-const fetchServices = memoizeFetch(getActiveServices);
+export const fetchServices = memoizeFetch(getActiveServices);
 
 // Obtiene las categorias de los servicios desde el backend y devuelve solo los activos
 async function getActiveServiceCategories() {

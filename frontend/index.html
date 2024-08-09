@@ -167,33 +167,19 @@
             <h2>Realiza una Cita con Nosotros</h2>
     
             <form>
-                <input type="text" placeholder="Nombre completo" required/>
+                <input type="text" placeholder="Nombre completo" autocomplete="off"/> <!-- required -->
                 
-                <input type="email" placeholder="Correo electrónico" required/>
+                <input type="email" placeholder="Correo electrónico" autocomplete="off"/> <!-- required -->
                 
-                <input type="tel" class="phone" required/>
+                <input type="tel" placeholder="Número telefónico" autocomplete="off"/> <!-- required -->
                 
-                <input list="select-service" name="service" placeholder="Servicio a realizar" required/>
-                <datalist id="select-service">
-                    <option value="Afeitado">
-                    <option value="Corte de Barba">
-                    <option value="Corte de Cabello">
-                    <option value="Corte Infantil">
-                    <option value="Facial">
-                    <option value="Peinado con Secador">
-                </datalist>
+                <input list="datalist-service" name="service" placeholder="Servicio a realizar" autocomplete="off"/> <!-- required -->
+                <datalist id="datalist-service"></datalist>
     
-                <input id="date" type="datetime-local" required/>
+                <input id="date" type="datetime-local" autocomplete="off" required/>
     
-                <input list="select-barber" name="barber" placeholder="Barbero a atenderte"/>
-                <datalist id="select-barber">
-                    <option value="Alejandro Torres">
-                    <option value="Andrés Martínez">
-                    <option value="Carlos Rodríguez">
-                    <option value="Gabriel López">
-                    <option value="Juan Pérez">
-                    <option value="Miguel Sánchez">
-                </datalist>
+                <input id="dropdown-barber" list="select-barber" name="barber" placeholder="Barbero a atenderte" autocomplete="off"/>
+                <datalist id="select-barber"></datalist>
                 
                 <div class="textarea-div">
                     <textarea placeholder="Deja algún mensaje"></textarea>
@@ -257,7 +243,7 @@
                     
                     <input type="email" placeholder="Correo electrónico" required/>
                     
-                    <input type="tel" class="phone"/>
+                    <input type="tel" placeholder="Número telefónico"/>
                     
                     <input type="text" placeholder="Tema" required/>
                     

@@ -74,3 +74,12 @@ export function memoizeFetch(fn) {
         return data; // Devuelve los datos almacenados
     };
 }
+
+export function capitalize(text) {
+    // Validar que no tenga dos espacios en blanco seguidos, de ser asi los elimina
+    if (text.includes('  ')) {
+        text = text.replace(/  /, '');
+    }
+
+    return text.replace(/\b\w/g, (char) => char.toUpperCase())
+}

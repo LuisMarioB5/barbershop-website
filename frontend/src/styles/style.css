@@ -642,11 +642,14 @@ nav div {
 }
 
 #reservation-content form {
-    display: flex;
+    width: calc(323.2px * 2 + 25px);
+    display: inline-flex;
     justify-content: center;
     align-items: center;
-    gap: 25px;
+    gap: 20px;
     flex-wrap: wrap;
+
+    padding: 50px;
 }
 
 #reservation-content form button:last-child {
@@ -673,19 +676,18 @@ form {
     background-color: var(--white, #FFFFFF);
     border-radius: 10px;
     width: 785px;
-    padding: 50px;
 }
 
 form input:not([type="checkbox"]) {
     display: flex;
-    width: 330px;
+    width: 290px;
     height: 70px;
     padding: 0px 15px;
     align-items: center;
     gap: 10px;
 
     border-radius: 8px;
-    border: none;
+    border: 2px solid transparent;
     background-color: rgba(51, 51, 51, 0.15);
     font-size: 16px;
     font-style: normal;
@@ -694,28 +696,23 @@ form input:not([type="checkbox"]) {
     color: var(--charcoal, #333333);
 }
 
-#reservation-content .phone {
-    padding: 0 15px 0 52px;
-    width: 360px;
-}
-
-.iti__country-container button .iti__selected-country-primary {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    padding: 0 var(--iti-arrow-padding) 0 15px;
-}
-
 form input:not([type="checkbox"])::placeholder, .textarea-div textarea::placeholder {
     color: rgba(51, 51, 51, 0.5);
 }
 
-form input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-    width: 22.5px;
-    height: 22.5px;
+form #date:invalid {
+    color: rgba(51, 51, 51, 0.5);
+}
 
-    position: relative;
-    left: 90px;
+form #date:focus {
+    color: var(--charcoal, #333333);
+}
+
+form #date::-webkit-calendar-picker-indicator {
+    width: 22px;
+    height: 22px;
+    
+    margin-left: 50.5px;
     cursor: pointer;
 }
 
@@ -731,8 +728,9 @@ form input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 
 .textarea-div textarea {
-    width: calc(360px * 2);
-    height: 120px;
+    box-sizing: border-box;
+    width: calc(323.2px * 2 + 25px);
+    height: 150px;
     padding: 15px;
     resize: none;
     border: none;
@@ -859,11 +857,7 @@ form input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 
 #contact-us form input:not([type="checkbox"]) {
-    width: calc(250px - 30px);
-}
-
-#contact-us #contact-us-form-content .phone {
-    width: 250px;
+    width: calc(100% / 2 - 41px);
 }
 
 #contact-us-form-content .textarea-div {
@@ -873,7 +867,7 @@ form input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 
 #contact-us .textarea-div textarea {
-    width: calc(515px - 30px);
+    width: 100%;
 }
 
 #contact-us .textarea-div label {

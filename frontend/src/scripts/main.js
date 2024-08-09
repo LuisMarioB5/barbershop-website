@@ -4,6 +4,8 @@ import { setupLoginForm, setupSignupForm } from './dom/forms.js';
 import { setServices } from './dom/services.js';
 import { manageIframeLoading, setPhonesInputs } from './utils.js';
 
+import { setDatalistsOnReservation } from './dom/reservation.js';
+
 // Evento que se ejecuta cuando el DOM ha sido completamente cargado
 document.addEventListener('DOMContentLoaded', () => {
     console.log("hola")
@@ -17,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
         setServices();
         setBarbers();
     
+        setDatalistsOnReservation();
+
         setPhonesInputs();
         manageIframeLoading();
     }
