@@ -20,8 +20,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
-    <!-- Links CSS de la API externa (teléfono internacional) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.3.2/build/css/intlTelInput.css">
+    <!-- Link CSS de la API externa (Flatpickr) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <!-- TODO: SE DEBE HACER QUE EL MENU DE NAVEGACION (header) SE QUEDE ESTATICO AL MOMENTO DE MOVER LA PAGINA HACIA ABAJO
  Y CUANDO SE SELECCIONE O SE ENCUENTRE EN UNA SECCION EN EL MENU SE SUBRAYE AUTOMATICAMENTE. LUEGO EMPEZAR CON LA PARTE DE
@@ -176,7 +176,12 @@
                 <input list="datalist-service" name="service" placeholder="Servicio a realizar" autocomplete="off"/> <!-- required -->
                 <datalist id="datalist-service"></datalist>
     
-                <input id="date" type="datetime-local" autocomplete="off" required/>
+                <div id="date-container">
+                    <input type="datetime-local" placeholder="Fecha y hora" autocomplete="off" required/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="31" height="30" viewBox="0 0 31 30" fill="none">
+                        <path d="M27.0156 15V23.75C27.0156 24.413 26.7522 25.0489 26.2834 25.5178C25.8146 25.9866 25.1787 26.25 24.5156 26.25H7.01562C6.35258 26.25 5.7167 25.9866 5.24786 25.5178C4.77902 25.0489 4.51563 24.413 4.51562 23.75V15H27.0156ZM20.7656 3.75C21.0971 3.75 21.4151 3.8817 21.6495 4.11612C21.8839 4.35054 22.0156 4.66848 22.0156 5V6.25H24.5156C25.1787 6.25 25.8146 6.51339 26.2834 6.98223C26.7522 7.45107 27.0156 8.08696 27.0156 8.75V12.5H4.51562V8.75C4.51562 8.08696 4.77902 7.45107 5.24786 6.98223C5.7167 6.51339 6.35258 6.25 7.01562 6.25H9.51562V5C9.51562 4.66848 9.64732 4.35054 9.88174 4.11612C10.1162 3.8817 10.4341 3.75 10.7656 3.75C11.0971 3.75 11.4151 3.8817 11.6495 4.11612C11.8839 4.35054 12.0156 4.66848 12.0156 5V6.25H19.5156V5C19.5156 4.66848 19.6473 4.35054 19.8817 4.11612C20.1162 3.8817 20.4341 3.75 20.7656 3.75Z" fill="#333333"/>
+                    </svg>
+                </div>
     
                 <input id="dropdown-barber" list="select-barber" name="barber" placeholder="Barbero a atenderte" autocomplete="off"/>
                 <datalist id="select-barber"></datalist>
@@ -423,5 +428,8 @@
     <!-- Scripts JS -->
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.3.2/build/js/intlTelInput.min.js"></script>
     <script type="module" src="src/scripts/main.js"></script>
+
+    <!-- Link JavaScript de la API externa (Flatpickr) -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </body>
 </html>

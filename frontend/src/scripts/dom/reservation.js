@@ -267,11 +267,110 @@ async function setServiceInput(serviceInput) {
 
 // TODO ADEMAS DE VALIDAR SE DEBE DE JUGAR CON EL COLOR DEL TEXTO, YA QUE SI EL INPUT ES INVALIDO TOMARA UN COLOR QUE ES PARA LOS PLACEHOLDER
 function setDateTimeInput(dateTimeInput) {
+    console.log(dateTimeInput)
     if (dateTimeInput) {
         const defaultValidationMessage = 'Este campo es obligatorio, por favor ingrese la fecha y hora que desea realizar la cita.';
 
         // Establecer un mensaje de validación por defecto
         dateTimeInput.setCustomValidity(defaultValidationMessage);
+        
+        const svg = document.querySelector('#date-container svg');
+
+        const fp = flatpickr(dateTimeInput, {
+            clickOpens: false,
+            enableTime: true,
+            dateFormat: "d/m/Y H:i",
+            minDate: "today", // No permitir fechas en el pasado
+            allowInput: true,
+            "disable": [
+                function (date) {
+                    // Desactivar domingos
+                    return (date.getDay() === 0);
+                },
+                function (date) {
+                    return (date.getDay() === 6 && (date.getHours() < 10 && date.getHours() > 17));
+                }
+            ],
+            "locale": {
+                "firstDayOfWeek": 0 // Comenzar la semana el domingo
+            },
+            "onChange": function(selectedDates, dateStr, instance) {
+                const selectedDate = new Date(selectedDates[0]);
+                validateDate(selectedDate);
+            },
+            "onClose": function(selectedDates, dateStr, instance) {
+                const selectedDate = new Date(selectedDates[0]);
+                validateDate(selectedDate);
+            }
+        });
+
+        function validateDate(selectedDate) {
+            if (selectedDate) {
+                const hour = selectedDate.getHours();
+                const day = selectedDate.getDay();
+                let hasError = false;
+
+                // No se  trabaja los domingos
+                if (day === 0) {
+                    dateTimeInput.setCustomValidity('La barbería no labora los domingos.');
+                    hasError = true;
+                }
+                
+                // No trabajar fuera del horario de 10:00 AM - 5:00 PM los sábados
+                if (day === 6) {
+                    if (hour < 10 || hour > 17) {
+                        dateTimeInput.setCustomValidity('Los sábados no se aceptan citas para antes de las 10:00 A.M. Por favor, seleccione otro horario.');
+                        hasError = true;
+                    } else if (hour > 17) {
+                        dateTimeInput.setCustomValidity('Los sábados no se aceptan citas para después de las 5:00 P.M. Por favor, seleccione otro horario.');
+                        hasError = true;
+                    }
+                }
+                
+                // No trabajar fuera del horario de 9:00 AM - 7:00 PM los dias de semana
+                if (day !== 0 && day !== 6) {
+                    if (hour < 9 || hour > 19) {
+                        dateTimeInput.setCustomValidity('Los días de semana no se aceptan citas para antes de las 9:00 A.M. Por favor, seleccione otro horario.');
+                        hasError = true;
+                    } else if (hour > 19) {
+                        dateTimeInput.setCustomValidity('Los días de semana no se aceptan citas para después de las 7:00 P.M. Por favor, seleccione otro horario.');
+                        hasError = true;
+                    }
+                }
+                
+                // Verificar solapamientos (simulación de verificación)
+                if (checkForOverlap(selectedDate)) {
+                    dateTimeInput.setCustomValidity('Este horario no está disponible. Por favor, seleccione otro.');
+                    hasError = true;
+                }
+
+                if (!hasError) {
+                    dateTimeInput.setCustomValidity('');
+                }
+            }
+        }
+
+        // Función para verificar solapamientos (simulación)
+        function checkForOverlap(selectedDate) {
+            // Simular una reserva ya existente
+            const existingReservation = new Date('2024-08-21T14:00:00');
+    
+            // Compara las horas de las reservas
+            return selectedDate.getTime() === existingReservation.getTime();
+        }
+        
+        let isShowing = false;
+        svg.addEventListener('click', () => {
+            if (!isShowing) {
+                fp.open();
+                isShowing = true;
+            } else {
+                fp.close();
+                isShowing = false;
+            }
+        });
+
+        dateTimeInput.addEventListener('click', () => {fp.close();})
     }
 }
 async function setBarbersOnReservation() {

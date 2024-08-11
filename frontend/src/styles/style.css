@@ -652,6 +652,19 @@ nav div {
     padding: 50px;
 }
 
+#reservation-content form div:first-of-type {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+#reservation-content form div:first-of-type svg {
+    user-select: none;
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+}
+
 #reservation-content form button:last-child {
     display: flex;
     height: 80px;
@@ -670,6 +683,18 @@ nav div {
     font-weight: 700;
     line-height: 120%;
     letter-spacing: 0.32px;
+}
+
+#date-container input:focus {
+    color: var(--charcoal, #333333);
+}
+
+#date-container input::-webkit-calendar-picker-indicator {
+    width: 22px;
+    height: 22px;
+    
+    margin-left: 50.5px;
+    cursor: pointer;
 }
 
 form {
@@ -698,22 +723,6 @@ form input:not([type="checkbox"]) {
 
 form input:not([type="checkbox"])::placeholder, .textarea-div textarea::placeholder {
     color: rgba(51, 51, 51, 0.5);
-}
-
-form #date:invalid {
-    color: rgba(51, 51, 51, 0.5);
-}
-
-form #date:focus {
-    color: var(--charcoal, #333333);
-}
-
-form #date::-webkit-calendar-picker-indicator {
-    width: 22px;
-    height: 22px;
-    
-    margin-left: 50.5px;
-    cursor: pointer;
 }
 
 .textarea-div, .textarea-div label, .textarea-div label input {
