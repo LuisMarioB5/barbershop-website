@@ -40,6 +40,8 @@ async function getActiveBarbers() {
 }
 
 export async function setBarbers() {
+    const barberInput = document.querySelector('#reservation-content form input:not(input.iti__search-input):nth-of-type(5)');
+
     const barbersContent = document.getElementById('barbers-content');
     const activeBarbers = await fetchActiveBarbers();
 
@@ -54,6 +56,9 @@ export async function setBarbers() {
             barberCards.forEach(card => card.classList.remove('barber-card-selected'));
             
             barberCard.classList.add('barber-card-selected');
+
+            const barberName = document.querySelector('.barber-card-selected .barber-card-details div p').textContent;
+            barberInput.value = barberName;
         })
         barbersContent.appendChild(barberCard);
         

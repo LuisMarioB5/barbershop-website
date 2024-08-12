@@ -243,6 +243,8 @@ function createServicePrincingRenderer() {
     let visibleServices = null;
 
     function renderServiceCards(services) {
+        const serviceInput = document.querySelector('#reservation-content form input:not(input.iti__search-input):nth-of-type(4)');
+
         const carousel = document.querySelector('#service-details ul');
         carousel.innerHTML = '';
 
@@ -281,6 +283,7 @@ function createServicePrincingRenderer() {
 
             if (service.id === selectedId) {
                 li.classList.add('service-details-active');
+                serviceInput.value = pName.textContent;
             }
 
             li.addEventListener('click', () => {

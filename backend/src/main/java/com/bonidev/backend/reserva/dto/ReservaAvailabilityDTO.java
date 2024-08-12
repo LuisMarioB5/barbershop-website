@@ -1,4 +1,4 @@
 package com.bonidev.backend.reserva.dto;
 
-public record ReservaAvailabilityDTO(boolean isAvailable) {
+public record ReservaAvailabilityDTO(Long barberId, boolean isAvailable) {
 }

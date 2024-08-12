@@ -1,5 +1,7 @@
 package com.bonidev.backend.reserva.controller;
 
+import com.bonidev.backend.barbero.entity.BarberoEntity;
+import com.bonidev.backend.barbero.service.BarberoService;
 import com.bonidev.backend.reserva.dto.AgregarReservaDTO;
 import com.bonidev.backend.reserva.dto.MostrarReservaDTO;
 import com.bonidev.backend.reserva.dto.ReservaAvailabilityDTO;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -20,10 +23,12 @@ import java.util.stream.Collectors;
 public class ReservaController {
 
     private final ReservaService service;
+    private final BarberoService barberoService;
 
     @Autowired
-    public ReservaController(ReservaService service) {
+    public ReservaController(ReservaService service, BarberoService barberoService) {
         this.service = service;
+        this.barberoService = barberoService;
     }
 
     @PostMapping
@@ -57,11 +62,19 @@ public class ReservaController {
 
     @GetMapping("isAvailable")
     public ResponseEntity<ReservaAvailabilityDTO> checkReservation(
-            @RequestParam Long barberId,
+            @RequestParam String barberId,
             @RequestParam String start,
             @RequestParam String end) {
         LocalDateTime startDatetime = LocalDateTime.parse(start);
         LocalDateTime endDatetime = LocalDateTime.parse(end);
-        return ResponseEntity.ok(new ReservaAvailabilityDTO(!service.isBarberUnavailable(barberId, startDatetime, endDatetime)));
+        
+        String id = barberId;
+        if (Objects.equals(id, "null")){
+            BarberoEntity barber = barberoService.getRandomActiveAndAvailableBarber(startDatetime, endDatetime);
+            id = barber.getId().toString();
+        }
+
+        Long barberIdLong = Long.parseLong(id, 10);
+        return ResponseEntity.ok(new ReservaAvailabilityDTO(barberIdLong, !service.isBarberUnavailable(barberIdLong, startDatetime, endDatetime)));
     }
 }

@@ -652,6 +652,18 @@ nav div {
     padding: 50px;
 }
 
+#reservation-content form input {
+    border: 2px solid transparent;
+}
+
+#reservation-content form input:invalid:focus {
+    border-color: darkred;
+}
+
+#reservation-content form input:focus {
+    outline: none;
+}
+
 #reservation-content form div:first-of-type {
     position: relative;
     display: inline-flex;

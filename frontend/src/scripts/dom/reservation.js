@@ -13,54 +13,28 @@ export async function setDatalistsOnReservation() {
         const serviceInput = inputs[3];
         const barberInput = inputs[4];
         const dateTimeInput = inputs[5];
+        const termsInput = inputs[6];
     
-        // setNameInput(nameInput);
-        // setEmailInput(emailInput);
-        // setPhoneInput(phoneInput);
-        // await setServiceInput(serviceInput);
-        await setBarbersOnReservation(barberInput);
-        // await setDateTimeInput(dateTimeInput, serviceInput, barberInput);
+        setNameInput(nameInput);
+        setEmailInput(emailInput);
+        setPhoneInput(phoneInput);
+        await setServiceInput(serviceInput);
+        await setBarberInput(barberInput);
+        await setDateTimeInput(dateTimeInput, serviceInput, barberInput);
+        setTermsInput(termsInput);
+
+        // form input:not([type="checkbox"]):invalid {
+            //     border-color: darkred;
+            // }
+            
+            // form input:not([type="checkbox"]):valid {
+            //     border-color: transparent;
+            // }
     }
 }
 
-function setSample() {
-    if (inputs) {
-        // const nameInput = inputs[0];
-        // const emailInput = inputs[1];
-        // const phoneInput = inputs[2];
-        // const serviceInput = inputs[3];
-        // const dateInput = inputs[4];
-        // const barberInput = inputs[5];
-        // const termsInput = inputs[6];
-        
-        // console.log("nameInput: ", nameInput);
-        // console.log("emailInput: ", emailInput);
-        // console.log("phoneInput: ", phoneInput);
-        // console.log("serviceInput: ", serviceInput);
-        // console.log("dateInput: ", dateInput);
-        // console.log("barberInput: ", barberInput);
-        // console.log("termsInput: ", termsInput);
 
-        
 
-// form input:not([type="checkbox"]):invalid {
-//     border-color: darkred;
-// }
-
-// form input:not([type="checkbox"]):valid {
-//     border-color: transparent;
-// }
-
-        inputs.forEach(input => {
-            input.setCustomValidity('Este campo es obligatorio, por favor seleccione un servicio.');
-            input.addEventListener('input', () => {
-                if (!input.validity.valueMissing) {
-                    input.setCustomValidity('');
-                }
-            });
-        });
-    }
-}
 
 function setNameInput(nameInput) {    
     if (nameInput) {
@@ -272,9 +246,6 @@ async function setDateTimeInput(dateTimeInput, serviceInput, barberInput) {
         const svg = document.querySelector('#date-container svg');
         let calendarIsShowing = false;
 
-        // Establecer un mensaje de validación por defecto
-        dateTimeInput.setCustomValidity(defaultValidationMessage);
-
         const fp = flatpickr(dateTimeInput, {
             clickOpens: false,
             enableTime: true,
@@ -290,6 +261,9 @@ async function setDateTimeInput(dateTimeInput, serviceInput, barberInput) {
             locale: {
                 firstDayOfWeek: 0 // Comenzar la semana el domingo
             },
+            onOpen: function() {
+                calendarIsShowing = true;
+            },
             onClose: function() {
                 calendarIsShowing = false;
             }
@@ -298,12 +272,11 @@ async function setDateTimeInput(dateTimeInput, serviceInput, barberInput) {
         svg.addEventListener('click', () => {
             if (!calendarIsShowing) {
                 fp.open();
-                calendarIsShowing = true;
-            } else {
-                fp.close();
-                calendarIsShowing = false;
             }
         });
+
+        // Establecer un mensaje de validación por defecto
+        dateTimeInput.setCustomValidity(defaultValidationMessage);
 
         dateTimeInput.addEventListener('input', async (event) => {
             const value = dateTimeInput.value;
@@ -312,7 +285,7 @@ async function setDateTimeInput(dateTimeInput, serviceInput, barberInput) {
                 if (value.length === 16) {
                     await validateAvailability(value);
                 } else if (value.length > 16) {
-                    dateTimeInput.setCustomValidity("La longitud del formato de la fecha debe ser de 16 caracteres. d/m/Y ");
+                    dateTimeInput.setCustomValidity('La longitud del formato de la fecha debe ser de 16 caracteres. d/m/Y');
                 } else {
                     dateTimeInput.setCustomValidity(defaultValidationMessage);
                 }
@@ -327,32 +300,40 @@ async function setDateTimeInput(dateTimeInput, serviceInput, barberInput) {
                 const activeServices = await fetchActiveServices();
                 const activeBarbers = await fetchActiveBarbers();
                 
-                const serviceValue = serviceInput.value = 'Afeitado Clásico';
-                const barberValue = barberInput.value = 'Gabriel López';
+                const serviceValue = serviceInput.value;
+                const barberValue = barberInput.value;
+                
+                if (serviceValue.length !== 0) {
+                    const activeService = activeServices.find(service => service.name === serviceValue);
+                    const activeBarber = activeBarbers.find(barber => barber.name === barberValue);
 
-                const activeService = activeServices.find(service => service.name === serviceValue);
-                const activeBarber = activeBarbers.find(barber => barber.name === barberValue);
+                    if (activeService) {
+                        let barberId = null;
+                        if (activeBarber){
+                            barberId = activeBarber.id;
+                        }
 
-                if (activeService && activeBarber) {
-                    const barberId = activeBarber.id;
-                    
-                    const reservationDateTime = parseDateStr(dateStr, activeService.estimatedTime);
-                    const start = reservationDateTime.start;
-                    const end = reservationDateTime.end;
-                    
-                    const json = await reservationIsAvailable(barberId, start, end);
-                    if (!json.isAvailable) {
-                        dateTimeInput.setCustomValidity('Este horario no está disponible. Por favor, seleccione otro.');
-                    } else {
-                        dateTimeInput.setCustomValidity('');
+                        const reservationDateTime = parseDateStr(dateStr, activeService.estimatedTime);
+                        const start = reservationDateTime.start;
+                        const end = reservationDateTime.end;
+                        
+                        const json = await reservationIsAvailable(barberId, start, end);
+                        barberId = json.barberId;
+
+                        if (!json.isAvailable) {
+                            dateTimeInput.setCustomValidity('Este horario no está disponible. Por favor, seleccione otro.');
+                        } else {
+                            dateTimeInput.setCustomValidity('');
+                        }
                     }
                 }
+                
             }
         }
 
         async function reservationIsAvailable(barberId, startDatetime, endDatetime) {
-            if (!barberId || !startDatetime || !endDatetime) {
-                console.log('Los parámetros de disponibilidad no pueden ser nulos.');
+            if (!startDatetime || !endDatetime) {
+                console.log('Los parámetros de inicio y fin de la reserva no pueden ser nulos.');
                 return false;
             }
 
@@ -410,26 +391,49 @@ async function setDateTimeInput(dateTimeInput, serviceInput, barberInput) {
     }
 }
 
-// TODO -> INICIAR CON LAS VALIDACIONES PARA LOS BARBEROS, TERMSCHECKS, Y QUE AL MOMENTO DE SELECCION UN SERVICIO O BARBERO EN SU RESPECTIVA AREA DEBE LLENAR EL INPUT EN EL FORMULARIO DE RESERVA.
-async function setBarbersOnReservation(barberInput) {
+async function setBarberInput(barberInput) {
     const barbers = await fetchActiveBarbers();
     const datalist = document.getElementById('datalist-barber');
     datalist.innerHTML = '';
 
-    barbers.forEach(barber => {
-        const option = document.createElement('option');
-        option.value = barber.name;
-        datalist.appendChild(option);
-    });
+    if (barbers && datalist) {
+        barbers.forEach(barber => {
+            const option = document.createElement('option');
+            option.value = barber.name;
+            datalist.appendChild(option);
+        });
+        
+        if (barberInput) {
+            // Validar el input para permitir solo valores del datalist
+            barberInput.addEventListener('input', () => {
+                const options = Array.from(datalist.options).map(option => option.value);
+                const value = barberInput.value;
 
-    
-    // Validar el input para permitir solo valores del datalist
-    barberInput.addEventListener('input', () => {
-        const options = Array.from(datalist.options).map(option => option.value);
-        if (!options.includes(barberInput.value)) {
-            barberInput.setCustomValidity('Por favor, seleccione un barbero válido.');
-        } else {
-            barberInput.setCustomValidity('');
+                // Validar si el campo está vacío establecer el mensaje de validación por defecto
+                if (value.length > 0 && !options.includes(value)) {
+                    barberInput.setCustomValidity('El nombre del barbero debe ser idéntico que en la lista, le recomendamos elegirlo directamente.');
+                } else {
+                    barberInput.setCustomValidity('');
+                }
+            });
         }
-    });
+    }
+}
+
+function setTermsInput(termsInput) {
+    if (termsInput) {
+        const defaultValidationMessage = 'Este campo es obligatorio, por favor acepte los términos y condiciones antes de continuar.';
+        
+        // Establecer un mensaje de validación por defecto
+        termsInput.setCustomValidity(defaultValidationMessage);
+        
+        termsInput.addEventListener('input', () => {            
+            // Validar si el campo está vacío establecer el mensaje de validación por defecto
+            if (!termsInput.checked) {
+                termsInput.setCustomValidity(defaultValidationMessage);
+            } else {
+                termsInput.setCustomValidity('');
+            }
+        });
+    }
 }
