@@ -2,22 +2,15 @@ package com.bonidev.backend.reserva.controller;
 
 import com.bonidev.backend.reserva.dto.AgregarReservaDTO;
 import com.bonidev.backend.reserva.dto.MostrarReservaDTO;
-import com.bonidev.backend.reserva.repository.ReservaRepository;
 import com.bonidev.backend.reserva.service.ReservaService;
-import com.bonidev.backend.servicio.entity.ServicioEntity;
 import jakarta.validation.Valid;
-import org.antlr.v4.runtime.misc.Interval;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,11 +35,6 @@ public class ReservaController {
         return ResponseEntity.created(location).body("La reserva fue almacenada satisfactoriamente.");
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<MostrarReservaDTO> showReservation(@PathVariable Long id) {
-        return ResponseEntity.ok(new MostrarReservaDTO(service.findById(id)));
-    }
-
     @GetMapping
     public ResponseEntity<List<MostrarReservaDTO>> showReservations() {
         // Obtener todas las categorías desde el servicio
@@ -59,5 +47,20 @@ public class ReservaController {
 
         // Devolver la lista de DTOs en el cuerpo de la respuesta
         return ResponseEntity.ok(showReservations);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<MostrarReservaDTO> showReservation(@PathVariable Long id) {
+        return ResponseEntity.ok(new MostrarReservaDTO(service.findById(id)));
+    }
+
+    @GetMapping("isAvailable")
+    public ResponseEntity<Boolean> checkReservation(
+            @RequestParam Long barberId,
+            @RequestParam String start,
+            @RequestParam String end) {
+        LocalDateTime startDatetime = LocalDateTime.parse(start);
+        LocalDateTime endDatetime = LocalDateTime.parse(end);
+        return ResponseEntity.ok(!service.isBarberUnavailable(barberId, startDatetime, endDatetime));
     }
 }

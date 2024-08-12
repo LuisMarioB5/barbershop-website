@@ -2,6 +2,7 @@ package com.bonidev.backend.reserva.service;
 
 import com.bonidev.backend.barbero.entity.BarberoEntity;
 import com.bonidev.backend.barbero.service.BarberoService;
+import com.bonidev.backend.errors.ValidationException;
 import com.bonidev.backend.reserva.dto.AgregarReservaDTO;
 import com.bonidev.backend.reserva.entity.ReservaEntity;
 import com.bonidev.backend.reserva.repository.ReservaRepository;
@@ -48,6 +49,12 @@ public class ReservaService {
         reserva.setMessage(reservation.message());
         reserva.setTermsAccepted(reservation.termsAccepted());
         reserva.setIsActive(reservation.isActive() == null || reservation.isActive());
+
+        // Validación de disponibilidad antes de almacenar la reserva
+        if (isBarberUnavailable(reserva.getBarber().getId(), reserva.getStartDateTime(), reserva.getEndDateTime())) {
+            throw new ValidationException("El barbero no está disponible en el horario elegido.");
+        }
+
         return repository.save(reserva);
     }
 
@@ -65,5 +72,26 @@ public class ReservaService {
 
     public List<ReservaEntity> findAll() {
         return repository.findAll();
+    }
+
+    public boolean isBarberUnavailable(Long barberId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        if (startDateTime.isBefore(LocalDateTime.now())) {
+            throw new ValidationException("La fecha de inicio de la reserva no puede estar en el pasado.");
+        }
+
+        if (endDateTime.isBefore(startDateTime)) {
+            throw new ValidationException("La fecha de finalización de la reserva no puede estar antes que la fecha de inicio.");
+        }
+
+        if (barberId == null) {
+            return true;
+        } else {
+            if (barberoService.findById(barberId) == null) {
+                throw new ValidationException("El barbero con el id " + barberId + " no fue encontrado.");
+            }
+        }
+
+        List<ReservaEntity> reservations = repository.findReservationsInRange(barberId, startDateTime, endDateTime);
+        return !reservations.isEmpty();
     }
 }
