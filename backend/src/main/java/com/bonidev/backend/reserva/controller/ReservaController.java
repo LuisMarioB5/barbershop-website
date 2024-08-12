@@ -2,6 +2,7 @@ package com.bonidev.backend.reserva.controller;
 
 import com.bonidev.backend.reserva.dto.AgregarReservaDTO;
 import com.bonidev.backend.reserva.dto.MostrarReservaDTO;
+import com.bonidev.backend.reserva.dto.ReservaAvailabilityDTO;
 import com.bonidev.backend.reserva.service.ReservaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,12 +56,12 @@ public class ReservaController {
     }
 
     @GetMapping("isAvailable")
-    public ResponseEntity<Boolean> checkReservation(
+    public ResponseEntity<ReservaAvailabilityDTO> checkReservation(
             @RequestParam Long barberId,
             @RequestParam String start,
             @RequestParam String end) {
         LocalDateTime startDatetime = LocalDateTime.parse(start);
         LocalDateTime endDatetime = LocalDateTime.parse(end);
-        return ResponseEntity.ok(!service.isBarberUnavailable(barberId, startDatetime, endDatetime));
+        return ResponseEntity.ok(new ReservaAvailabilityDTO(!service.isBarberUnavailable(barberId, startDatetime, endDatetime)));
     }
 }
