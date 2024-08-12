@@ -1,4 +1,4 @@
-import { fetchServices } from "./services.js";
+import { fetchActiveServices } from "./services.js";
 import { fetchActiveBarbers } from "./barbers.js";
 import { capitalize } from "../utils.js";
 
@@ -11,15 +11,16 @@ export async function setDatalistsOnReservation() {
         const emailInput = inputs[1];
         const phoneInput = inputs[2];
         const serviceInput = inputs[3];
-        const dateTimeInput = inputs[4];
+        const barberInput = inputs[4];
+        const dateTimeInput = inputs[5];
     
         // setNameInput(nameInput);
         // setEmailInput(emailInput);
         // setPhoneInput(phoneInput);
         // await setServiceInput(serviceInput);
-        setDateTimeInput(dateTimeInput);
+        await setBarbersOnReservation(barberInput);
+        // await setDateTimeInput(dateTimeInput, serviceInput, barberInput);
     }
-    await setBarbersOnReservation();
 }
 
 function setSample() {
@@ -229,7 +230,7 @@ function setPhoneInput(phoneInput) {
 }
 
 async function setServiceInput(serviceInput) {
-    const services = await fetchServices();
+    const services = await fetchActiveServices();
     const datalist = document.getElementById('datalist-service');
     datalist.innerHTML = '';
 
@@ -265,16 +266,14 @@ async function setServiceInput(serviceInput) {
     }
 }
 
-// TODO ADEMAS DE VALIDAR SE DEBE DE JUGAR CON EL COLOR DEL TEXTO, YA QUE SI EL INPUT ES INVALIDO TOMARA UN COLOR QUE ES PARA LOS PLACEHOLDER
-function setDateTimeInput(dateTimeInput) {
-    console.log(dateTimeInput)
+async function setDateTimeInput(dateTimeInput, serviceInput, barberInput) {
     if (dateTimeInput) {
         const defaultValidationMessage = 'Este campo es obligatorio, por favor ingrese la fecha y hora que desea realizar la cita.';
+        const svg = document.querySelector('#date-container svg');
+        let calendarIsShowing = false;
 
         // Establecer un mensaje de validación por defecto
         dateTimeInput.setCustomValidity(defaultValidationMessage);
-        
-        const svg = document.querySelector('#date-container svg');
 
         const fp = flatpickr(dateTimeInput, {
             clickOpens: false,
@@ -282,100 +281,139 @@ function setDateTimeInput(dateTimeInput) {
             dateFormat: "d/m/Y H:i",
             minDate: "today", // No permitir fechas en el pasado
             allowInput: true,
-            "disable": [
+            disable: [
                 function (date) {
                     // Desactivar domingos
                     return (date.getDay() === 0);
-                },
-                function (date) {
-                    return (date.getDay() === 6 && (date.getHours() < 10 && date.getHours() > 17));
                 }
             ],
-            "locale": {
-                "firstDayOfWeek": 0 // Comenzar la semana el domingo
+            locale: {
+                firstDayOfWeek: 0 // Comenzar la semana el domingo
             },
-            "onChange": function(selectedDates, dateStr, instance) {
-                const selectedDate = new Date(selectedDates[0]);
-                validateDate(selectedDate);
-            },
-            "onClose": function(selectedDates, dateStr, instance) {
-                const selectedDate = new Date(selectedDates[0]);
-                validateDate(selectedDate);
+            onClose: function() {
+                calendarIsShowing = false;
             }
         });
 
-        function validateDate(selectedDate) {
-            if (selectedDate) {
-                const hour = selectedDate.getHours();
-                const day = selectedDate.getDay();
-                let hasError = false;
-
-                // No se  trabaja los domingos
-                if (day === 0) {
-                    dateTimeInput.setCustomValidity('La barbería no labora los domingos.');
-                    hasError = true;
-                }
-                
-                // No trabajar fuera del horario de 10:00 AM - 5:00 PM los sábados
-                if (day === 6) {
-                    if (hour < 10 || hour > 17) {
-                        dateTimeInput.setCustomValidity('Los sábados no se aceptan citas para antes de las 10:00 A.M. Por favor, seleccione otro horario.');
-                        hasError = true;
-                    } else if (hour > 17) {
-                        dateTimeInput.setCustomValidity('Los sábados no se aceptan citas para después de las 5:00 P.M. Por favor, seleccione otro horario.');
-                        hasError = true;
-                    }
-                }
-                
-                // No trabajar fuera del horario de 9:00 AM - 7:00 PM los dias de semana
-                if (day !== 0 && day !== 6) {
-                    if (hour < 9 || hour > 19) {
-                        dateTimeInput.setCustomValidity('Los días de semana no se aceptan citas para antes de las 9:00 A.M. Por favor, seleccione otro horario.');
-                        hasError = true;
-                    } else if (hour > 19) {
-                        dateTimeInput.setCustomValidity('Los días de semana no se aceptan citas para después de las 7:00 P.M. Por favor, seleccione otro horario.');
-                        hasError = true;
-                    }
-                }
-                
-                // Verificar solapamientos (simulación de verificación)
-                if (checkForOverlap(selectedDate)) {
-                    dateTimeInput.setCustomValidity('Este horario no está disponible. Por favor, seleccione otro.');
-                    hasError = true;
-                }
-
-                if (!hasError) {
-                    dateTimeInput.setCustomValidity('');
-                }
-            }
-        }
-
-        // Función para verificar solapamientos (simulación)
-        function checkForOverlap(selectedDate) {
-            // Simular una reserva ya existente
-            const existingReservation = new Date('2024-08-21T14:00:00');
-    
-            // Compara las horas de las reservas
-            return selectedDate.getTime() === existingReservation.getTime();
-        }
-        
-        let isShowing = false;
         svg.addEventListener('click', () => {
-            if (!isShowing) {
+            if (!calendarIsShowing) {
                 fp.open();
-                isShowing = true;
+                calendarIsShowing = true;
             } else {
                 fp.close();
-                isShowing = false;
+                calendarIsShowing = false;
             }
         });
 
-        dateTimeInput.addEventListener('click', () => {fp.close();})
+        dateTimeInput.addEventListener('input', async (event) => {
+            const value = dateTimeInput.value;
+
+            try {
+                if (value.length === 16) {
+                    await validateAvailability(value);
+                } else if (value.length > 16) {
+                    dateTimeInput.setCustomValidity("La longitud del formato de la fecha debe ser de 16 caracteres. d/m/Y ");
+                } else {
+                    dateTimeInput.setCustomValidity(defaultValidationMessage);
+                }
+            } catch (error) {
+                console.log('Error en el event listener: ', error);
+                dateTimeInput.setCustomValidity('Formato de fecha y hora no válido.');
+            }
+        });
+
+        async function validateAvailability(dateStr) {
+            if (serviceInput && barberInput) {
+                const activeServices = await fetchActiveServices();
+                const activeBarbers = await fetchActiveBarbers();
+                
+                const serviceValue = serviceInput.value = 'Afeitado Clásico';
+                const barberValue = barberInput.value = 'Gabriel López';
+
+                const activeService = activeServices.find(service => service.name === serviceValue);
+                const activeBarber = activeBarbers.find(barber => barber.name === barberValue);
+
+                if (activeService && activeBarber) {
+                    const barberId = activeBarber.id;
+                    
+                    const reservationDateTime = parseDateStr(dateStr, activeService.estimatedTime);
+                    const start = reservationDateTime.start;
+                    const end = reservationDateTime.end;
+                    
+                    const json = await reservationIsAvailable(barberId, start, end);
+                    if (!json.isAvailable) {
+                        dateTimeInput.setCustomValidity('Este horario no está disponible. Por favor, seleccione otro.');
+                    } else {
+                        dateTimeInput.setCustomValidity('');
+                    }
+                }
+            }
+        }
+
+        async function reservationIsAvailable(barberId, startDatetime, endDatetime) {
+            if (!barberId || !startDatetime || !endDatetime) {
+                console.log('Los parámetros de disponibilidad no pueden ser nulos.');
+                return false;
+            }
+
+            try {
+                const queryParams = new URLSearchParams({
+                    barberId: barberId,
+                    start: startDatetime,
+                    end: endDatetime
+                });
+
+                const response = await fetch(`http://localhost:8080/reservation/isAvailable?${queryParams.toString()}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error: la respuesta del servidor no fue ok');
+                }
+
+                return await response.json();
+            } catch (error) {
+                console.log('Error al validar la disponibilidad de la reserva desde el backend:', error);
+                return false;
+            }
+        }
+
+        function parseDateStr(dateStr, durationMinutes) {
+            const dateTimeParts = dateStr.split(' ');
+            const date = dateTimeParts[0];
+            const time = dateTimeParts[1];
+
+            const dateParts = date.split('/');
+            const fixedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T${time}`;
+
+            const startDate = new Date(fixedDate);
+            const endDate = new Date(startDate);
+            endDate.setMinutes(endDate.getMinutes() + durationMinutes);
+
+            function formatDate(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                return `${year}-${month}-${day}T${hours}:${minutes}`;
+            }
+
+            return {
+                start: formatDate(startDate),
+                end: formatDate(endDate)
+            };
+        }
     }
 }
-async function setBarbersOnReservation() {
+
+// TODO -> INICIAR CON LAS VALIDACIONES PARA LOS BARBEROS, TERMSCHECKS, Y QUE AL MOMENTO DE SELECCION UN SERVICIO O BARBERO EN SU RESPECTIVA AREA DEBE LLENAR EL INPUT EN EL FORMULARIO DE RESERVA.
+async function setBarbersOnReservation(barberInput) {
     const barbers = await fetchActiveBarbers();
-    const datalist = document.getElementById('select-barber');
+    const datalist = document.getElementById('datalist-barber');
     datalist.innerHTML = '';
 
     barbers.forEach(barber => {
@@ -386,13 +424,12 @@ async function setBarbersOnReservation() {
 
     
     // Validar el input para permitir solo valores del datalist
-    const input = document.getElementById('dropdown-barber');
-    input.addEventListener('input', () => {
+    barberInput.addEventListener('input', () => {
         const options = Array.from(datalist.options).map(option => option.value);
-        if (!options.includes(input.value)) {
-            input.setCustomValidity('Por favor, seleccione un barbero válido.');
+        if (!options.includes(barberInput.value)) {
+            barberInput.setCustomValidity('Por favor, seleccione un barbero válido.');
         } else {
-            input.setCustomValidity('');
+            barberInput.setCustomValidity('');
         }
     });
 }

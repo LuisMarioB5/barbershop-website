@@ -1,7 +1,7 @@
 import { memoizeFetch } from '../utils.js';
 
 const fetchServiceCategories = memoizeFetch(getActiveServiceCategories);
-export const fetchServices = memoizeFetch(getActiveServices);
+export const fetchActiveServices = memoizeFetch(getActiveServices);
 
 // Obtiene las categorias de los servicios desde el backend y devuelve solo los activos
 async function getActiveServiceCategories() {
@@ -18,7 +18,23 @@ async function getActiveServiceCategories() {
         }
 
         const categories = await response.json();
-        return categories.filter(category => category.isActive);
+        const sortedServiceCategories = categories
+        .filter(category => category.isActive)
+        .sort((a, b) => {
+          // Convertir los nombres a minúsculas para hacer la comparación insensible a mayúsculas
+          const nameA = a.name.toLowerCase();
+          const nameB = b.name.toLowerCase();
+          
+          if (nameA < nameB) {
+            return -1; // a debe aparecer antes que b
+          }
+          if (nameA > nameB) {
+            return 1; // a debe aparecer después que b
+          }
+          return 0; // Los nombres son iguales
+        });
+        
+        return sortedServiceCategories;
     } catch (error) {
         console.error('Error al cargar las categorias de los servicios desde el backend:', error);
     }
@@ -39,7 +55,23 @@ async function getActiveServices() {
         }
 
         const services = await response.json();
-        return services.filter(service => service.isActive);
+        const sortedServices = services
+        .filter(service => service.isActive)
+        .sort((a, b) => {
+          // Convertir los nombres a minúsculas para hacer la comparación insensible a mayúsculas
+          const nameA = a.name.toLowerCase();
+          const nameB = b.name.toLowerCase();
+          
+          if (nameA < nameB) {
+            return -1; // a debe aparecer antes que b
+          }
+          if (nameA > nameB) {
+            return 1; // a debe aparecer después que b
+          }
+          return 0; // Los nombres son iguales
+        });
+        
+        return sortedServices;
     } catch (error) {
         console.error('Error al cargar los servicios desde el backend:', error);
     }
@@ -143,7 +175,7 @@ async function setPricingCategories(serviceRenderer) {
                 const selectedCategory = activeCategories[selectedIndex];
                 renderCategories();
 
-                const services = await fetchServices();
+                const services = await fetchActiveServices();
                 const filteredServices = services.filter(service => service.category.name == selectedCategory.name);
                 serviceRenderer.renderServices(selectedCategory.name === 'Todos' ? services : filteredServices);
             });
@@ -201,7 +233,7 @@ async function setPricingDetails(serviceRenderer) {
     pricingContent.appendChild(serviceDetails);
     
     // Renderiza los servicios a mostrar
-    serviceRenderer.renderServices(await fetchServices());
+    serviceRenderer.renderServices(await fetchActiveServices());
 }
 
 function createServicePrincingRenderer() {

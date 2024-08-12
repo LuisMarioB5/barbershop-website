@@ -16,6 +16,27 @@ public class Horario implements ValidadorAgregarReserva {
     private static final LocalTime SATURDAY_START_TIME = LocalTime.of(10, 0);
     private static final LocalTime SATURDAY_END_TIME = LocalTime.of(17, 0);
 
+    // Metodo que se utilizara en el endpoint para verificar la disponibilidad de una reserva directamente
+    public boolean noAvailable(Long barberId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        if (barberId == null || startDateTime == null || endDateTime == null) { return true; }
+
+        if (startDateTime.isBefore(LocalDateTime.now())) { return true; }
+
+        if (endDateTime.isBefore(startDateTime)) { return true; }
+
+        LocalTime reservationTime = startDateTime.toLocalTime();
+        DayOfWeek dayOfWeek = startDateTime.getDayOfWeek();
+
+        if (isWeekDay(dayOfWeek)) {
+            return reservationTime.isBefore(WEEKDAY_START_TIME) || reservationTime.isAfter(WEEKDAY_END_TIME);
+        } else if (isSaturday(dayOfWeek)) {
+            return reservationTime.isBefore(SATURDAY_START_TIME) || reservationTime.isAfter(SATURDAY_END_TIME);
+        } else {
+            // Es dominingo y por defecto no esta disponible
+            return true;
+        }
+    }
+
     @Override
     public void validar(AgregarReservaDTO datos) {
         LocalDateTime now = LocalDateTime.now();

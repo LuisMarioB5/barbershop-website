@@ -16,8 +16,24 @@ async function getActiveBarbers() {
             throw new Error('Network response was not ok');
         }
 
-        const barbers = await response.json();
-        return barbers.filter(barber => barber.isActive);
+        const barbers = await response.json();        
+        const sortedBarbers = barbers
+        .filter(barber => barber.isActive)
+        .sort((a, b) => {
+          // Convertir los nombres a minúsculas para hacer la comparación insensible a mayúsculas
+          const nameA = a.name.toLowerCase();
+          const nameB = b.name.toLowerCase();
+          
+          if (nameA < nameB) {
+            return -1; // a debe aparecer antes que b
+          }
+          if (nameA > nameB) {
+            return 1; // a debe aparecer después que b
+          }
+          return 0; // Los nombres son iguales
+        });
+        
+        return sortedBarbers;
     } catch (error) {
         console.error('Error al cargar los barberos desde el backend:', error);
     }

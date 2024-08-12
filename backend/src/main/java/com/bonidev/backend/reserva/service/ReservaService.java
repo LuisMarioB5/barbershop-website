@@ -6,6 +6,7 @@ import com.bonidev.backend.errors.ValidationException;
 import com.bonidev.backend.reserva.dto.AgregarReservaDTO;
 import com.bonidev.backend.reserva.entity.ReservaEntity;
 import com.bonidev.backend.reserva.repository.ReservaRepository;
+import com.bonidev.backend.reserva.validations.Horario;
 import com.bonidev.backend.reserva.validations.ValidadorAgregarReserva;
 import com.bonidev.backend.servicio.entity.ServicioEntity;
 import com.bonidev.backend.servicio.service.ServicioService;
@@ -75,21 +76,8 @@ public class ReservaService {
     }
 
     public boolean isBarberUnavailable(Long barberId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        if (startDateTime.isBefore(LocalDateTime.now())) {
-            throw new ValidationException("La fecha de inicio de la reserva no puede estar en el pasado.");
-        }
-
-        if (endDateTime.isBefore(startDateTime)) {
-            throw new ValidationException("La fecha de finalización de la reserva no puede estar antes que la fecha de inicio.");
-        }
-
-        if (barberId == null) {
-            return true;
-        } else {
-            if (barberoService.findById(barberId) == null) {
-                throw new ValidationException("El barbero con el id " + barberId + " no fue encontrado.");
-            }
-        }
+        Horario horario = new Horario();
+        if (horario.noAvailable(barberId, startDateTime, endDateTime)) { return true; }
 
         List<ReservaEntity> reservations = repository.findReservationsInRange(barberId, startDateTime, endDateTime);
         return !reservations.isEmpty();
