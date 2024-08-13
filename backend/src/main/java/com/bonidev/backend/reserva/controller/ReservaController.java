@@ -67,7 +67,7 @@ public class ReservaController {
             @RequestParam String end) {
         LocalDateTime startDatetime = LocalDateTime.parse(start);
         LocalDateTime endDatetime = LocalDateTime.parse(end);
-        
+
         String id = barberId;
         if (Objects.equals(id, "null")){
             BarberoEntity barber = barberoService.getRandomActiveAndAvailableBarber(startDatetime, endDatetime);

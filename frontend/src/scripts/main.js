@@ -1,6 +1,7 @@
 import { setBarbers } from './dom/barbers.js';
 import { setButtons } from './dom/buttons.js';
 import { setupLoginForm, setupSignupForm } from './dom/forms.js';
+import { setUserPage } from './dom/userpanel.js';
 import { setServices } from './dom/services.js';
 import { manageIframeLoading, setPhonesInputs } from './utils.js';
 
@@ -14,7 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setupLoginForm();
     } else if (window.location.pathname.endsWith('signup.html')) {
         setupSignupForm();
-    } else {
+    } else if (window.location.pathname.endsWith('userpage.html')) {
+        setUserPage();
+    } else if (window.location.pathname.endsWith('index.html')) {
         setButtons();
         setServices();
         setBarbers();

@@ -19,16 +19,19 @@ export async function handleLogin(login, password) {
 
             // Redirecciona después de 1 segundo
             setTimeout(() => {
-                if(paylout.role === "ROLE_USER") {
+                if (!paylout) {
+                    alert("Usuario Invitado")
+                    window.location.href = 'index.html';
+                } else if (paylout.role === "ROLE_USER") {
                     alert("Usuario ROLE_USER")
-                } else if(paylout.role === "ROLE_ADMIN") {
+                    window.location.href = 'index.html';
+                } if(paylout.role === "ROLE_ADMIN") {
                     alert("Usuario ROLE_ADMIN")
+                    window.location.href = 'userpanel.html';
                 } else if(paylout.role === "ROLE_BARBER") {
                     alert("Usuario ROLE_BARBER")
-                } else {
-                    alert("Usuario Invitado")
+                    window.location.href = 'userpanel.html';
                 }
-                window.location.href = 'index.html';
             }, 1000);
         } else {
             console.error('Login failed');
