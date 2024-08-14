@@ -19,18 +19,12 @@ export async function handleLogin(login, password) {
 
             // Redirecciona después de 1 segundo
             setTimeout(() => {
-                if (!paylout) {
-                    alert("Usuario Invitado")
+                if (paylout.role === "ROLE_USER") {
                     window.location.href = 'index.html';
-                } else if (paylout.role === "ROLE_USER") {
-                    alert("Usuario ROLE_USER")
-                    window.location.href = 'index.html';
-                } if(paylout.role === "ROLE_ADMIN") {
-                    alert("Usuario ROLE_ADMIN")
-                    window.location.href = 'userpanel.html';
+                } else if(paylout.role === "ROLE_ADMIN") {
+                    window.location.href = 'userpage.html';
                 } else if(paylout.role === "ROLE_BARBER") {
-                    alert("Usuario ROLE_BARBER")
-                    window.location.href = 'userpanel.html';
+                    window.location.href = 'userpage.html';
                 }
             }, 1000);
         } else {
@@ -63,7 +57,25 @@ export async function handleSignup(userName, email, password) {
 }
 
 // Maneja el cierre de sesión
-export function handleLogout() {
-    alert("Esta cerrando sesión...")
-    localStorage.removeItem('JWT');
+export function setSignoutButtons(signoutBtn) {
+    signoutBtn.addEventListener('click', () => {
+        Swal.fire({
+            title: '¿Estás seguro de que deseas cerrar sesión?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, cerrar sesión',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Lógica para cerrar sesión
+                console.log("Sesión cerrada");
+                localStorage.removeItem('JWT');
+                window.location.href = 'index.html';
+            } else {
+                console.log("Cierre de sesión cancelado");
+            }
+        });
+    });
 }

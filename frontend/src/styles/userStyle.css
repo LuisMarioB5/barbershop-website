@@ -4,10 +4,13 @@
     --charcoal: #333333;
     --slate-gray: #708090;
     --light-gray: #F5F5F5;
+    --font-subtext: #7D7D7D;
+    --delete: #DA4040;
 }
 
 body, * {
     font-family: "Poppins", sans-serif;
+    user-select: none;
 }
 
 body {
@@ -82,8 +85,252 @@ nav ul {
     display: flex;
     width: 100%;
     height: calc(100vh - 11vh);
-    padding: 0px 221px 25px 221px;
+    padding: 25px 220px;
     flex-direction: column;
     align-items: center;
-    gap: 50px;
+    gap: 30px;
+}
+
+#panel-content ul {
+    display: flex;
+    flex-direction: row;
+}
+
+#panel-content ul li {
+    display: flex;
+    padding: 15px 30px;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid rgba(51, 51, 51, 0.35);
+}
+
+#panel-content ul li:last-of-type {
+    border-right: none;
+}
+
+#panel-content ul li p {
+    text-align: center;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.15px;
+}
+
+#panel-content ul li p:first-of-type {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 92px;
+    height: 81px;
+
+    color: var(--charcoal, #333333);
+    font-size: 64px;
+}
+
+#panel-content ul li p:nth-of-type(2) {
+    width: 108px;
+    
+    color: rgba(51, 51, 51, 0.5);
+    font-size: 15px;
+}
+
+#user-form {
+    height: 100%;
+}
+
+#user-form table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+}
+
+tr {
+    display: flex;
+    align-items: center;
+}
+
+thead th, tbody td {
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    padding: 8px;
+    text-align: left;
+}
+
+thead th {
+    color: var(--font-subtext, #7D7D7D);
+    height: 42px;
+    
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.14px;
+    border-bottom-color: rgba(51, 51, 51, 0.1);
+}
+
+/* Columna de los checkboxs */
+thead th:nth-of-type(1), td:nth-of-type(1) {
+    width: 45px;
+}
+
+/* Columna de los nombre de usuarios */
+thead th:nth-of-type(2), td:nth-of-type(2) {
+    width: 160px;
+}
+
+/* Columna del estado */
+thead th:nth-of-type(3), td:nth-of-type(3) {
+    width: 70px;
+}
+
+/* Columna de los emails */
+thead th:nth-of-type(4), td:nth-of-type(4) {
+    width: 250px;
+}
+
+/* Columna del rol */
+thead th:nth-of-type(5), td:nth-of-type(5) {
+    width: 145px;
+}
+
+tbody {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(63px * 8);
+    overflow-y: auto;
+    margin-bottom: 25px;
+}
+
+td input, select {
+    font-style: normal;
+    line-height: normal;
+    
+    color: rgba(51, 51, 51, 0.7);
+    
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.13px;
+}
+
+select {
+    cursor: pointer;
+}
+
+select:disabled {
+    opacity: 1;
+}
+
+select option {
+    cursor: pointer;
+    background-color: #fff;
+    color: rgba(51, 51, 51, 0.7);
+    padding: 8px;
+}
+
+td:nth-child(2) input {
+    color: var(--charcoal, #333333);
+
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+}
+
+input:focus, select:focus {
+    outline: none;
+}
+
+input[type="text"], input[type="email"], select {
+    background-color: transparent;
+    border: 2px solid transparent;
+    width: 90%;
+    padding: 6px;
+    margin-top: 4px;
+    
+    /* Eliminar flecha del select */
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+    transform: scale(1.2);
+    margin-right: 8px;
+}
+
+.toggle-switch {
+    display: flex;
+    cursor: pointer;
+    position: relative;
+    justify-content: center;
+    user-select: none;
+}
+
+.toggle-switch svg {
+    width: 42px;
+    height: 24px;
+    transition: opacity 0.3s ease;
+}
+
+.toggle-switch svg.active {
+    opacity: 1;
+}
+
+.toggle-switch svg.inactive {
+    opacity: 0;
+    position: absolute;
+}
+
+.toggle-switch.active svg.active {
+    opacity: 0;
+}
+
+.toggle-switch.active svg.inactive {
+    opacity: 1;
+}
+
+.toggle-switch svg .circle {
+    transition: transform 0.3s ease;
+}
+
+#button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+#button-container button {
+    display: flex;
+    padding: 10px 50px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: 8px;
+    cursor: pointer;
+
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.15px;
+}
+
+#button-container button:nth-of-type(1) {
+    color: var(--white, #FFFFFF);
+
+    background: var(--rich-gold, #DAA520);
+    border: 2px solid var(--rich-gold, #DAA520);
+}
+
+#button-container button:nth-of-type(2) {
+    color: var(--delete, #DA4040);
+
+    background: transparent;
+    border: 2px solid var(--delete, #DA4040);
 }

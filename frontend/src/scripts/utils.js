@@ -83,3 +83,23 @@ export function capitalize(text) {
 
     return text.replace(/\b\w/g, (char) => char.toUpperCase())
 }
+
+export function capitalizeUserRoles(role) {
+    // Validar que no tenga dos espacios en blanco seguidos, de ser asi los elimina
+    if (role.includes('_')) {
+        const roleParts = role.split('_');
+        const roleName = roleParts[1];
+        
+        if (roleName == 'ADMIN') {
+            return 'Administrador';
+        }
+        
+        if (roleName == 'BARBER') {
+            return 'Barbero';
+        }
+        
+        if (roleName == 'USER') {
+            return 'Usuario';
+        }
+    }
+}

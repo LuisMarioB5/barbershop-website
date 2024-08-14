@@ -1,4 +1,4 @@
-import { handleLogout } from '../auth.js';
+import { setSignoutButtons } from '../auth.js';
 
 export function setButtons() {
     const accountBtns = document.getElementById("account-btns");
@@ -19,7 +19,7 @@ export function setButtons() {
             signupBtn.addEventListener('click', () => {
                 window.location.href = 'signup.html';
             });
-            logoutBtn.addEventListener('click', setupLogout);
+            setSignout(logoutBtn);
         } else {
             console.warn('Some account buttons are missing');
         }
@@ -52,9 +52,9 @@ export function setButtons() {
     }
     
     // Función para configurar el dom correspondiente a cerrar sesión
-    function setupLogout() {
+    function setSignout(signoutBtn) {
         // Cierra sesión
-        handleLogout();
+        setSignoutButtons(signoutBtn);
     
         // Actualiza los botones de login, signup y logout
         updateButtons();

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de Usuarios</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        input[type="text"], input[type="email"], select {
+            width: 90%;
+            padding: 6px;
+            margin-top: 4px;
+        }
+        input[type="checkbox"] {
+            transform: scale(1.2);
+            margin-right: 8px;
+        }
+        button, .status-toggle {
+            padding: 6px 10px;
+            margin: 4px;
+            cursor: pointer;
+            border: none;
+            color: white;
+            background-color: #007bff;
+            border-radius: 4px;
+        }
+        button:hover, .status-toggle:hover {
+            background-color: #0056b3;
+        }
+        .active {
+            background-color: #28a745;
+        }
+        .inactive {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <h1>Administración de Usuarios</h1>
+    <form id="userForm">
+        <table>
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="select-all"></th>
+                    <th>Nombre de Usuario</th>
+                    <th>Estado</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" class="select-user"></td>
+                    <td><input type="text" value="usuario1"></td>
+                    <td>
+                        <button type="button" class="status-toggle active">Activo</button>
+                    </td>
+                    <td><input type="email" value="usuario1@example.com"></td>
+                    <td>
+                        <select>
+                            <option value="admin">Admin</option>
+                            <option value="usuario">Usuario</option>
+                            <option value="moderador">Moderador</option>
+                        </select>
+                    </td>
+                </tr>
+                <!-- Agrega más filas según sea necesario -->
+            </tbody>
+        </table>
+        <button type="button" onclick="saveChanges()">Guardar Cambios</button>
+        <button type="button" onclick="cancelChanges()">Cancelar</button>
+    </form>
+
+    <script>
+        const originalData = [];
+
+        function saveChanges() {
+            const rows = document.querySelectorAll("tbody tr");
+            rows.forEach((row, index) => {
+                const isChecked = row.querySelector(".select-user").checked;
+                if (isChecked) {
+                    const userData = {
+                        username: row.cells[1].querySelector("input").value,
+                        status: row.cells[2].querySelector(".status-toggle").classList.contains("active") ? "activo" : "inactivo",
+                        email: row.cells[3].querySelector("input").value,
+                        role: row.cells[4].querySelector("select").value,
+                    };
+                    console.log(`Guardar: ${JSON.stringify(userData)}`);
+                    // Aquí puedes enviar los datos al servidor para guardarlos
+                }
+            });
+        }
+
+        function cancelChanges() {
+            const rows = document.querySelectorAll("tbody tr");
+            rows.forEach((row, index) => {
+                const isChecked = row.querySelector(".select-user").checked;
+                if (isChecked) {
+                    const originalUser = originalData[index];
+                    row.cells[1].querySelector("input").value = originalUser.username;
+                    const statusToggle = row.cells[2].querySelector(".status-toggle");
+                    statusToggle.textContent = originalUser.status === "activo" ? "Activo" : "Inactivo";
+                    statusToggle.classList.toggle("active", originalUser.status === "activo");
+                    statusToggle.classList.toggle("inactive", originalUser.status === "inactivo");
+                    row.cells[3].querySelector("input").value = originalUser.email;
+                    row.cells[4].querySelector("select").value = originalUser.role;
+                }
+            });
+        }
+
+        document.getElementById("select-all").addEventListener("change", function() {
+            const checkboxes = document.querySelectorAll(".select-user");
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+
+        document.querySelectorAll(".status-toggle").forEach(button => {
+            button.addEventListener("click", function() {
+                const isActive = button.classList.contains("active");
+                button.textContent = isActive ? "Inactivo" : "Activo";
+                button.classList.toggle("active", !isActive);
+                button.classList.toggle("inactive", isActive);
+            });
+        });
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const rows = document.querySelectorAll("tbody tr");
+            rows.forEach(row => {
+                const userData = {
+                    username: row.cells[1].querySelector("input").value,
+                    status: row.cells[2].querySelector(".status-toggle").classList.contains("active") ? "activo" : "inactivo",
+                    email: row.cells[3].querySelector("input").value,
+                    role: row.cells[4].querySelector("select").value,
+                };
+                originalData.push(userData);
+            });
+        });
+    </script>
+</body>
+</html>

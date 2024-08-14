@@ -4,6 +4,7 @@ import com.bonidev.backend.usuario.dto.AgregarUsuarioDTO;
 import com.bonidev.backend.usuario.dto.ModificarClaveDTO;
 import com.bonidev.backend.usuario.entity.UsuarioEntity;
 import com.bonidev.backend.usuario.dto.MostrarUsuarioDTO;
+import com.bonidev.backend.usuario.enums.Roles;
 import com.bonidev.backend.usuario.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.management.relation.Role;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,12 +45,19 @@ public class UsuarioController {
         return ResponseEntity.ok(new MostrarUsuarioDTO(usuarioService.findById(id)));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<List<MostrarUsuarioDTO>> showUsers() {
         List<MostrarUsuarioDTO> usersDTO = usuarioService.findAll().stream()
                 .map(MostrarUsuarioDTO::new)
                 .toList();
         return ResponseEntity.ok(usersDTO);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("roles")
+    public ResponseEntity<Roles[]> showUserRoles() {
+        return ResponseEntity.ok(Roles.values());
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
