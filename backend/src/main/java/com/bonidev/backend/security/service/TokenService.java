@@ -27,7 +27,7 @@ public class TokenService {
                     .withSubject(login)
                     .withClaim("id", usuario.getId())
                     .withClaim("role", usuario.getAuthorities().stream().findFirst().map(GrantedAuthority::getAuthority).orElse(Roles.ROLE_USER.toString()))
-                    .withClaim("email", usuario.getEmail())
+                    .withClaim("isActive", usuario.getIsActive())
                     .withExpiresAt(generarFechaExpiracion())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {

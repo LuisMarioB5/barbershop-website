@@ -56,10 +56,6 @@ nav ul {
     font-weight: 700;
 }
 
-.active {
-    border-bottom: 2px solid var(--white, #FFFFFF);
-}
-
 #signout-btn {
     display: flex;
     padding: 12px 20px;
@@ -191,7 +187,7 @@ thead th:nth-of-type(4), td:nth-of-type(4) {
 
 /* Columna del rol */
 thead th:nth-of-type(5), td:nth-of-type(5) {
-    width: 145px;
+    width: 150px;
 }
 
 tbody {
@@ -285,10 +281,10 @@ input[type="checkbox"] {
 }
 
 .toggle-switch.active svg.active {
-    opacity: 0;
+    opacity: 1;
 }
 
-.toggle-switch.active svg.inactive {
+.toggle-switch.inactive svg.inactive {
     opacity: 1;
 }
 

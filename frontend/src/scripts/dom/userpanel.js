@@ -1,18 +1,53 @@
-import { capitalizeUserRoles, memoizeFetch } from '../utils.js';
+import { capitalizeUserRoles, memoizeFetch, parseJwt, isTokenExpired } from '../utils.js';
 import { setSignoutButtons } from '../auth.js';
 
-const fetchUsers = memoizeFetch(getUsers);
-const fetchRoleUsers = memoizeFetch(getRoleUsers);
+let fetchUsers;
+let fetchRoleUsers;
+
+export function setUserPage() {
+    setNavLinks();
+    setSignoutButtons(document.getElementById('signout-btn'));
+
+    const token = localStorage.getItem('JWT');
+    const body = document.querySelector('body');
+    if (isTokenExpired(token)) {
+        body.innerHTML = '';
+        Swal.fire({
+            icon: 'warning',
+            title: 'Sesión Expirada',
+            text: 'Tu sesión ha expirado. Por favor, inicia sesión de nuevo.',
+            confirmButtonText: 'Aceptar'
+        }).then(() => {
+            window.location.href = 'login.html';
+        });
+
+    } else if (parseJwt(token).role === 'ROLE_ADMIN') {
+        fetchUsers = memoizeFetch(getUsers);
+        fetchRoleUsers = memoizeFetch(getRoleUsers);
+
+        setUserCount();
+        setTbody();
+
+    } else {
+        body.innerHTML = '';
+        Swal.fire({
+            icon: 'error',
+            title: 'Acceso Denegado',
+            text: 'No tienes los permisos necesarios para visualizar esta página.',
+            confirmButtonText: 'Aceptar'
+        }).then(() => {
+            window.location.href = 'index.html';
+        });
+    }
+}
 
 // Obtiene los usuario desde el backend
 async function getUsers() {
     try {
-        const jwt = localStorage.getItem('JWT');
-        
         const response = await fetch('http://localhost:8080/user', {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${jwt}`,
+                'Authorization': `Bearer ${localStorage.getItem('JWT')}`,
                 'Content-Type': 'application/json'
             }
         });
@@ -30,12 +65,10 @@ async function getUsers() {
 // Obtiene los roles de usuario desde el backend
 async function getRoleUsers() {
     try {
-        const jwt = localStorage.getItem('JWT');
-        
         const response = await fetch('http://localhost:8080/user/roles', {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${jwt}`
+                'Authorization': `Bearer ${localStorage.getItem('JWT')}`
             }
         });
 
@@ -48,17 +81,6 @@ async function getRoleUsers() {
         console.error('Error al cargar los usuarios desde el backend:', error);
     }
 }
-
-export function setUserPage() {
-    setNavLinks();
-
-    setSignoutButtons(document.getElementById('signout-btn'));
-
-    setUserCount();
-
-    setTbody();
-}
-
 function setNavLinks() {
     const sectionLinks = document.querySelectorAll('nav ul li a');
 
@@ -106,30 +128,31 @@ async function setUserCount() {
         ul.appendChild(li);
     }
 }
-
 async function setTbody() {
     const users = await fetchUsers();
     const roleUsers = await fetchRoleUsers();
     const tbody = document.querySelector('#user-form table tbody');
     tbody.innerHTML = '';
+    // Almacenar los datos originales de los usuarios
+    const originalData = JSON.parse(JSON.stringify(users));
 
-    users.forEach(user => {        
+    users.forEach(user => {
         // Crear una nueva fila
         const row = document.createElement('tr');
-
+        
         // Crear celdas para la fila
         const cells = [
             `<td><input type="checkbox" class="select-user"></td>`,
             `<td><input type="text" value="${user.userName}" disabled></td>`,
             `<td>
-                <div class="toggle-switch ${user.active ? 'active' : 'inactive'}" style="pointer-events: none;">
+                <div class="toggle-switch ${user.isActive === true ? 'active' : 'inactive'}" style="pointer-events: none;">
                     <!-- SVG para el estado activo -->
-                    <svg class="${user.isActive === true ? 'active' : 'inactive'}" xmlns="http://www.w3.org/2000/svg" width="42" height="24" viewBox="0 0 42 24" fill="none">
+                    <svg class="active" xmlns="http://www.w3.org/2000/svg" width="42" height="24" viewBox="0 0 42 24" fill="none">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M0 12C0 5.37258 5.37258 0 12 0H30C36.6274 0 42 5.37258 42 12C42 18.6274 36.6274 24 30 24H12C5.37258 24 0 18.6274 0 12Z" fill="#DAA520"/>
                         <rect class="circle" x="20" y="2" width="20" height="20" rx="10" fill="white"/>
                     </svg>
                     <!-- SVG para el estado inactivo -->
-                    <svg class="${user.isActive === false ? 'active' : 'inactive'}" xmlns="http://www.w3.org/2000/svg" width="42" height="24" viewBox="0 0 42 24" fill="none">
+                    <svg class="inactive" xmlns="http://www.w3.org/2000/svg" width="42" height="24" viewBox="0 0 42 24" fill="none">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M0 12C0 5.37258 5.37258 0 12 0H30C36.6274 0 42 5.37258 42 12C42 18.6274 36.6274 24 30 24H12C5.37258 24 0 18.6274 0 12Z" fill="#C8C9CC"/>
                         <rect class="circle" x="2" y="2" width="20" height="20" rx="10" fill="white"/>
                     </svg>
@@ -170,30 +193,28 @@ async function setTbody() {
 
     // Configurar el interruptor de alternancia
     setToggleSwitch();
-    
     function setToggleSwitch() {
         const toggleSwitches = document.querySelectorAll('.toggle-switch');
     
         toggleSwitches.forEach(toggleSwitch => {
             toggleSwitch.addEventListener('click', () => {
                 // Alternar la clase activa/inactiva
-                toggleSwitch.classList.toggle('active');
                 toggleSwitch.classList.toggle('inactive');
+                toggleSwitch.classList.toggle('active');
                 
-                // Log del estado actual
-                const state = toggleSwitch.classList.contains('active');
-                console.log('Estado:', state ? 'Activo (true)' : 'Inactivo (false)');
+                // // Log del estado actual
+                // const state = toggleSwitch.classList.contains('active');
+                // console.log('Estado:', state ? 'Activo (true)' : 'Inactivo (false)');
             });
         });
     }
 
     // Configurar los checkboxes
     setCheckboxes();
-
     function setCheckboxes() {
         const checkboxes = document.querySelectorAll('.select-user');
         const selectAllCheckbox = document.getElementById('select-all');
-    
+        selectAllCheckbox.checked = false;
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', () => {
                 const allChecked = Array.from(checkboxes).every(cb => cb.checked);
@@ -214,92 +235,135 @@ async function setTbody() {
                 toggleEditState(checkbox);
             });
         });
-    
-        function toggleEditState(checkbox) {
-            const row = checkbox.closest('tr');
-            const inputs = row.querySelectorAll('input[type="text"], input[type="email"], select');
-            const toggleSwitch = row.querySelector('.toggle-switch');
-    
-            if (checkbox.checked) {
-                // Habilitar edición
-                inputs.forEach(input => input.removeAttribute('disabled'));
-                toggleSwitch.style.pointerEvents = 'auto';
-            } else {
-                // Deshabilitar edición
-                inputs.forEach(input => input.setAttribute('disabled', 'true'));
-                toggleSwitch.style.pointerEvents = 'none';
-            }
+    }
+
+    function toggleEditState(checkbox) {
+        const row = checkbox.closest('tr');
+        const inputs = row.querySelectorAll('input[type="text"], input[type="email"], select');
+        const toggleSwitch = row.querySelector('.toggle-switch');
+
+        if (checkbox.checked) {
+            // Habilitar edición
+            inputs.forEach(input => input.removeAttribute('disabled'));
+            toggleSwitch.style.pointerEvents = 'auto';
+        } else {
+            // Deshabilitar edición
+            inputs.forEach(input => input.setAttribute('disabled', 'true'));
+            toggleSwitch.style.pointerEvents = 'none';
         }
     }
     
+    // Botones Guardar y Cancelar
+    document.querySelector('#button-container button:first-of-type').addEventListener('click', (event) => {
+        event.preventDefault(); // Prevenir el envío del formulario
+
+        updateChanges();
+    });
+
+    function updateChanges() {
+        const rows = document.querySelectorAll('#user-form table tbody tr');
+
+        let index = 0;
+        rows.forEach(async row => {
+            const checkbox = row.querySelector('.select-user');
+            if (checkbox.checked) {
+                const userName = row.querySelector('input[type="text"]').value;
+                const email = row.querySelector('input[type="email"]').value;
+                const role = row.querySelector('select').value;
+                const isActive = row.querySelector('.toggle-switch').classList.contains('active') ? true : false;
+
+                // Aquí puedes realizar una solicitud fetch para guardar los cambios
+                const data = {
+                    userName,
+                    email,
+                    role,
+                    isActive
+                };
+                updateUser(originalData[index], data, checkbox);
+            }
+            index++;
+        });
+
+        async function updateUser(user, updatedData, checkbox) {
+            if (user.userName === updatedData.userName && user.email === updatedData.email && user.role === updatedData.role && user.isActive === updatedData.isActive) {
+                // Muestra el mensaje de exito pero no envia los datos al servidor ya que no es necesario
+                successUpdate();
+            } else {
+                try {
+                    const response = await fetch(`http://localhost:8080/user/${user.id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('JWT')}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(updatedData)
+                    });
+            
+                    if (!response.ok) {
+                        throw new Error(`Error al guardar los cambios aplicados al usuario ${updatedData.userName}`);
+                    }
+                    
+                    // Modificando los datos iniales para que concidan con los nuevos
+                    user.userName = updatedData.userName;
+                    user.email = updatedData.email;
+                    user.role = updatedData.role;
+                    user.isActive = updatedData.isActive;
+
+                    successUpdate();
+            
+                } catch (error) {
+                    console.error('Error al actualizar el usuario:', error);
+            
+                    // Mostrar mensaje de error usando SweetAlert2
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Hubo un problema al actualizar el usuario.'
+                    });
+                }
+            }
+
+            function successUpdate() {
+                // Mostrar mensaje de éxito usando SweetAlert2
+                Swal.fire({
+                    title: 'Actualización exitosa',
+                    text: 'Los cambios se han guardado correctamente.',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar'
+                });
+                checkbox.checked = false;
+                toggleEditState(checkbox);
+
+                const checkboxes = document.querySelectorAll('.select-user');
+                let change = null;
+                checkboxes.forEach(chkbox => {
+                    if (!chkbox.checked) {
+                        change = true;
+                    }
+                });
+                
+                if (change) {
+                    const selectAllCheckbox = document.getElementById('select-all');
+                    selectAllCheckbox.checked = false;
+                }
+            }
+        }
+    }
+
+    document.querySelector('#button-container button:last-of-type').addEventListener('click', (event) => {
+        event.preventDefault(); // Prevenir el envío del formulario
+
+        cancelChanges();
+    });
+ 
+    function cancelChanges() {
+        // Revertir a los datos originales
+        setTbody(); // Volver a cargar la tabla con los datos originales
+        Swal.fire({
+            icon: 'info',
+            title: 'Cancelado',
+            text: 'Los cambios se han cancelado.',
+            confirmButtonText: 'Aceptar'
+        });
+    }
 }
-
-
-
-
-// Revisar de aqui para abajo
-
-// const originalData = [];
-
-// function saveChanges() {
-//     const rows = document.querySelectorAll("tbody tr");
-//     rows.forEach((row, index) => {
-//         const isChecked = row.querySelector(".select-user").checked;
-//         if (isChecked) {
-//             const userData = {
-//                 username: row.cells[1].querySelector("input").value,
-//                 status: row.cells[2].querySelector(".status-toggle").classList.contains("active") ? "activo" : "inactivo",
-//                 email: row.cells[3].querySelector("input").value,
-//                 role: row.cells[4].querySelector("select").value,
-//             };
-//             console.log(`Guardar: ${JSON.stringify(userData)}`);
-//             // Aquí puedes enviar los datos al servidor para guardarlos
-//         }
-//     });
-// }
-
-// function cancelChanges() {
-//     const rows = document.querySelectorAll("tbody tr");
-//     rows.forEach((row, index) => {
-//         const isChecked = row.querySelector(".select-user").checked;
-//         if (isChecked) {
-//             const originalUser = originalData[index];
-//             row.cells[1].querySelector("input").value = originalUser.username;
-//             const statusToggle = row.cells[2].querySelector(".status-toggle");
-//             statusToggle.textContent = originalUser.status === "activo" ? "Activo" : "Inactivo";
-//             statusToggle.classList.toggle("active", originalUser.status === "activo");
-//             statusToggle.classList.toggle("inactive", originalUser.status === "inactivo");
-//             row.cells[3].querySelector("input").value = originalUser.email;
-//             row.cells[4].querySelector("select").value = originalUser.role;
-//         }
-//     });
-// }
-
-// document.getElementById("select-all").addEventListener("change", function() {
-//     const checkboxes = document.querySelectorAll(".select-user");
-//     checkboxes.forEach(checkbox => {
-//         checkbox.checked = this.checked;
-//     });
-// });
-
-// document.querySelectorAll(".status-toggle").forEach(button => {
-//     button.addEventListener("click", function() {
-//         const isActive = button.classList.contains("active");
-//         button.textContent = isActive ? "Inactivo" : "Activo";
-//         button.classList.toggle("active", !isActive);
-//         button.classList.toggle("inactive", isActive);
-//     });
-// });
-
-// window.addEventListener("DOMContentLoaded", () => {
-//     const rows = document.querySelectorAll("tbody tr");
-//     rows.forEach(row => {
-//         const userData = {
-//             username: row.cells[1].querySelector("input").value,
-//             status: row.cells[2].querySelector(".status-toggle").classList.contains("active") ? "activo" : "inactivo",
-//             email: row.cells[3].querySelector("input").value,
-//             role: row.cells[4].querySelector("select").value,
-//         };
-//         originalData.push(userData);
-//     });
-// });

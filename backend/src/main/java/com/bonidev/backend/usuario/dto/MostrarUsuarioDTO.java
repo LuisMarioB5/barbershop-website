@@ -5,6 +5,8 @@ import com.bonidev.backend.usuario.enums.Roles;
 import jakarta.validation.constraints.NotBlank;
 
 public record MostrarUsuarioDTO(
+        Long id,
+
         @NotBlank
         String userName,
 
@@ -15,6 +17,6 @@ public record MostrarUsuarioDTO(
 
         Boolean isActive) {
     public MostrarUsuarioDTO(UsuarioEntity user) {
-        this(user.getUsername(), user.getEmail(), user.getRole(), user.getIsActive());
+        this(user.getId(), user.getUsername(), user.getEmail(), user.getRole(), user.getIsActive());
     }
 }

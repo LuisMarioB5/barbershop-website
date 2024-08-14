@@ -19,15 +19,38 @@ export async function handleLogin(login, password) {
 
             // Redirecciona después de 1 segundo
             setTimeout(() => {
-                if (paylout.role === "ROLE_USER") {
-                    window.location.href = 'index.html';
-                } else if(paylout.role === "ROLE_ADMIN") {
-                    window.location.href = 'userpage.html';
-                } else if(paylout.role === "ROLE_BARBER") {
-                    window.location.href = 'userpage.html';
+                if(paylout.isActive){
+                    if (paylout.role === "ROLE_USER") {
+                        window.location.href = 'index.html';
+                    } else if(paylout.role === "ROLE_ADMIN") {
+                        window.location.href = 'userpage.html';
+                    } else if(paylout.role === "ROLE_BARBER") {
+                        window.location.href = 'userpage.html';
+                    }
+                } else {
+                    console.log(paylout)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Acceso Denegado',
+                        text: 'No tienes los permisos necesarios para iniciar sesión.',
+                        confirmButtonText: 'Aceptar'
+                    }).then(() => {
+                        localStorage.removeItem('JWT');
+                        window.location.href = 'login.html';
+                    });
                 }
             }, 1000);
         } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Acceso Denegado',
+                text: 'El inicio de sesión falló. Revisa que los datos ingresados sean correctos.',
+                confirmButtonText: 'Aceptar'
+            }).then(() => {
+                localStorage.removeItem('JWT');
+                window.location.href = 'login.html';
+            });
+
             console.error('Login failed');
         }
     } catch (error) {

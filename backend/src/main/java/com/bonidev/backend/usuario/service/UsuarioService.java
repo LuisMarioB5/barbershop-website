@@ -1,6 +1,7 @@
 package com.bonidev.backend.usuario.service;
 
 import com.bonidev.backend.usuario.dto.AgregarUsuarioDTO;
+import com.bonidev.backend.usuario.dto.ModificarUsuarioDTO;
 import com.bonidev.backend.usuario.entity.UsuarioEntity;
 import com.bonidev.backend.usuario.enums.Roles;
 import com.bonidev.backend.usuario.repository.UsuarioRepository;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -53,5 +55,20 @@ public class UsuarioService {
         UsuarioEntity user = findById(id);
         user.setPassword(passwordEncoder.encode(newPassword));
         repository.save(user);
+    }
+
+    public void updateUser(Long id, ModificarUsuarioDTO dto) {
+        // Buscar usuario por ID
+        UsuarioEntity usuario = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("El usuario con id: " + id + " no fue encontrado"));
+
+        // Actualizar datos del usuario
+        usuario.setNombreUsuario(dto.userName());
+        usuario.setEmail(dto.email());
+        usuario.setRole(Roles.parseStr(dto.role()));
+        usuario.setIsActive(dto.isActive());
+
+        // Guardar los cambios en el repositorio
+        repository.save(usuario);
     }
 }

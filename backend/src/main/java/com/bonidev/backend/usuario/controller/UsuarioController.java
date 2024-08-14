@@ -2,6 +2,7 @@ package com.bonidev.backend.usuario.controller;
 
 import com.bonidev.backend.usuario.dto.AgregarUsuarioDTO;
 import com.bonidev.backend.usuario.dto.ModificarClaveDTO;
+import com.bonidev.backend.usuario.dto.ModificarUsuarioDTO;
 import com.bonidev.backend.usuario.entity.UsuarioEntity;
 import com.bonidev.backend.usuario.dto.MostrarUsuarioDTO;
 import com.bonidev.backend.usuario.enums.Roles;
@@ -58,6 +59,13 @@ public class UsuarioController {
     @GetMapping("roles")
     public ResponseEntity<Roles[]> showUserRoles() {
         return ResponseEntity.ok(Roles.values());
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody ModificarUsuarioDTO dto) {
+        usuarioService.updateUser(id, dto);
+        return ResponseEntity.ok("Datos del usuario actualizados correctamente...");
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

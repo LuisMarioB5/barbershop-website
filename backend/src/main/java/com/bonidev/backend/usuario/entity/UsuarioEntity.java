@@ -21,11 +21,14 @@ public class UsuarioEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     private String nombre;
 
+    @Setter
     @Column(nullable = false, unique = true)
     private String nombreUsuario;
 
+    @Setter
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -33,9 +36,11 @@ public class UsuarioEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     private Roles role;
 
+    @Setter
     private Boolean isActive;
 
     public UsuarioEntity(String nombreUsuario, String email, String password, Roles role, Boolean isActive) {
