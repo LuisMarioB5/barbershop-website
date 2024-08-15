@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Descripción y palabras claves de la web -->
+    <meta name="description" content="Barbería profesional que ofrece estilo en cada corte y elegancia en cada detalle. Reserva tu cita online.">
+    <meta name="keywords" content="barbería, cortes de cabello, afeitado, estilo, elegancia">
+    
+    <!-- Título de la página -->
+    <title>User Panel | Barbería Estilo y Elegancia</title>
+    
+    <!-- Links CSS -->
+    <link rel="stylesheet" href="../src/styles/reset.css">
+    <link rel="stylesheet" href="../src/styles/userStyle.css">
+
+    <!-- Links Fuente Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Encabezado con navegación -->
+    <header>
+        <a href="../index.html#home">
+            <img class="logo-barberia" src="../resources/img/logo.png" alt="Logotipo blanco de Barbería Estilo y Elegancia">
+        </a>
+        
+        <nav>
+            <ul>
+                <li class="sect-li"><a href="./users.html">Usuarios</a></li>
+                <li class="sect-li"><a href="./reservations.html" class="active">Reservas</a></li>
+                <!-- <li class="sect-li"><a href="#services">Servicios</a></li>
+                <li class="sect-li"><a href="#reviews">Reseñas</a></li>
+                <li class="sect-li"><a href="#contact-us">Contáctanos</a></li> -->
+            </ul>
+            
+            <button id="signout-btn">Cerrar sesión</button>
+        </nav>
+    </header>
+    
+    <main id="reservations-content">
+        <ul></ul>
+    
+        <form id="user-form">
+            <table>
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="select-all"></th>
+                        <th>Nombre de Contacto</th>
+                        <th>Fecha y Hora de Inicio</th>
+                        <th>Barbero</th>
+                        <th>Servicio</th>
+                        <th>Estado</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" class="select-user"></td>
+                        <td><input type="text" value="Juan Pérez"></td>
+                        <td><input type="text" value="14-08-2024 10:00 AM"></td>
+                        <td><select><option selected>Alejandro Torres</option></select></td>
+                        <td><select><option selected>Peinado con Secador y Volumen</option></select></td>
+                        <td>
+                            <div class="toggle-switch ${user.isActive === true ? 'active' : 'inactive'}" style="pointer-events: none;">
+                                <!-- SVG para el estado activo -->
+                                <svg class="active" xmlns="http://www.w3.org/2000/svg" width="42" height="24" viewBox="0 0 42 24" fill="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 12C0 5.37258 5.37258 0 12 0H30C36.6274 0 42 5.37258 42 12C42 18.6274 36.6274 24 30 24H12C5.37258 24 0 18.6274 0 12Z" fill="#DAA520"/>
+                                    <rect class="circle" x="20" y="2" width="20" height="20" rx="10" fill="white"/>
+                                </svg>
+                                <!-- SVG para el estado inactivo -->
+                                <svg class="inactive" xmlns="http://www.w3.org/2000/svg" width="42" height="24" viewBox="0 0 42 24" fill="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 12C0 5.37258 5.37258 0 12 0H30C36.6274 0 42 5.37258 42 12C42 18.6274 36.6274 24 30 24H12C5.37258 24 0 18.6274 0 12Z" fill="#C8C9CC"/>
+                                    <rect class="circle" x="2" y="2" width="20" height="20" rx="10" fill="white"/>
+                                </svg>
+                            </div>
+                        </td>
+                        <td>
+                            <!-- Botón en la tabla -->
+                            <button>Ver Más</button>
+                        </td>
+                    </tr>
+
+                    <!-- Más filas de reservas -->
+                </tbody>
+            </table>
+    
+            <div id="button-container">
+                <button>Guardar</button>
+                <button>Cancelar</button>
+            </div>
+        </form>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>    
+    <script type="module" src="../src/scripts/main.js"></script>
+</body>
+</html>

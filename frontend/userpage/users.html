@@ -12,8 +12,8 @@
     <title>User Panel | Barbería Estilo y Elegancia</title>
     
     <!-- Links CSS -->
-    <link rel="stylesheet" href="src/styles/reset.css">
-    <link rel="stylesheet" href="src/styles/userStyle.css">
+    <link rel="stylesheet" href="../src/styles/reset.css">
+    <link rel="stylesheet" href="../src/styles/userStyle.css">
 
     <!-- Links Fuente Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,14 +23,14 @@
 <body>
     <!-- Encabezado con navegación -->
     <header>
-        <a href="index.html#home">
-            <img class="logo-barberia" src="resources/img/logo.png" alt="Logotipo blanco de Barbería Estilo y Elegancia">
+        <a href="../index.html#home">
+            <img class="logo-barberia" src="../resources/img/logo.png" alt="Logotipo blanco de Barbería Estilo y Elegancia">
         </a>
         
         <nav>
             <ul>
-                <li class="sect-li"><a href="userpage/users.html" class="active">Usuarios</a></li>
-                <li class="sect-li"><a href="userpage/reservations.html">Reservas</a></li>
+                <li class="sect-li"><a href="./users.html" class="active">Usuarios</a></li>
+                <li class="sect-li"><a href="./reservations.html">Reservas</a></li>
                 <!-- <li class="sect-li"><a href="#services">Servicios</a></li>
                 <li class="sect-li"><a href="#reviews">Reseñas</a></li>
                 <li class="sect-li"><a href="#contact-us">Contáctanos</a></li> -->
@@ -40,33 +40,31 @@
         </nav>
     </header>
     
-    <main>
-        <section id="panel-content">
-            <ul></ul>
-
-            <form id="user-form">
-                <table>
-                    <thead>
-                        <tr>
-                            <th><input type="checkbox" id="select-all"></th>
-                            <th>Nombre de Usuario</th>
-                            <th>Estado</th>
-                            <th>Email</th>
-                            <th>Rol</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-
-                <div id="button-container">
-                    <button>Guardar</button>
-                    <button>Cancelar</button>
-                </div>
-            </form>
-        </section>
+    <main id="user-content">
+        <ul></ul>
+    
+        <form id="user-form">
+            <table>
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="select-all"></th>
+                        <th>Nombre de Usuario</th>
+                        <th>Estado</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+    
+            <div id="button-container">
+                <button>Guardar</button>
+                <button>Cancelar</button>
+            </div>
+        </form>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>    
-    <script type="module" src="src/scripts/main.js"></script>
+    <script type="module" src="../src/scripts/main.js"></script>
 </body>
 </html>

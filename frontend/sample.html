@@ -1,159 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administración de Usuarios</title>
+    <title>Lista de Reservas</title>
     <style>
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
         }
+
         th, td {
-            border: 1px solid #ddd;
             padding: 8px;
+            border: 1px solid #ddd;
             text-align: left;
         }
+
         th {
             background-color: #f4f4f4;
         }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+
         tr:hover {
             background-color: #f1f1f1;
         }
-        input[type="text"], input[type="email"], select {
-            width: 90%;
-            padding: 6px;
-            margin-top: 4px;
+
+        .details {
+            display: none;
+            background-color: #f9f9f9;
         }
-        input[type="checkbox"] {
-            transform: scale(1.2);
-            margin-right: 8px;
-        }
-        button, .status-toggle {
-            padding: 6px 10px;
-            margin: 4px;
-            cursor: pointer;
-            border: none;
-            color: white;
-            background-color: #007bff;
-            border-radius: 4px;
-        }
-        button:hover, .status-toggle:hover {
-            background-color: #0056b3;
-        }
-        .active {
-            background-color: #28a745;
-        }
-        .inactive {
-            background-color: #dc3545;
+
+        .show-details {
+            display: table-row;
         }
     </style>
 </head>
 <body>
-    <h1>Administración de Usuarios</h1>
-    <form id="userForm">
-        <table>
-            <thead>
-                <tr>
-                    <th><input type="checkbox" id="select-all"></th>
-                    <th>Nombre de Usuario</th>
-                    <th>Estado</th>
-                    <th>Email</th>
-                    <th>Rol</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><input type="checkbox" class="select-user"></td>
-                    <td><input type="text" value="usuario1"></td>
-                    <td>
-                        <button type="button" class="status-toggle active">Activo</button>
-                    </td>
-                    <td><input type="email" value="usuario1@example.com"></td>
-                    <td>
-                        <select>
-                            <option value="admin">Admin</option>
-                            <option value="usuario">Usuario</option>
-                            <option value="moderador">Moderador</option>
-                        </select>
-                    </td>
-                </tr>
-                <!-- Agrega más filas según sea necesario -->
-            </tbody>
-        </table>
-        <button type="button" onclick="saveChanges()">Guardar Cambios</button>
-        <button type="button" onclick="cancelChanges()">Cancelar</button>
-    </form>
+    <h1>Lista de Reservas</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre de Contacto</th>
+                <th>Fecha y Hora de Inicio</th>
+                <th>Barbero</th>
+                <th>Servicio</th>
+                <th>Estado</th>
+                <th>Detalles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr onclick="toggleDetails(1)">
+                <td>Juan Pérez</td>
+                <td>2024-08-14 10:00 AM</td>
+                <td>Carlos Gómez</td>
+                <td>Corte de Pelo</td>
+                <td>Activo</td>
+                <td>
+                    <!-- Botón en la tabla -->
+                    <button onclick="showModal(1)">Ver Más</button>
+                </td>
+            </tr>
+            <tr id="details-1" class="details">
+                <td colspan="6">
+                    <p><strong>Email:</strong> juan@example.com</p>
+                    <p><strong>Teléfono:</strong> +123 456 789</p>
+                    <p><strong>Fecha de Fin:</strong> 2024-08-14 11:00 AM</p>
+                    <p><strong>Términos Aceptados:</strong> Sí</p>
+                    <p><strong>Mensaje:</strong> Prefiero que me corten el pelo corto.</p>
+                </td>
+            </tr>
+            <!-- Más filas de reservas -->
+        </tbody>
+    </table>
 
+    <!-- Modal -->
+    <div id="modal-1" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+        <div style="background-color: #fff; padding: 20px; margin: 100px auto; width: 50%;">
+            <h2>Detalles de la Reserva</h2>
+            <p><strong>Email:</strong> juan@example.com</p>
+            <p><strong>Teléfono:</strong> +123 456 789</p>
+            <p><strong>Fecha de Fin:</strong> 2024-08-14 11:00 AM</p>
+            <p><strong>Términos Aceptados:</strong> Sí</p>
+            <p><strong>Mensaje:</strong> Prefiero que me corten el pelo corto.</p>
+            <button onclick="closeModal(1)">Cerrar</button>
+        </div>
+    </div>
+ 
     <script>
-        const originalData = [];
-
-        function saveChanges() {
-            const rows = document.querySelectorAll("tbody tr");
-            rows.forEach((row, index) => {
-                const isChecked = row.querySelector(".select-user").checked;
-                if (isChecked) {
-                    const userData = {
-                        username: row.cells[1].querySelector("input").value,
-                        status: row.cells[2].querySelector(".status-toggle").classList.contains("active") ? "activo" : "inactivo",
-                        email: row.cells[3].querySelector("input").value,
-                        role: row.cells[4].querySelector("select").value,
-                    };
-                    console.log(`Guardar: ${JSON.stringify(userData)}`);
-                    // Aquí puedes enviar los datos al servidor para guardarlos
-                }
-            });
+        function showModal(id) {
+            document.getElementById('modal-' + id).style.display = 'block';
         }
-
-        function cancelChanges() {
-            const rows = document.querySelectorAll("tbody tr");
-            rows.forEach((row, index) => {
-                const isChecked = row.querySelector(".select-user").checked;
-                if (isChecked) {
-                    const originalUser = originalData[index];
-                    row.cells[1].querySelector("input").value = originalUser.username;
-                    const statusToggle = row.cells[2].querySelector(".status-toggle");
-                    statusToggle.textContent = originalUser.status === "activo" ? "Activo" : "Inactivo";
-                    statusToggle.classList.toggle("active", originalUser.status === "activo");
-                    statusToggle.classList.toggle("inactive", originalUser.status === "inactivo");
-                    row.cells[3].querySelector("input").value = originalUser.email;
-                    row.cells[4].querySelector("select").value = originalUser.role;
-                }
-            });
+    
+        function closeModal(id) {
+            document.getElementById('modal-' + id).style.display = 'none';
         }
-
-        document.getElementById("select-all").addEventListener("change", function() {
-            const checkboxes = document.querySelectorAll(".select-user");
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = this.checked;
-            });
-        });
-
-        document.querySelectorAll(".status-toggle").forEach(button => {
-            button.addEventListener("click", function() {
-                const isActive = button.classList.contains("active");
-                button.textContent = isActive ? "Inactivo" : "Activo";
-                button.classList.toggle("active", !isActive);
-                button.classList.toggle("inactive", isActive);
-            });
-        });
-
-        window.addEventListener("DOMContentLoaded", () => {
-            const rows = document.querySelectorAll("tbody tr");
-            rows.forEach(row => {
-                const userData = {
-                    username: row.cells[1].querySelector("input").value,
-                    status: row.cells[2].querySelector(".status-toggle").classList.contains("active") ? "activo" : "inactivo",
-                    email: row.cells[3].querySelector("input").value,
-                    role: row.cells[4].querySelector("select").value,
-                };
-                originalData.push(userData);
-            });
-        });
     </script>
 </body>
 </html>

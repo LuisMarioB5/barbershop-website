@@ -5,7 +5,6 @@ let fetchUsers;
 let fetchRoleUsers;
 
 export function setUserPage() {
-    setNavLinks();
     setSignoutButtons(document.getElementById('signout-btn'));
 
     const token = localStorage.getItem('JWT');
@@ -22,12 +21,15 @@ export function setUserPage() {
         });
 
     } else if (parseJwt(token).role === 'ROLE_ADMIN') {
-        fetchUsers = memoizeFetch(getUsers);
-        fetchRoleUsers = memoizeFetch(getRoleUsers);
+        if(window.location.pathname.endsWith('users.html')){
+            fetchUsers = memoizeFetch(getUsers);
+            fetchRoleUsers = memoizeFetch(getRoleUsers);
 
-        setUserCount();
-        setTbody();
-
+            setUserCount();
+            setUsersTbody();
+        } else if(window.location.pathname.endsWith('reservations.html')) {
+            console.log('hola')
+        }
     } else {
         body.innerHTML = '';
         Swal.fire({
@@ -81,17 +83,6 @@ async function getRoleUsers() {
         console.error('Error al cargar los usuarios desde el backend:', error);
     }
 }
-function setNavLinks() {
-    const sectionLinks = document.querySelectorAll('nav ul li a');
-
-    sectionLinks.forEach(a => {
-        a.addEventListener('click', () => {
-            sectionLinks.forEach(a => a.classList.remove('active'));
-
-            a.classList.add('active');
-        });
-    });
-}
 
 async function setUserCount() {
     const users = await fetchUsers();
@@ -104,7 +95,7 @@ async function setUserCount() {
     setCountAndTitle(barberRole);
     setCountAndTitle(userRole);
 
-    const pTitle = document.querySelector('#panel-content ul li:nth-of-type(1) p:nth-of-type(2)');
+    const pTitle = document.querySelector('#user-content ul li:nth-of-type(1) p:nth-of-type(2)');
     pTitle.textContent = 'Total';
     
     function setCountAndTitle(roleList) {
@@ -124,11 +115,11 @@ async function setUserCount() {
         li.innerHTML = `<p>${roleLength}</p>
         <p>${title}</p>`;
     
-        const ul = document.querySelector('#panel-content ul');
+        const ul = document.querySelector('#user-content ul');
         ul.appendChild(li);
     }
 }
-async function setTbody() {
+async function setUsersTbody() {
     const users = await fetchUsers();
     const roleUsers = await fetchRoleUsers();
     const tbody = document.querySelector('#user-form table tbody');
@@ -358,7 +349,7 @@ async function setTbody() {
  
     function cancelChanges() {
         // Revertir a los datos originales
-        setTbody(); // Volver a cargar la tabla con los datos originales
+        setUsersTbody(); // Volver a cargar la tabla con los datos originales
         Swal.fire({
             icon: 'info',
             title: 'Cancelado',

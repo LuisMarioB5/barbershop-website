@@ -1,7 +1,7 @@
 import { setBarbers } from './dom/barbers.js';
 import { setButtons } from './dom/buttons.js';
 import { setupLoginForm, setupSignupForm } from './dom/forms.js';
-import { setUserPage } from './dom/userpanel.js';
+import { setUserPage } from './dom/userpage.js';
 import { setServices } from './dom/services.js';
 import { manageIframeLoading, setPhonesInputs } from './utils.js';
 
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setupLoginForm();
     } else if (window.location.pathname.endsWith('signup.html')) {
         setupSignupForm();
-    } else if (window.location.pathname.endsWith('userpage.html')) {
+    } else if (pathnameContains('userpage/reservations.html') || pathnameContains('userpage/users.html') || pathnameContains('userpage.html')) {
         setUserPage();
     } else if (window.location.pathname.endsWith('index.html')) {
         setButtons();
@@ -28,4 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function pathnameContains(pathname) {
+    return window.location.pathname.endsWith(pathname)
+}
 

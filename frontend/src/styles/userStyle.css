@@ -56,6 +56,10 @@ nav ul {
     font-weight: 700;
 }
 
+.sect-li a.active {
+    border-bottom: 2px solid var(--white, #FFFFFF);
+}
+
 #signout-btn {
     display: flex;
     padding: 12px 20px;
@@ -76,23 +80,30 @@ nav ul {
     letter-spacing: -0.16px;
 }
 
-#panel-content {
+#user-content, #reservations-content {
     box-sizing: border-box;
     display: flex;
     width: 100%;
     height: calc(100vh - 11vh);
-    padding: 25px 220px;
     flex-direction: column;
     align-items: center;
     gap: 30px;
 }
 
-#panel-content ul {
+#user-content {
+    padding: 25px 220px;
+}
+
+#reservations-content {
+    padding: 0;
+}
+
+#user-content ul, #reservations-content ul {
     display: flex;
     flex-direction: row;
 }
 
-#panel-content ul li {
+#user-content ul li, #reservations-content ul li {
     display: flex;
     padding: 15px 30px;
     flex-direction: column;
@@ -100,11 +111,11 @@ nav ul {
     border-right: 1px solid rgba(51, 51, 51, 0.35);
 }
 
-#panel-content ul li:last-of-type {
+#user-content ul li:last-of-type, #reservations-content ul li:last-of-type {
     border-right: none;
 }
 
-#panel-content ul li p {
+#user-content ul li p, #reservations-content ul li p {
     text-align: center;
     font-style: normal;
     font-weight: 500;
@@ -112,7 +123,7 @@ nav ul {
     letter-spacing: 0.15px;
 }
 
-#panel-content ul li p:first-of-type {
+#user-content ul li p:first-of-type, #reservations-content ul li p:first-of-type {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -124,7 +135,7 @@ nav ul {
     font-size: 64px;
 }
 
-#panel-content ul li p:nth-of-type(2) {
+#user-content ul li p:nth-of-type(2), #reservations-content ul li p:nth-of-type(2) {
     width: 108px;
     
     color: rgba(51, 51, 51, 0.5);
@@ -165,29 +176,73 @@ thead th {
     border-bottom-color: rgba(51, 51, 51, 0.1);
 }
 
-/* Columna de los checkboxs */
+/* Primera columna de la tabla de usuarios y reservas */
 thead th:nth-of-type(1), td:nth-of-type(1) {
     width: 45px;
 }
 
-/* Columna de los nombre de usuarios */
-thead th:nth-of-type(2), td:nth-of-type(2) {
+/* Segunda columna de la tabla de usuarios */
+#user-content thead th:nth-of-type(2), #user-content td:nth-of-type(2) {
     width: 160px;
 }
 
-/* Columna del estado */
-thead th:nth-of-type(3), td:nth-of-type(3) {
+/* Tercera columna de la tabla de usuarios */
+#user-content thead th:nth-of-type(3), #user-content td:nth-of-type(3) {
     width: 70px;
 }
 
-/* Columna de los emails */
-thead th:nth-of-type(4), td:nth-of-type(4) {
+/* Cuarte columna de la tabla de usuarios */
+#user-content thead th:nth-of-type(4), #user-content td:nth-of-type(4) {
     width: 250px;
 }
 
-/* Columna del rol */
-thead th:nth-of-type(5), td:nth-of-type(5) {
+/* Quinta columna de la tabla de usuarios */
+#user-content thead th:nth-of-type(5), #user-content td:nth-of-type(5) {
     width: 150px;
+}
+
+/* Segunda columna de la tabla de reservas */
+#reservations-content thead th:nth-of-type(2), #reservations-content td:nth-of-type(2) {
+    width: 180px;
+}
+
+/* Tercera columna de la tabla de reservas */
+#reservations-content thead th:nth-of-type(3), #reservations-content td:nth-of-type(3) {
+    width: 190px;
+}
+
+/* Cuarte columna de la tabla de reservas */
+#reservations-content thead th:nth-of-type(4), #reservations-content td:nth-of-type(4) {
+    width: 160px;
+}
+
+/* Quinta columna de la tabla de reservas */
+#reservations-content thead th:nth-of-type(5), #reservations-content td:nth-of-type(5) {
+    width: 280px;
+}
+
+/* Sexta columna de la tabla de reservas */
+#reservations-content thead th:nth-of-type(6), #reservations-content td:nth-of-type(6) {
+    width: 70px;
+}
+
+/* Septima columna de la tabla de reservas */
+#reservations-content thead th:nth-of-type(7), #reservations-content td:nth-of-type(7) {
+    width: 100px;
+}
+
+/* Septima columna de la tabla de reservas */
+#reservations-content td:nth-of-type(7) button {
+    border: 2px solid var(--rich-gold, #DAA520);
+    border-radius: 4px;
+    background-color: transparent;
+    padding: 3px 10px;
+    color: rgba(51, 51, 51, 0.7);
+    cursor: pointer;
+}
+
+#reservations-content td {
+    color: rgba(51, 51, 51, 0.7);
 }
 
 tbody {
