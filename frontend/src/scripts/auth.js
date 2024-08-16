@@ -23,7 +23,7 @@ export async function handleLogin(login, password) {
                     if (paylout.role === "ROLE_USER") {
                         window.location.href = 'index.html';
                     } else if(paylout.role === "ROLE_ADMIN") {
-                        window.location.href = 'userpage.html';
+                        window.location.href = 'userpage/users.html';
                     } else if(paylout.role === "ROLE_BARBER") {
                         window.location.href = 'userpage.html';
                     }
@@ -95,7 +95,7 @@ export function setSignoutButtons(signoutBtn) {
                 // Lógica para cerrar sesión
                 console.log("Sesión cerrada");
                 localStorage.removeItem('JWT');
-                window.location.href = 'index.html';
+                window.location.href = '../index.html';
             } else {
                 console.log("Cierre de sesión cancelado");
             }

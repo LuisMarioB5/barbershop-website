@@ -3,95 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Reservas</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 8px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f4f4f4;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .details {
-            display: none;
-            background-color: #f9f9f9;
-        }
-
-        .show-details {
-            display: table-row;
-        }
-    </style>
+    <title>Reservas</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <h1>Lista de Reservas</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Nombre de Contacto</th>
-                <th>Fecha y Hora de Inicio</th>
-                <th>Barbero</th>
-                <th>Servicio</th>
-                <th>Estado</th>
-                <th>Detalles</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr onclick="toggleDetails(1)">
-                <td>Juan Pérez</td>
-                <td>2024-08-14 10:00 AM</td>
-                <td>Carlos Gómez</td>
-                <td>Corte de Pelo</td>
-                <td>Activo</td>
-                <td>
-                    <!-- Botón en la tabla -->
-                    <button onclick="showModal(1)">Ver Más</button>
-                </td>
-            </tr>
-            <tr id="details-1" class="details">
-                <td colspan="6">
-                    <p><strong>Email:</strong> juan@example.com</p>
-                    <p><strong>Teléfono:</strong> +123 456 789</p>
-                    <p><strong>Fecha de Fin:</strong> 2024-08-14 11:00 AM</p>
-                    <p><strong>Términos Aceptados:</strong> Sí</p>
-                    <p><strong>Mensaje:</strong> Prefiero que me corten el pelo corto.</p>
-                </td>
-            </tr>
-            <!-- Más filas de reservas -->
-        </tbody>
+        <tr>
+            <td><input type="checkbox" class="select-user"></td>
+            <td><input type="text" value="Juan Pérez"></td>
+            <td><input type="datetime-local" value="2024-08-14T10:00"></td>
+            <td><select><option selected>Alejandro Torres</option></select></td>
+            <td><select><option selected>Peinado con Secador y Volumen</option></select></td>
+            <td>
+                <div class="toggle-switch active" style="pointer-events: none;">
+                    <svg class="active" xmlns="http://www.w3.org/2000/svg" width="42" height="24" viewBox="0 0 42 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 12C0 5.37258 5.37258 0 12 0H30C36.6274 0 42 5.37258 42 12C42 18.6274 36.6274 24 30 24H12C5.37258 24 0 18.6274 0 12Z" fill="#DAA520"/>
+                        <rect class="circle" x="20" y="2" width="20" height="20" rx="10" fill="white"/>
+                    </svg>
+                    <svg class="inactive" xmlns="http://www.w3.org/2000/svg" width="42" height="24" viewBox="0 0 42 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 12C0 5.37258 5.37258 0 12 0H30C36.6274 0 42 5.37258 42 12C42 18.6274 36.6274 24 30 24H12C5.37258 24 0 18.6274 0 12Z" fill="#C8C9CC"/>
+                        <rect class="circle" x="2" y="2" width="20" height="20" rx="10" fill="white"/>
+                    </svg>
+                </div>
+            </td>
+            <td>
+                <!-- Botón en la tabla -->
+                <button class="view-more-btn" onclick="showDetails('Juan Pérez', 'Alejandro Torres', 'Peinado con Secador y Volumen')">Ver Más</button>
+            </td>
+        </tr>
     </table>
 
-    <!-- Modal -->
-    <div id="modal-1" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
-        <div style="background-color: #fff; padding: 20px; margin: 100px auto; width: 50%;">
-            <h2>Detalles de la Reserva</h2>
-            <p><strong>Email:</strong> juan@example.com</p>
-            <p><strong>Teléfono:</strong> +123 456 789</p>
-            <p><strong>Fecha de Fin:</strong> 2024-08-14 11:00 AM</p>
-            <p><strong>Términos Aceptados:</strong> Sí</p>
-            <p><strong>Mensaje:</strong> Prefiero que me corten el pelo corto.</p>
-            <button onclick="closeModal(1)">Cerrar</button>
-        </div>
-    </div>
- 
     <script>
-        function showModal(id) {
-            document.getElementById('modal-' + id).style.display = 'block';
-        }
-    
-        function closeModal(id) {
-            document.getElementById('modal-' + id).style.display = 'none';
+        function showDetails(contactName, barberName, serviceName) {
+            Swal.fire({
+                title: 'Detalles de la Reserva',
+                html: `<p><strong>Nombre del Cliente:</strong> ${contactName}</p>
+                       <p><strong>Barbero:</strong> ${barberName}</p>
+                       <p><strong>Servicio:</strong> ${serviceName}</p>`,
+                icon: 'info',
+                confirmButtonText: 'Cerrar'
+            });
         }
     </script>
 </body>

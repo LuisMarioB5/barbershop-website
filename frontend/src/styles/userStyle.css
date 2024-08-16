@@ -17,6 +17,10 @@ body {
     background-color: var(--white, #FFFFFF);
 }
 
+strong {
+    font-weight: bold;
+}
+
 header {
     display: flex;
     padding: 0 3.47vw;
@@ -213,7 +217,7 @@ thead th:nth-of-type(1), td:nth-of-type(1) {
 
 /* Cuarte columna de la tabla de reservas */
 #reservations-content thead th:nth-of-type(4), #reservations-content td:nth-of-type(4) {
-    width: 160px;
+    width: 165px;
 }
 
 /* Quinta columna de la tabla de reservas */
@@ -293,17 +297,20 @@ input:focus, select:focus {
     outline: none;
 }
 
-input[type="text"], input[type="email"], select {
+input[type="text"], input[type="email"], input[type="datetime-local"], select {
     background-color: transparent;
     border: 2px solid transparent;
     width: 90%;
     padding: 6px;
-    margin-top: 4px;
     
     /* Eliminar flecha del select */
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    display: none;
 }
 
 input[type="checkbox"] {

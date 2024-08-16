@@ -1,46 +1,13 @@
-import { capitalizeUserRoles, memoizeFetch, parseJwt, isTokenExpired } from '../utils.js';
-import { setSignoutButtons } from '../auth.js';
+import { setToggleSwitch, setCheckboxes, toggleEditState, cancelChanges } from "./main.js";
+import { capitalizeUserRoles, memoizeFetch, parseJwt, isTokenExpired } from '../../utils.js';
+import { setSignoutButtons } from '../../auth.js';
 
-let fetchUsers;
-let fetchRoleUsers;
+const fetchUsers = memoizeFetch(getUsers);
+const fetchRoleUsers = memoizeFetch(getRoleUsers); 
 
-export function setUserPage() {
-    setSignoutButtons(document.getElementById('signout-btn'));
-
-    const token = localStorage.getItem('JWT');
-    const body = document.querySelector('body');
-    if (isTokenExpired(token)) {
-        body.innerHTML = '';
-        Swal.fire({
-            icon: 'warning',
-            title: 'Sesión Expirada',
-            text: 'Tu sesión ha expirado. Por favor, inicia sesión de nuevo.',
-            confirmButtonText: 'Aceptar'
-        }).then(() => {
-            window.location.href = 'login.html';
-        });
-
-    } else if (parseJwt(token).role === 'ROLE_ADMIN') {
-        if(window.location.pathname.endsWith('users.html')){
-            fetchUsers = memoizeFetch(getUsers);
-            fetchRoleUsers = memoizeFetch(getRoleUsers);
-
-            setUserCount();
-            setUsersTbody();
-        } else if(window.location.pathname.endsWith('reservations.html')) {
-            console.log('hola')
-        }
-    } else {
-        body.innerHTML = '';
-        Swal.fire({
-            icon: 'error',
-            title: 'Acceso Denegado',
-            text: 'No tienes los permisos necesarios para visualizar esta página.',
-            confirmButtonText: 'Aceptar'
-        }).then(() => {
-            window.location.href = 'index.html';
-        });
-    }
+export function setUsers() {
+    setUserCount();
+    setUsersTbody();
 }
 
 // Obtiene los usuario desde el backend
@@ -119,6 +86,7 @@ async function setUserCount() {
         ul.appendChild(li);
     }
 }
+
 async function setUsersTbody() {
     const users = await fetchUsers();
     const roleUsers = await fetchRoleUsers();
@@ -134,7 +102,7 @@ async function setUsersTbody() {
         // Crear celdas para la fila
         const cells = [
             `<td><input type="checkbox" class="select-user"></td>`,
-            `<td><input type="text" value="${user.userName}" disabled></td>`,
+            `<td><input type="text" value="${user.userName}" style="cursor: not-allowed" disabled></td>`,
             `<td>
                 <div class="toggle-switch ${user.isActive === true ? 'active' : 'inactive'}" style="pointer-events: none;">
                     <!-- SVG para el estado activo -->
@@ -149,7 +117,7 @@ async function setUsersTbody() {
                     </svg>
                 </div>
             </td>`,
-            `<td><input type="email" value="${user.email}" disabled></td>`
+            `<td><input type="email" value="${user.email}" style="cursor: not-allowed" disabled></td>`
         ];
 
         // Agregar cada celda a la fila
@@ -162,6 +130,7 @@ async function setUsersTbody() {
         const tdSelect = document.createElement('td');
         const select = document.createElement('select');
         select.disabled = true;
+        select.style.cursor = 'not-allowed';
         
         roleUsers.forEach(role => {
             const option = document.createElement('option');
@@ -178,76 +147,22 @@ async function setUsersTbody() {
         tdSelect.appendChild(select);
         row.appendChild(tdSelect);
 
+        row.querySelector('td:nth-of-type(3)').style.cursor = 'not-allowed';
+
+
         // Agregar la fila al cuerpo de la tabla
         tbody.appendChild(row);
     });
 
     // Configurar el interruptor de alternancia
     setToggleSwitch();
-    function setToggleSwitch() {
-        const toggleSwitches = document.querySelectorAll('.toggle-switch');
     
-        toggleSwitches.forEach(toggleSwitch => {
-            toggleSwitch.addEventListener('click', () => {
-                // Alternar la clase activa/inactiva
-                toggleSwitch.classList.toggle('inactive');
-                toggleSwitch.classList.toggle('active');
-                
-                // // Log del estado actual
-                // const state = toggleSwitch.classList.contains('active');
-                // console.log('Estado:', state ? 'Activo (true)' : 'Inactivo (false)');
-            });
-        });
-    }
-
     // Configurar los checkboxes
     setCheckboxes();
-    function setCheckboxes() {
-        const checkboxes = document.querySelectorAll('.select-user');
-        const selectAllCheckbox = document.getElementById('select-all');
-        selectAllCheckbox.checked = false;
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', () => {
-                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-    
-                if (allChecked) {
-                    selectAllCheckbox.checked = true;
-                } else {
-                    selectAllCheckbox.checked = false;
-                }
-    
-                toggleEditState(checkbox);
-            });
-        });
-    
-        selectAllCheckbox.addEventListener('change', (event) => {
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = event.target.checked;
-                toggleEditState(checkbox);
-            });
-        });
-    }
-
-    function toggleEditState(checkbox) {
-        const row = checkbox.closest('tr');
-        const inputs = row.querySelectorAll('input[type="text"], input[type="email"], select');
-        const toggleSwitch = row.querySelector('.toggle-switch');
-
-        if (checkbox.checked) {
-            // Habilitar edición
-            inputs.forEach(input => input.removeAttribute('disabled'));
-            toggleSwitch.style.pointerEvents = 'auto';
-        } else {
-            // Deshabilitar edición
-            inputs.forEach(input => input.setAttribute('disabled', 'true'));
-            toggleSwitch.style.pointerEvents = 'none';
-        }
-    }
     
     // Botones Guardar y Cancelar
     document.querySelector('#button-container button:first-of-type').addEventListener('click', (event) => {
         event.preventDefault(); // Prevenir el envío del formulario
-
         updateChanges();
     });
 
@@ -341,20 +256,5 @@ async function setUsersTbody() {
         }
     }
 
-    document.querySelector('#button-container button:last-of-type').addEventListener('click', (event) => {
-        event.preventDefault(); // Prevenir el envío del formulario
-
-        cancelChanges();
-    });
- 
-    function cancelChanges() {
-        // Revertir a los datos originales
-        setUsersTbody(); // Volver a cargar la tabla con los datos originales
-        Swal.fire({
-            icon: 'info',
-            title: 'Cancelado',
-            text: 'Los cambios se han cancelado.',
-            confirmButtonText: 'Aceptar'
-        });
-    }
+    cancelChanges(setUsersTbody);
 }

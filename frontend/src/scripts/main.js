@@ -1,7 +1,7 @@
 import { setBarbers } from './dom/barbers.js';
 import { setButtons } from './dom/buttons.js';
 import { setupLoginForm, setupSignupForm } from './dom/forms.js';
-import { setUserPage } from './dom/userpage.js';
+import { setUserPage } from './dom/userpage/main.js';
 import { setServices } from './dom/services.js';
 import { manageIframeLoading, setPhonesInputs } from './utils.js';
 

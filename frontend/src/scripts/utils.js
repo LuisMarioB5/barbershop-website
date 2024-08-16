@@ -103,3 +103,16 @@ export function capitalizeUserRoles(role) {
         }
     }
 }
+
+// Función para formatear un string (fecha) al formato dd/MM/YYYY, hh:mm a
+export function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleString('es-ES', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+    });
+}

@@ -5,7 +5,6 @@ import { capitalize } from "../utils.js";
 const inputs = document.querySelectorAll('#reservation-content form input:not(input.iti__search-input)');
 
 export async function setDatalistsOnReservation() {
-    // setSample();
     if (inputs) {
         const nameInput = inputs[0];
         const emailInput = inputs[1];
@@ -22,19 +21,8 @@ export async function setDatalistsOnReservation() {
         await setBarberInput(barberInput);
         await setDateTimeInput(dateTimeInput, serviceInput, barberInput);
         setTermsInput(termsInput);
-
-        // form input:not([type="checkbox"]):invalid {
-            //     border-color: darkred;
-            // }
-            
-            // form input:not([type="checkbox"]):valid {
-            //     border-color: transparent;
-            // }
     }
 }
-
-
-
 
 function setNameInput(nameInput) {    
     if (nameInput) {
