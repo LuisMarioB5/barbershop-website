@@ -146,11 +146,11 @@ nav ul {
     font-size: 15px;
 }
 
-#user-form {
+form {
     height: 100%;
 }
 
-#user-form table {
+form table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 8px;

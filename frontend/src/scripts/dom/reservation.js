@@ -1,10 +1,10 @@
 import { fetchActiveServices } from "./services.js";
 import { fetchActiveBarbers } from "./barbers.js";
-import { capitalize } from "../utils.js";
+import { capitalize, parseDateStr } from "../utils.js";
 
 const inputs = document.querySelectorAll('#reservation-content form input:not(input.iti__search-input)');
 
-export async function setDatalistsOnReservation() {
+export async function setReservation() {
     if (inputs) {
         const nameInput = inputs[0];
         const emailInput = inputs[1];
@@ -21,7 +21,76 @@ export async function setDatalistsOnReservation() {
         await setBarberInput(barberInput);
         await setDateTimeInput(dateTimeInput, serviceInput, barberInput);
         setTermsInput(termsInput);
+
+        await saveReservation();
     }
+}
+
+// Envia los datos de la reserva al backend para almacenarlos en la base de datos
+async function postReservation(newData) {
+    try {
+        const response = await fetch('http://localhost:8080/reservation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newData)
+        });
+
+        // Verificar si la respuesta no es exitosa
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: errorMessage || 'Hubo un problema al guardar la reserva.'
+            });
+            
+            throw new Error(errorMessage || 'Error al tratar de almacenar la reserva');
+        }
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Reserva exitosa',
+            text: 'Su reserva se ha guardado correctamente.',
+            confirmButtonText: 'Aceptar'
+        });
+    } catch (error) {
+        console.error('Error al guardar la reserva:', error.message);
+    }
+}
+
+async function saveReservation() {
+    const form = document.querySelector('#reservation-content form');
+    const barbers = await fetchActiveBarbers();
+
+    // Utiliza el evento submit en lugar de click
+    form.addEventListener('submit', async (event) => {
+        // Detener el envío del formulario si hay campos no válidos
+        if (!form.checkValidity()) {
+            form.reportValidity(); // Muestra los mensajes de validación nativos
+            return; // Salir si hay campos no válidos
+        }
+        
+        // Prevenir el envío del formulario para manejar la lógica personalizada
+        event.preventDefault();
+
+        const inputs = form.querySelectorAll('input, textarea');
+        const data = {
+            contactName: inputs[0].value,
+            contactEmail: inputs[1].value,
+            contactPhone: inputs[2].value,
+            serviceName: inputs[3].value,
+            barberId: !inputs[4].value ? null : barbers.find(barber => barber.name === inputs[4].value).id,
+            dateTime: parseDateStr(inputs[5].value).start,
+            message: inputs[6].value,
+            termsAccepted: inputs[7].checked
+        };
+
+        await postReservation(data);
+
+        form.reset();
+    });
 }
 
 function setNameInput(nameInput) {    
@@ -35,7 +104,7 @@ function setNameInput(nameInput) {
             let value = nameInput.value;
             
             // Validar si el campo está vacío establecer el mensaje de validación por defecto
-            if (value.length === 0) {
+            if (value.length < 2) {
                 nameInput.setCustomValidity(defaultValidationMessage);
             }
             // Validar si el campo contiene números
@@ -177,7 +246,7 @@ function setPhoneInput(phoneInput) {
             const previousLenght = phoneInput.value.length;
 
             let rawValue = phoneInput.value;
-            let errorMessage = validatePhoneNumber(rawValue);
+            let errorMessage = validatePhoneNumber(rawValue.substring(0, 14));
             phoneInput.setCustomValidity(errorMessage);
 
             phoneInput.value = formatPhoneNumber(rawValue);
@@ -235,7 +304,7 @@ async function setDateTimeInput(dateTimeInput, serviceInput, barberInput) {
         let calendarIsShowing = false;
 
         const fp = flatpickr(dateTimeInput, {
-            clickOpens: false,
+            clickOpens: svg ? false : true, // Si no hay SVG, permitir la apertura con el input
             enableTime: true,
             dateFormat: "d/m/Y H:i",
             minDate: "today", // No permitir fechas en el pasado
@@ -257,11 +326,13 @@ async function setDateTimeInput(dateTimeInput, serviceInput, barberInput) {
             }
         });
 
-        svg.addEventListener('click', () => {
-            if (!calendarIsShowing) {
-                fp.open();
-            }
-        });
+        if (svg) {
+            svg.addEventListener('click', () => {
+                if (!calendarIsShowing) {
+                    fp.open();
+                }
+            });
+        }
 
         // Establecer un mensaje de validación por defecto
         dateTimeInput.setCustomValidity(defaultValidationMessage);
@@ -271,7 +342,7 @@ async function setDateTimeInput(dateTimeInput, serviceInput, barberInput) {
 
             try {
                 if (value.length === 16) {
-                    await validateAvailability(value);
+                    await validateAvailability(dateTimeInput, serviceInput, barberInput);
                 } else if (value.length > 16) {
                     dateTimeInput.setCustomValidity('La longitud del formato de la fecha debe ser de 16 caracteres. d/m/Y');
                 } else {
@@ -282,101 +353,102 @@ async function setDateTimeInput(dateTimeInput, serviceInput, barberInput) {
                 dateTimeInput.setCustomValidity('Formato de fecha y hora no válido.');
             }
         });
+    }
+}
 
-        async function validateAvailability(dateStr) {
-            if (serviceInput && barberInput) {
-                const activeServices = await fetchActiveServices();
-                const activeBarbers = await fetchActiveBarbers();
-                
-                const serviceValue = serviceInput.value;
-                const barberValue = barberInput.value;
-                
-                if (serviceValue.length !== 0) {
-                    const activeService = activeServices.find(service => service.name === serviceValue);
-                    const activeBarber = activeBarbers.find(barber => barber.name === barberValue);
+export async function validateAvailability(dateTimeInput, serviceInput, barberInput) {
+    if (dateTimeInput && serviceInput && barberInput) {
+        const activeServices = await fetchActiveServices();
+        const activeBarbers = await fetchActiveBarbers();
 
-                    if (activeService) {
-                        let barberId = null;
-                        if (activeBarber){
-                            barberId = activeBarber.id;
-                        }
+        const serviceValue = serviceInput.value;
+        const barberValue = barberInput.value;
+        const dateTimeValue = dateTimeInput.value;
 
-                        const reservationDateTime = parseDateStr(dateStr, activeService.estimatedTime);
-                        const start = reservationDateTime.start;
-                        const end = reservationDateTime.end;
-                        
-                        const json = await reservationIsAvailable(barberId, start, end);
-                        barberId = json.barberId;
+        if (serviceValue.length !== 0) {
+            const activeService = activeServices.find(service => service.name === serviceValue);
+            const activeBarber = activeBarbers.find(barber => barber.name === barberValue);
 
-                        if (!json.isAvailable) {
-                            dateTimeInput.setCustomValidity('Este horario no está disponible. Por favor, seleccione otro.');
-                        } else {
-                            dateTimeInput.setCustomValidity('');
-                        }
-                    }
-                }
-                
-            }
-        }
-
-        async function reservationIsAvailable(barberId, startDatetime, endDatetime) {
-            if (!startDatetime || !endDatetime) {
-                console.log('Los parámetros de inicio y fin de la reserva no pueden ser nulos.');
-                return false;
-            }
-
-            try {
-                const queryParams = new URLSearchParams({
-                    barberId: barberId,
-                    start: startDatetime,
-                    end: endDatetime
-                });
-
-                const response = await fetch(`http://localhost:8080/reservation/isAvailable?${queryParams.toString()}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Error: la respuesta del servidor no fue ok');
+            if (activeService) {
+                let barberId = null;
+                if (activeBarber) {
+                    barberId = activeBarber.id;
                 }
 
-                return await response.json();
-            } catch (error) {
-                console.log('Error al validar la disponibilidad de la reserva desde el backend:', error);
-                return false;
+                const reservationDateTime = parseDateStr(dateTimeValue, activeService.estimatedTime);
+                const start = reservationDateTime.start;
+                const end = reservationDateTime.end;
+
+                // Validar fecha y hora
+                if (!validateDateAndTime(start)) {
+                    dateTimeInput.setCustomValidity('La fecha seleccionada es domingo o la hora está fuera del horario permitido.');
+                    return;
+                }
+
+                const json = await reservationIsAvailable(barberId, start, end);
+                barberId = json.barberId;
+
+                if (!json.isAvailable) {
+                    dateTimeInput.setCustomValidity('Este horario no está disponible. Por favor, seleccione otro.');
+                } else {
+                    dateTimeInput.setCustomValidity('');
+                }
             }
-        }
-
-        function parseDateStr(dateStr, durationMinutes) {
-            const dateTimeParts = dateStr.split(' ');
-            const date = dateTimeParts[0];
-            const time = dateTimeParts[1];
-
-            const dateParts = date.split('/');
-            const fixedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T${time}`;
-
-            const startDate = new Date(fixedDate);
-            const endDate = new Date(startDate);
-            endDate.setMinutes(endDate.getMinutes() + durationMinutes);
-
-            function formatDate(date) {
-                const year = date.getFullYear();
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const day = String(date.getDate()).padStart(2, '0');
-                const hours = String(date.getHours()).padStart(2, '0');
-                const minutes = String(date.getMinutes()).padStart(2, '0');
-                return `${year}-${month}-${day}T${hours}:${minutes}`;
-            }
-
-            return {
-                start: formatDate(startDate),
-                end: formatDate(endDate)
-            };
         }
     }
+
+    function validateDateAndTime(dateStr) {
+        const date = new Date(dateStr);
+        const day = date.getDay(); // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+
+        if (day === 0) {
+            return false; // Domingo
+        } else if (day === 6) { // Sábado
+            if (hours < 10 || (hours === 17 && minutes > 0) || hours > 17) {
+                return false;
+            }
+        } else { // Lunes a Viernes
+            if (hours < 9 || (hours === 19 && minutes > 0) || hours > 19) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    async function reservationIsAvailable(barberId, startDatetime, endDatetime) {
+        if (!startDatetime || !endDatetime) {
+            console.log('Los parámetros de inicio y fin de la reserva no pueden ser nulos.');
+            return false;
+        }
+
+        try {
+            const queryParams = new URLSearchParams({
+                barberId: barberId,
+                start: startDatetime,
+                end: endDatetime
+            });
+
+            const response = await fetch(`http://localhost:8080/reservation/isAvailable?${queryParams.toString()}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Error: la respuesta del servidor no fue ok al momento de comprobar la disponibilidad de la reserva.');
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.log('Error al validar la disponibilidad de la reserva desde el backend:', error);
+            return false;
+        }
+    }
+
 }
 
 async function setBarberInput(barberInput) {

@@ -8,6 +8,34 @@ export function setUserPage() {
 
     const token = localStorage.getItem('JWT');
     const body = document.querySelector('body');
+
+    // Verificar primero si el token existe
+    if (!token) {
+        body.innerHTML = ''; // Limpia el contenido del body
+
+        // Muestra la alerta
+        Swal.fire({
+            icon: 'error',
+            title: 'Acceso Denegado',
+            text: 'No has iniciado sesión para visualizar esta página. ¿Deseas iniciar sesión?',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, iniciar sesión',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirigir a la página de inicio de sesión
+                window.location.href = '../login.html';
+            } else {
+                // Si el usuario cancela, redirigir a la página principal
+                window.location.href = '../index.html';
+            }
+        });
+        return; // Salir de la función si no hay token
+    }
+
+    // Verificar si el token ha expirado
     if (isTokenExpired(token)) {
         body.innerHTML = '';
         Swal.fire({
@@ -18,18 +46,33 @@ export function setUserPage() {
         }).then(() => {
             window.location.href = '../login.html';
         });
+        return; // Salir de la función si el token ha expirado
+    }
 
-    } else if (parseJwt(token).role === 'ROLE_ADMIN' || parseJwt(token).role === 'ROLE_BARBER') {
-        if(window.location.pathname.endsWith('reservations.html')) {
+    // Si el token es válido, verificar roles y permisos
+    const userRole = parseJwt(token).role;
+
+    if (userRole === 'ROLE_ADMIN') {
+        if (window.location.pathname.endsWith('users.html')) {
+            setUsers();
+        } else if (window.location.pathname.endsWith('reservations.html')) {
             setReservations();
         }
-
-        if (parseJwt(token).role === 'ROLE_ADMIN') {
-            if(window.location.pathname.endsWith('users.html')){
-                setUsers();
-            }  
+    } else if (userRole === 'ROLE_BARBER') {
+        if (window.location.pathname.endsWith('users.html')) {
+            body.innerHTML = '';
+            Swal.fire({
+                icon: 'error',
+                title: 'Acceso Denegado',
+                text: 'No tienes los permisos necesarios para visualizar esta página.',
+                confirmButtonText: 'Aceptar'
+            }).then(() => {
+                window.location.href = 'reservations.html';
+            });
+        } else if (window.location.pathname.endsWith('reservations.html')) {
+            document.querySelector('nav ul li:first-of-type').style.display = 'none';
+            setReservations();
         }
-
     } else {
         body.innerHTML = '';
         Swal.fire({
@@ -38,7 +81,7 @@ export function setUserPage() {
             text: 'No tienes los permisos necesarios para visualizar esta página.',
             confirmButtonText: 'Aceptar'
         }).then(() => {
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
         });
     }
 }
@@ -87,37 +130,44 @@ export function setCheckboxes() {
 
 export function toggleEditState(checkbox) {
     const row = checkbox.closest('tr');
-    const inputs = row.querySelectorAll('input[type="text"], input[type="email"], input[type="datetime-local"], select, button');
+    const inputs = Array.from(row.querySelectorAll('input[type="text"], input[type="email"], input[type="datetime-local"], select, button'));
+    const button = inputs.pop();
     const toggleCell = row.querySelector('.toggle-switch');
     const toggleTd = toggleCell.closest('td');
 
     if (checkbox.checked) {
-        // Habilitar edición
-        inputs.forEach(input => {
-            input.removeAttribute('disabled');
-            if (input.tagName.toLowerCase() === 'button') {
-                input.style.cursor = 'pointer'; // Indica que el botón es clicable
-            } else if (input.tagName.toLowerCase() === 'select') {
-                input.style.cursor = 'pointer'; // Indica que el selector es interactivo
-            } else {
-                input.style.cursor = 'text'; // Indica que el input es editable
-            }
-        });
-        toggleTd.style.cursor = 'auto'; // Indica que el toggle (el td) no es interactivo
+        if (!window.location.pathname.endsWith('reservations.html')) {
+            // Habilitar edición
+            inputs.forEach(input => {
+                input.removeAttribute('disabled');
+                if (input.tagName.toLowerCase() === 'select') {
+                    input.style.cursor = 'pointer'; // Indica que el selector es interactivo
+                } else {
+                    input.style.cursor = 'text'; // Indica que el input es editable
+                }
+            });
+        }
+        button.removeAttribute('disabled');
+        button.style.cursor = 'pointer';
+
+        toggleTd.style.cursor = 'auto'; // Indica que el toggle (el td) es interactivo
         toggleCell.style.pointerEvents = 'auto'; // Permitir interacción con el toggle
         toggleCell.style.cursor = 'pointer'; // Indica que el toggle es clicable
     } else {
-        // Deshabilitar edición
-        inputs.forEach(input => {
-            input.setAttribute('disabled', 'true');
-            input.style.cursor = 'not-allowed'; // Indica que el elemento no es interactivo
-        });
+        if (!window.location.pathname.endsWith('reservations.html')) {
+            // Deshabilitar edición
+            inputs.forEach(input => {
+                input.setAttribute('disabled', 'true');
+                input.style.cursor = 'not-allowed'; // Indica que el elemento no es interactivo
+            });
+        }
+        button.setAttribute('disabled', 'true');
+        button.style.cursor = 'not-allowed';
+
         toggleCell.style.pointerEvents = 'none'; // Impedir interacción con el toggle
         toggleTd.style.cursor = 'not-allowed'; // Indica que el toggle (el td) no es interactivo
     }
 }
-
-
 
 export function cancelChanges(resetFunction) {
     document.querySelector('#button-container button:last-of-type').addEventListener('click', (event) => {

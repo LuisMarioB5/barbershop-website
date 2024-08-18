@@ -1,12 +1,12 @@
-import { setToggleSwitch, setCheckboxes, toggleEditState, cancelChanges } from "./main.js";
+import { setToggleSwitch, setCheckboxes, cancelChanges, toggleEditState } from "./main.js";
 import { memoizeFetch, formatDate } from '../../utils.js';
 import { fetchActiveServices } from "../services.js";
 import { fetchActiveBarbers } from "../barbers.js";
+import { validateAvailability } from "../reservation.js";
 
 const fetchReservations = memoizeFetch(getReservations);
 
 export function setReservations() {
-    console.log('hola')
     setReservationCount();
     setReservationsTbody();
 }
@@ -56,15 +56,15 @@ async function setReservationsTbody() {
     const reservations = await fetchReservations();
     const services = await fetchActiveServices();
     const barbers = await fetchActiveBarbers();
-    const tbody = document.querySelector('#user-form table tbody');
+    const tbody = document.querySelector('#reservations-form table tbody');
     tbody.innerHTML = '';
     // Almacenar los datos originales de las reservas
     const originalData = JSON.parse(JSON.stringify(reservations));
-
-    reservations.forEach((reservation) => {
+    
+    reservations.forEach(async (reservation) => {
         // Crear una nueva fila
         const row = document.createElement("tr");
-
+    
         // Crear celdas para la fila
         const cells = [
             `<td><input type="checkbox" class="select-user"></td>`,
@@ -88,14 +88,14 @@ async function setReservationsTbody() {
             </td>`,
             `<td></td>`,
         ];
-
+    
         // Agregar cada celda a la fila
         cells.forEach((cell) => {
             const cellElement = document.createElement("td");
             cellElement.innerHTML = cell;
             row.appendChild(cellElement);
         });
-
+    
         // Crear celda para el selector de barberos
         const barberTd = document.createElement("td");
         const barberSelect = document.createElement("select");
@@ -103,7 +103,7 @@ async function setReservationsTbody() {
         barberSelect.style.cursor = 'not-allowed';
         barbers.forEach((barber) => {
             const option = document.createElement("option");
-            option.value = barber;
+            option.value = barber.id;
             option.textContent = barber.name;
     
             if (reservation.barber.name === barber.name) {
@@ -113,7 +113,7 @@ async function setReservationsTbody() {
         });
         barberTd.appendChild(barberSelect);
         row.insertBefore(barberTd, row.children[3]); // Inserta antes del toggle
-
+    
         // Crear celda para el selector de servicios
         const serviceTd = document.createElement("td");
         const serviceSelect = document.createElement("select");
@@ -121,7 +121,7 @@ async function setReservationsTbody() {
         serviceSelect.style.cursor = 'not-allowed';
         services.forEach((service) => {
             const option = document.createElement("option");
-            option.value = service;
+            option.value = service.id;
             option.textContent = service.name;
     
             if (reservation.service.name === service.name) {
@@ -131,49 +131,68 @@ async function setReservationsTbody() {
         });
         serviceTd.appendChild(serviceSelect);
         row.insertBefore(serviceTd, row.children[4]); // Inserta antes del botón
-
+    
         const showMoreBtn = document.createElement("button");
         showMoreBtn.disabled = true;
         showMoreBtn.type = "button";
         showMoreBtn.textContent = "Ver Más";
         showMoreBtn.style.cursor = 'not-allowed';
         showMoreBtn.addEventListener("click", () => showDetails(reservation)); // Usa una función anónima
-
+    
         const buttonTd = row.querySelector("td:last-of-type");
         buttonTd.appendChild(showMoreBtn);
-
-        // Funcion para mostrar el modal con los detalles de la reserva
+    
+        // Función para mostrar el modal con los detalles de la reserva
         function showDetails(reservation) {
+            // Verificar que las propiedades existan antes de usarlas
+            const barberName = reservation.barber?.name || 'N/A';
+            const serviceName = reservation.service?.name || 'N/A';
+            const startDate = reservation.startDateTime ? formatDate(reservation.startDateTime) : 'N/A';
+            const endDate = reservation.endDateTime ? formatDate(reservation.endDateTime) : 'N/A';
+        
             Swal.fire({
                 icon: "info",
                 title: "Detalles de la Reserva",
-                html: `<p><strong>Nombre del Cliente:</strong> ${reservation.contactName}</p>
-                       <p><strong>Email del Cliente:</strong> ${reservation.contactEmail}</p>
-                       <p><strong>Teléfono del Cliente:</strong> ${reservation.contactPhone}</p>
-                       <p><strong>Barbero:</strong> ${reservation.barber.name}</p>
-                       <p><strong>Servicio:</strong> ${reservation.service.name}</p>
-                       <p><strong>Fecha de inicio:</strong> ${formatDate(reservation.startDateTime)}</p>
-                       <p><strong>Fecha de fin:</strong> ${formatDate(reservation.endDateTime)}</p>
-                       <p><strong>Terminos aceptados?</strong> ${
+                html: `<p><strong>Nombre del Cliente:</strong> ${reservation.contactName || 'N/A'}</p>
+                       <p><strong>Email del Cliente:</strong> ${reservation.contactEmail || 'N/A'}</p>
+                       <p><strong>Teléfono del Cliente:</strong> ${reservation.contactPhone || 'N/A'}</p>
+                       <p><strong>Barbero:</strong> ${barberName}</p>
+                       <p><strong>Servicio:</strong> ${serviceName}</p>
+                       <p><strong>Fecha de inicio:</strong> ${startDate}</p>
+                       <p><strong>Fecha de fin:</strong> ${endDate}</p>
+                       <p><strong>¿Términos aceptados?</strong> ${
                            reservation.termsAccepted ? "Sí" : "No"
                        }</p>
-                       <p><strong>Está activa?</strong> ${
+                       <p><strong>¿Está activa?</strong> ${
                            reservation.isActive ? "Sí" : "No"
                        }</p>
-                       <p><strong>Mensaje:</strong> ${reservation.message}</p>`,
+                       ${reservation.message ? `<p><strong>Mensaje:</strong> ${reservation.message}</p>` : ''}`,
                 confirmButtonText: "Cerrar",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    console.log(`Se visualizo la reserva con el id: ${reservation.id}`);
+                    console.log(`Se visualizó la reserva con el id: ${reservation.id}`);
                 }
             });
         }
         
         row.querySelector('td:nth-of-type(6)').style.cursor = 'not-allowed';
-
+    
         // Agregar la fila al cuerpo de la tabla
         tbody.appendChild(row);
 
+        const dateTimeInput = row.querySelector('input[type="datetime-local"]');
+        const serviceInput = row.querySelector('select:nth-of-type(2)');
+        const barberInput = row.querySelector('select:first-of-type');
+
+        dateTimeInput.addEventListener('input', async () => {
+            if (!await validateAvailability(dateTimeInput, serviceInput, barberInput)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Hubo un problema al actualizar la reserva.'
+                });
+            }
+        })
     });
 
     // Configurar el interruptor de alternancia
@@ -182,102 +201,119 @@ async function setReservationsTbody() {
     // Configurar los checkboxes
     setCheckboxes();
 
-    // // Botones Guardar y Cancelar
-    // document.querySelector('#button-container button:first-of-type').addEventListener('click', (event) => {
-    //     event.preventDefault(); // Prevenir el envío del formulario
+    // Botón Guardar
+    document.querySelector('#button-container button:first-of-type').addEventListener('click', async (event) => {
+        event.preventDefault(); // Prevenir el envío del formulario
+        await updateChanges();
+    });
 
-    //     updateChanges();
-    // });
+    async function updateChanges() {
+        try {
+            const rows = document.querySelectorAll('#reservations-form table tbody tr');
 
-    // function updateChanges() {
-    //     const rows = document.querySelectorAll('#user-form table tbody tr');
-
-    //     let index = 0;
-    //     rows.forEach(async row => {
-    //         const checkbox = row.querySelector('.select-user');
-    //         if (checkbox.checked) {
-    //             const userName = row.querySelector('input[type="text"]').value;
-    //             const email = row.querySelector('input[type="email"]').value;
-    //             const role = row.querySelector('select').value;
-    //             const isActive = row.querySelector('.toggle-switch').classList.contains('active') ? true : false;
-
-    //             // Aquí puedes realizar una solicitud fetch para guardar los cambios
-    //             const data = {
-    //                 userName,
-    //                 email,
-    //                 role,
-    //                 isActive
-    //             };
-    //             updateUser(originalData[index], data, checkbox);
-    //         }
-    //         index++;
-    //     });
-
-    //     async function updateUser(user, updatedData, checkbox) {
-    //         if (user.userName === updatedData.userName && user.email === updatedData.email && user.role === updatedData.role && user.isActive === updatedData.isActive) {
-    //             // Muestra el mensaje de exito pero no envia los datos al servidor ya que no es necesario
-    //             successUpdate();
-    //         } else {
-    //             try {
-    //                 const response = await fetch(`http://localhost:8080/user/${user.id}`, {
-    //                     method: 'PUT',
-    //                     headers: {
-    //                         'Authorization': `Bearer ${localStorage.getItem('JWT')}`,
-    //                         'Content-Type': 'application/json'
-    //                     },
-    //                     body: JSON.stringify(updatedData)
-    //                 });
-            
-    //                 if (!response.ok) {
-    //                     throw new Error(`Error al guardar los cambios aplicados al usuario ${updatedData.userName}`);
-    //                 }
-                    
-    //                 // Modificando los datos iniales para que concidan con los nuevos
-    //                 user.userName = updatedData.userName;
-    //                 user.email = updatedData.email;
-    //                 user.role = updatedData.role;
-    //                 user.isActive = updatedData.isActive;
-
-    //                 successUpdate();
-            
-    //             } catch (error) {
-    //                 console.error('Error al actualizar el usuario:', error);
-            
-    //                 // Mostrar mensaje de error usando SweetAlert2
-    //                 Swal.fire({
-    //                     icon: 'error',
-    //                     title: 'Oops...',
-    //                     text: 'Hubo un problema al actualizar el usuario.'
-    //                 });
-    //             }
-    //         }
-
-    //         function successUpdate() {
-    //             // Mostrar mensaje de éxito usando SweetAlert2
-    //             Swal.fire({
-    //                 title: 'Actualización exitosa',
-    //                 text: 'Los cambios se han guardado correctamente.',
-    //                 icon: 'success',
-    //                 confirmButtonText: 'Aceptar'
-    //             });
-    //             checkbox.checked = false;
-    //             toggleEditState(checkbox);
-
-    //             const checkboxes = document.querySelectorAll('.select-user');
-    //             let change = null;
-    //             checkboxes.forEach(chkbox => {
-    //                 if (!chkbox.checked) {
-    //                     change = true;
-    //                 }
-    //             });
+            for (let index = 0; index < rows.length; index++) {
+                const row = rows[index];
+                const checkbox = row.querySelector('.select-user');
                 
-    //             if (change) {
-    //                 const selectAllCheckbox = document.getElementById('select-all');
-    //                 selectAllCheckbox.checked = false;
-    //             }
-    //         }
-    //     }
-    // }
+                if (checkbox.checked) {
+                    const contactName = row.querySelector('input[type="text"]:first-of-type').value;
+                    const dateTimeInput = row.querySelector('input[type="datetime-local"]');
+                    const selects = row.querySelectorAll('select');
+                    const barberInput = selects[0];
+                    const serviceInput = selects[1];
+                    const isActive = row.querySelector('.toggle-switch').classList.contains('active');
 
+                    const data = {
+                        contactName: contactName,
+                        dateTime: dateTimeInput.value,
+                        serviceId: parseInt(serviceInput.value, 10),
+                        barberId: parseInt(barberInput.value, 10),
+                        isActive: isActive
+                    };
+
+                    // Usar el index para obtener el valor correcto de originalData
+                    await updateReservation(originalData[index], data, checkbox);
+                }
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Hubo un problema al actualizar la reserva.'
+            });
+            console.log(`Error al tratar de actualizar las reservas: ${error}`);
+        }
+    }
+
+    async function updateReservation(reservation, newData, checkbox) {
+        if (reservation.contactName === newData.contactName &&
+            reservation.startDateTime === newData.dateTime &&
+            reservation.service === newData.service &&
+            reservation.barber === newData.barber &&
+            reservation.isActive === newData.isActive) {
+
+            successUpdate();
+        } else {
+            try {
+                const response = await fetch(`http://localhost:8080/reservation/${reservation.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('JWT')}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error al guardar los cambios aplicados a la reserva con id: ${reservation.id}`);
+                }
+
+                // Modificando los datos iniales para que concidan con los nuevos
+                reservation.contactName = newData.contactName;
+                reservation.startDateTime = newData.dateTime;
+                reservation.service = newData.service;
+                reservation.barber = newData.barber;
+                reservation.isActive = newData.isActive;
+                successUpdate();
+
+            } catch (error) {
+                console.error('Error al actualizar la reserva:', error);
+
+                // Mostrar mensaje de error usando SweetAlert2
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Hubo un problema al actualizar la reserva.'
+                });
+            }
+        }
+
+        function successUpdate() {
+            Swal.fire({
+                title: 'Actualización exitosa',
+                text: 'Los cambios se han guardado correctamente.',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            });
+
+            checkbox.checked = false;
+            toggleEditState(checkbox);
+
+            const checkboxes = document.querySelectorAll('.select-user');
+            let change = null;
+            checkboxes.forEach(chkbox => {
+                if (!chkbox.checked) {
+                    change = true;
+                }
+            });
+
+            if (change) {
+                const selectAllCheckbox = document.getElementById('select-all');
+                selectAllCheckbox.checked = false;
+            }
+        }
+    }
+
+    // Botón Cancelar
     cancelChanges(setReservationsTbody);
 }

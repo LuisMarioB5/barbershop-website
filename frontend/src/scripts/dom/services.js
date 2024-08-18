@@ -284,6 +284,7 @@ function createServicePrincingRenderer() {
             if (service.id === selectedId) {
                 li.classList.add('service-details-active');
                 serviceInput.value = pName.textContent;
+                serviceInput.dispatchEvent(new Event('input'));
             }
 
             li.addEventListener('click', () => {

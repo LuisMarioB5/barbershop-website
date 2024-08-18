@@ -116,3 +116,38 @@ export function formatDate(dateString) {
         hour12: true,
     });
 }
+
+// Combierte una fecha en string dd/MM/YYYY HH:mm a YYYY-MM-ddTHH:mm
+export function parseDateStr(dateStr, durationMinutes) {
+    const dateTimeParts = dateStr.split(' ');
+    const date = dateTimeParts[0];
+    const time = dateTimeParts[1];
+    const format12Hr = dateTimeParts[2];
+
+    if (format12Hr) {
+        if (format12Hr === 'PM') {
+            time += 12;
+        }
+    }
+
+    const dateParts = date.split('/');
+    const fixedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T${time}`;
+
+    const startDate = new Date(fixedDate);
+    const endDate = new Date(startDate);
+    endDate.setMinutes(endDate.getMinutes() + durationMinutes);
+
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+
+    return {
+        start: formatDate(startDate),
+        end: formatDate(endDate)
+    };
+}

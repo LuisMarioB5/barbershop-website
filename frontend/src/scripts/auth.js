@@ -25,10 +25,9 @@ export async function handleLogin(login, password) {
                     } else if(paylout.role === "ROLE_ADMIN") {
                         window.location.href = 'userpage/users.html';
                     } else if(paylout.role === "ROLE_BARBER") {
-                        window.location.href = 'userpage.html';
+                        window.location.href = 'userpage/reservations.html';
                     }
                 } else {
-                    console.log(paylout)
                     Swal.fire({
                         icon: 'error',
                         title: 'Acceso Denegado',
@@ -57,7 +56,7 @@ export async function handleLogin(login, password) {
         console.error('Error:', error);
     }
 }
-
+                            
 // Maneja el registro de nuevos usuarios
 export async function handleSignup(userName, email, password) {
     try {
@@ -69,13 +68,30 @@ export async function handleSignup(userName, email, password) {
             body: JSON.stringify({ userName, email, password })
         });
 
+        // Verificar si la respuesta no es exitosa        
         if (response.ok) {
-            await handleLogin(email, password);  // Inicia sesión automáticamente tras registrarse
+            Swal.fire({
+                icon: 'success',
+                title: 'Cuenta creada',
+                text: 'Su nueva cuenta se ha creado correctamente.',
+                confirmButtonText: 'Aceptar'
+            }).then(async () => {
+                await handleLogin(email, password);  // Inicia sesión automáticamente tras registrarse
+            });;
         } else {
-            console.error('Signup failed');
+            const errorMessage = await response.text();
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: errorMessage || 'Hubo un problema al tratar de registrar su cuenta.'
+            });
+            
+            throw new Error(errorMessage || 'Error al tratar de registrar la nueva cuenta del usuario.');
         }
+            
+        
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error al guardar la reserva:', error.message);
     }
 }
 

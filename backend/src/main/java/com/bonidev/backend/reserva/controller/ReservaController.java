@@ -3,9 +3,11 @@ package com.bonidev.backend.reserva.controller;
 import com.bonidev.backend.barbero.entity.BarberoEntity;
 import com.bonidev.backend.barbero.service.BarberoService;
 import com.bonidev.backend.reserva.dto.AgregarReservaDTO;
+import com.bonidev.backend.reserva.dto.ModificarReservaDTO;
 import com.bonidev.backend.reserva.dto.MostrarReservaDTO;
 import com.bonidev.backend.reserva.dto.ReservaAvailabilityDTO;
 import com.bonidev.backend.reserva.service.ReservaService;
+import com.bonidev.backend.usuario.dto.ModificarUsuarioDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -76,5 +78,11 @@ public class ReservaController {
 
         Long barberIdLong = Long.parseLong(id, 10);
         return ResponseEntity.ok(new ReservaAvailabilityDTO(barberIdLong, !service.isBarberUnavailable(barberIdLong, startDatetime, endDatetime)));
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<String> updateReservation(@PathVariable Long id, @RequestBody ModificarReservaDTO dto) {
+        service.updateReservation(id, dto);
+        return ResponseEntity.ok("Datos de la reserva actualizados correctamente...");
     }
 }

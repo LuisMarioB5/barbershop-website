@@ -160,35 +160,43 @@ async function setUsersTbody() {
     // Configurar los checkboxes
     setCheckboxes();
     
-    // Botones Guardar y Cancelar
-    document.querySelector('#button-container button:first-of-type').addEventListener('click', (event) => {
+    // Botón Guardar
+    document.querySelector('#button-container button:first-of-type').addEventListener('click', async (event) => {
         event.preventDefault(); // Prevenir el envío del formulario
-        updateChanges();
+        await updateChanges();
     });
 
-    function updateChanges() {
-        const rows = document.querySelectorAll('#user-form table tbody tr');
-
-        let index = 0;
-        rows.forEach(async row => {
-            const checkbox = row.querySelector('.select-user');
-            if (checkbox.checked) {
-                const userName = row.querySelector('input[type="text"]').value;
-                const email = row.querySelector('input[type="email"]').value;
-                const role = row.querySelector('select').value;
-                const isActive = row.querySelector('.toggle-switch').classList.contains('active') ? true : false;
-
-                // Aquí puedes realizar una solicitud fetch para guardar los cambios
-                const data = {
-                    userName,
-                    email,
-                    role,
-                    isActive
-                };
-                updateUser(originalData[index], data, checkbox);
+    async function updateChanges() {
+        try {
+            const rows = document.querySelectorAll('#user-form table tbody tr');
+    
+            for (let index = 0; index < rows.length; index++) {
+                const row = rows[index];
+                const checkbox = row.querySelector('.select-user');
+                if (checkbox.checked) {
+                    const userName = row.querySelector('input[type="text"]').value;
+                    const email = row.querySelector('input[type="email"]').value;
+                    const role = row.querySelector('select').value;
+                    const isActive = row.querySelector('.toggle-switch').classList.contains('active') ? true : false;
+    
+                    const data = {
+                        userName,
+                        email,
+                        role,
+                        isActive
+                    };
+                    await updateUser(originalData[index], data, checkbox);
+                }
             }
-            index++;
-        });
+            
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Hubo un problema al actualizar el usuario.'
+            });
+            console.log(`Error al tratar de actualizar los usuarios: ${error}`);
+        }
 
         async function updateUser(user, updatedData, checkbox) {
             if (user.userName === updatedData.userName && user.email === updatedData.email && user.role === updatedData.role && user.isActive === updatedData.isActive) {
@@ -255,6 +263,7 @@ async function setUsersTbody() {
             }
         }
     }
-
+    
+    // Botón Cancelar
     cancelChanges(setUsersTbody);
 }

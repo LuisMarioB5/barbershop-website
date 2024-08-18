@@ -4,12 +4,16 @@ import com.bonidev.backend.barbero.entity.BarberoEntity;
 import com.bonidev.backend.barbero.service.BarberoService;
 import com.bonidev.backend.errors.ValidationException;
 import com.bonidev.backend.reserva.dto.AgregarReservaDTO;
+import com.bonidev.backend.reserva.dto.ModificarReservaDTO;
 import com.bonidev.backend.reserva.entity.ReservaEntity;
 import com.bonidev.backend.reserva.repository.ReservaRepository;
 import com.bonidev.backend.reserva.validations.Horario;
 import com.bonidev.backend.reserva.validations.ValidadorAgregarReserva;
 import com.bonidev.backend.servicio.entity.ServicioEntity;
 import com.bonidev.backend.servicio.service.ServicioService;
+import com.bonidev.backend.usuario.dto.ModificarUsuarioDTO;
+import com.bonidev.backend.usuario.entity.UsuarioEntity;
+import com.bonidev.backend.usuario.enums.Roles;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -81,5 +85,23 @@ public class ReservaService {
 
         List<ReservaEntity> reservations = repository.findReservationsInRange(barberId, startDateTime, endDateTime);
         return !reservations.isEmpty();
+    }
+
+    public void updateReservation(Long id, ModificarReservaDTO dto) {
+        // Buscar reserva por ID
+        ReservaEntity reserva = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("La reserva con id: " + id + " no fue encontrada"));
+        System.out.println(reserva.getContactName());
+        // Actualizar datos de la reserva
+        reserva.setContactName(dto.contactName());
+        reserva.setService(servicioService.findById(dto.serviceId()));
+        reserva.setStartDateTime(dto.dateTime());
+        reserva.setEndDateTime(reserva.getStartDateTime().plusMinutes(reserva.getService().getEstimatedTime()));
+        reserva.setBarber(barberoService.findById(dto.barberId()));
+        reserva.setIsActive(dto.isActive());
+        System.out.println(reserva.getContactName());
+
+        // Guardar los cambios en el repositorio
+        repository.save(reserva);
     }
 }
