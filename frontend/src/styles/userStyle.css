@@ -465,7 +465,7 @@ input[type="checkbox"] {
     #user-content, #reservations-content {
         padding: 0;
         gap: 0;
-        width: 275px;
+        width: 72vw;
     }
 
     #user-content ul, #reservations-content ul {
@@ -519,12 +519,12 @@ input[type="checkbox"] {
 
     /* Cuarta columna de la tabla de usuarios */
     #user-content thead th:nth-of-type(4), #user-content td:nth-of-type(4) {
-        width: 250px;
+        width: 160px;
     }
     
     /* Quinta columna de la tabla de usuarios */
     #user-content thead th:nth-of-type(5), #user-content td:nth-of-type(5) {
-        width: 150px;
+        width: 140px;
     }
 
     /* Segunda columna de la tabla de reservas */

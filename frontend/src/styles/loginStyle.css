@@ -15,10 +15,7 @@ html, body {
 
 body {
     font-family: "Poppins", sans-serif;
-    
-    background-image: url(../../resources/img/authBackground.png);
-    background-repeat: no-repeat;
-    background-size: cover;
+    background: url(../../resources/img/authBackground.png) no-repeat center/cover;
     height: 100vh;
     
     display: flex;
@@ -159,4 +156,55 @@ form button {
     font-style: normal;
     font-weight: 600;
     line-height: 24px;
+}
+
+@media (width < 576px) {
+    body {
+        overflow: auto;
+    }
+
+    main {
+        height: 100%;
+        width: 100%;
+    }
+
+    #content {
+        box-sizing: border-box;
+        width: 100%;
+        height: auto;
+        padding: 25px;
+    }
+
+    #content h1 {
+        font-size: 26px;
+    }
+
+    #content form {
+        width: 100%;
+    }
+    
+    #content form label {
+        font-size: 16px;
+        width: 100%;
+    }
+
+    #content form label input {
+        box-sizing: border-box;
+        font-size: 14px;
+        width: 100%;
+    }
+
+    #content form label input::placeholder {
+        font-size: 14px;
+    }
+
+    #content button {
+        font-size: 16px;
+        min-height: 1em;
+        padding: 10px 15px;
+    }
+
+    #content div p, #content a {
+        font-size: 14px;
+    }
 }
