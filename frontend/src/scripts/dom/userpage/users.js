@@ -6,9 +6,18 @@ const fetchUsers = memoizeFetch(getUsers);
 const fetchRoleUsers = memoizeFetch(getRoleUsers); 
 
 export function setUsers() {
+    // Establecer el menu de hamburguesa
+    document.querySelector('.hamburger-menu').addEventListener('click', () => {
+        const navMenu = document.querySelector('nav');
+        navMenu.classList.toggle('active');
+    });
+
     setUserCount();
     setUsersTbody();
 }
+
+
+
 
 // Obtiene los usuario desde el backend
 async function getUsers() {

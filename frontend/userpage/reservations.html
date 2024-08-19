@@ -27,6 +27,10 @@
             <img class="logo-barberia" src="../resources/img/logo.png" alt="Logotipo blanco de Barbería Estilo y Elegancia">
         </a>
         
+        <button class="hamburger-menu" aria-label="Menú de navegación"> <!-- style="display: none;" -->
+            &#9776;
+        </button>
+        
         <nav>
             <ul>
                 <li class="sect-li"><a href="./users.html">Usuarios</a></li>
@@ -43,7 +47,7 @@
     <main id="reservations-content">
         <ul></ul>
     
-        <form id="reservations-form">
+        <!-- <form id="reservations-form">
             <table>
                 <thead>
                     <tr>
@@ -65,12 +69,11 @@
                         <td><select><option selected>Peinado con Secador y Volumen</option></select></td>
                         <td>
                             <div class="toggle-switch ${user.isActive === true ? 'active' : 'inactive'}" style="pointer-events: none;">
-                                <!-- SVG para el estado activo -->
                                 <svg class="active" xmlns="http://www.w3.org/2000/svg" width="42" height="24" viewBox="0 0 42 24" fill="none">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M0 12C0 5.37258 5.37258 0 12 0H30C36.6274 0 42 5.37258 42 12C42 18.6274 36.6274 24 30 24H12C5.37258 24 0 18.6274 0 12Z" fill="#DAA520"/>
                                     <rect class="circle" x="20" y="2" width="20" height="20" rx="10" fill="white"/>
                                 </svg>
-                                <!-- SVG para el estado inactivo -->
+
                                 <svg class="inactive" xmlns="http://www.w3.org/2000/svg" width="42" height="24" viewBox="0 0 42 24" fill="none">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M0 12C0 5.37258 5.37258 0 12 0H30C36.6274 0 42 5.37258 42 12C42 18.6274 36.6274 24 30 24H12C5.37258 24 0 18.6274 0 12Z" fill="#C8C9CC"/>
                                     <rect class="circle" x="2" y="2" width="20" height="20" rx="10" fill="white"/>
@@ -78,12 +81,9 @@
                             </div>
                         </td>
                         <td>
-                            <!-- Botón en la tabla -->
                             <button>Ver Más</button>
                         </td>
                     </tr>
-
-                    <!-- Más filas de reservas -->
                 </tbody>
             </table>
     
@@ -91,7 +91,7 @@
                 <button type="button">Guardar</button>
                 <button type="button">Cancelar</button>
             </div>
-        </form>
+        </form> -->
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   

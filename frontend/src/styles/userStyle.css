@@ -22,12 +22,15 @@ strong {
 }
 
 header {
+    box-sizing: border-box;
     display: flex;
     padding: 0 3.47vw;
     justify-content: space-between;
     align-items: center;
     height: 11vh;
-    background: rgba(51, 51, 51, 0.50);
+    width: 100%;
+    background: var(--charcoal, #333333);
+    color: var(--white, #FFFFFF);
     border-radius: 0 0 8px 8px;
 }
 
@@ -391,4 +394,101 @@ input[type="checkbox"] {
 
     background: transparent;
     border: 2px solid var(--delete, #DA4040);
+}
+
+.hamburger-menu {
+    display: none;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Dispositivos Móviles Pequeños (Teléfonos) */
+@media (width <= 480px ) {
+
+    body {
+        width: 100vw;
+    }
+
+    header nav {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    
+    header nav.active {
+        box-sizing: border-box;
+        display: flex;
+        width: 150px;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        background-color: #333;
+        margin-right: 10px;
+        border-radius: 0 0 8px 8px;
+        gap: 20px;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .sect-li a {
+        padding: 5px 0;
+    }
+
+    .hamburger-menu {
+        display: flex;
+    }
+
+    .logo-barberia {
+        height: 2.5em;
+        max-width: 150px;
+    }
+
+    #signout-btn {
+        box-sizing: border-box;
+        width: 130px;
+        border-color: var(--white, #FFFFFF);
+        padding: 5px 8px;
+        margin-bottom: 10px;
+    }
+
+    /* PARTE DE LA BARRA DE NAVEGACION ESTABLECIDA ARRIBA DE ESTE COMENTARIO */
+    #user-content, #reservations-content {
+        padding: 0;
+    }
+
+    #user-content ul, #reservations-content ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    #user-content ul li, #reservations-content ul li {
+        width: auto;
+        padding: 10px;
+        border: none;
+    }
+    
+    #user-content ul li:first-of-type, #reservations-content ul li:first-of-type {
+        width: 80%;
+        border: none;
+    }
+
+    #user-content ul li p:first-of-type, #reservations-content ul li p:first-of-type {
+        font-size: 30px;
+        height: 1.3em;
+        width: auto;
+    }
+    
+    #user-content ul li p:last-of-type, #reservations-content ul li p:last-of-type {
+        font-size: 15px;
+        width: auto;
+    }
+    /* PARTE DE LA CUENTA DE USUARIOS/RESERVAS ESTABLECIDA ARRIBA DE ESTE COMENTARIO */
+
 }

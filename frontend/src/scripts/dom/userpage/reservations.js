@@ -7,6 +7,12 @@ import { validateAvailability } from "../reservation.js";
 const fetchReservations = memoizeFetch(getReservations);
 
 export function setReservations() {
+    // Establecer el menu de hamburguesa
+    document.querySelector('.hamburger-menu').addEventListener('click', () => {
+        const navMenu = document.querySelector('nav');
+        navMenu.classList.toggle('active');
+    });
+    
     setReservationCount();
     setReservationsTbody();
 }
