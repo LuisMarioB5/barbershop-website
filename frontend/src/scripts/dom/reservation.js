@@ -64,33 +64,35 @@ async function saveReservation() {
     const form = document.querySelector('#reservation-content form');
     const barbers = await fetchActiveBarbers();
 
-    // Utiliza el evento submit en lugar de click
-    form.addEventListener('submit', async (event) => {
-        // Detener el envío del formulario si hay campos no válidos
-        if (!form.checkValidity()) {
-            form.reportValidity(); // Muestra los mensajes de validación nativos
-            return; // Salir si hay campos no válidos
-        }
-        
-        // Prevenir el envío del formulario para manejar la lógica personalizada
-        event.preventDefault();
+    if (form) {
+        // Utiliza el evento submit en lugar de click
+        form.addEventListener('submit', async (event) => {
+            // Detener el envío del formulario si hay campos no válidos
+            if (!form.checkValidity()) {
+                form.reportValidity(); // Muestra los mensajes de validación nativos
+                return; // Salir si hay campos no válidos
+            }
+            
+            // Prevenir el envío del formulario para manejar la lógica personalizada
+            event.preventDefault();
 
-        const inputs = form.querySelectorAll('input, textarea');
-        const data = {
-            contactName: inputs[0].value,
-            contactEmail: inputs[1].value,
-            contactPhone: inputs[2].value,
-            serviceName: inputs[3].value,
-            barberId: !inputs[4].value ? null : barbers.find(barber => barber.name === inputs[4].value).id,
-            dateTime: parseDateStr(inputs[5].value).start,
-            message: inputs[6].value,
-            termsAccepted: inputs[7].checked
-        };
+            const inputs = form.querySelectorAll('input, textarea');
+            const data = {
+                contactName: inputs[0].value,
+                contactEmail: inputs[1].value,
+                contactPhone: inputs[2].value,
+                serviceName: inputs[3].value,
+                barberId: !inputs[4].value ? null : barbers.find(barber => barber.name === inputs[4].value).id,
+                dateTime: parseDateStr(inputs[5].value).start,
+                message: inputs[6].value,
+                termsAccepted: inputs[7].checked
+            };
 
-        await postReservation(data);
+            await postReservation(data);
 
-        form.reset();
-    });
+            form.reset();
+        });
+    }
 }
 
 function setNameInput(nameInput) {    
@@ -263,14 +265,16 @@ function setPhoneInput(phoneInput) {
 async function setServiceInput(serviceInput) {
     const services = await fetchActiveServices();
     const datalist = document.getElementById('datalist-service');
-    datalist.innerHTML = '';
+    if (datalist) {
+        datalist.innerHTML = '';
+    }
 
     // Puebla el datalist con los servicios del back-end
     if (services) {
         services.forEach(service => {
             const option = document.createElement('option');
             option.value = service.name;
-            datalist.appendChild(option);
+            datalist && datalist.appendChild(option);
         });
     }
 
@@ -454,7 +458,9 @@ export async function validateAvailability(dateTimeInput, serviceInput, barberIn
 async function setBarberInput(barberInput) {
     const barbers = await fetchActiveBarbers();
     const datalist = document.getElementById('datalist-barber');
-    datalist.innerHTML = '';
+    if (datalist) {
+        datalist.innerHTML = '';
+    }
 
     if (barbers && datalist) {
         barbers.forEach(barber => {

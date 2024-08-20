@@ -14,7 +14,7 @@ export function setupLoginForm() {
 }
 
 // Configura los event listeners para el formulario de registro
-export function setupSignupForm() {
+export function setupSignupForm() {    
     const signupForm = document.getElementById('signupForm');
     if (signupForm) {
         signupForm.addEventListener('submit', async (event) => {

@@ -1,6 +1,6 @@
 import { setBarbers } from './dom/barbers.js';
 import { setButtons } from './dom/buttons.js';
-import { setupLoginForm, setupSignupForm } from './dom/forms.js';
+import { setupLoginForm, setupSignupForm } from './dom/authPage.js';
 import { setUserPage } from './dom/userpage/main.js';
 import { setServices } from './dom/services.js';
 import { manageIframeLoading, setPhonesInputs } from './utils.js';
@@ -17,14 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (pathnameContains('userpage/reservations.html') || pathnameContains('userpage/users.html') || pathnameContains('userpage.html')) {
         setUserPage();
     } else if (window.location.pathname.endsWith('index.html')) {
+        setHamburgerMenu();
+        
+        setButtons();
+        
         hideSections();
 
-        setButtons();
         setServices();
         setBarbers();
-    
         setReservation();
-
+    
         setPhonesInputs();
         manageIframeLoading();
     }
@@ -42,5 +44,15 @@ function hideSections() {
     const footerForm = document.querySelector('#footer-left-side form:first-of-type');
     const sectionsToHide = Array.of(reviews, reviewLink, contactUs, contactUsLink, footerForm);
     
-    sectionsToHide.forEach(element => element.style.display = 'none');
+    sectionsToHide.forEach(element => {
+        if (element) element.style.display = 'none';
+    });
+}
+
+function setHamburgerMenu() {
+    // Establecer el menu hamburguesa
+    document.querySelector('.hamburger-menu').addEventListener('click', () => {
+        const navMenu = document.querySelector('nav');
+        navMenu && navMenu.classList.toggle('active');
+    });
 }

@@ -23,12 +23,17 @@ export function manageIframeLoading() {
         document.getElementById(fallbackId).style.display = "none";
     }
 
-    document.getElementById(iframeId).addEventListener('load', iframeLoaded);
+    const iframe = document.getElementById(iframeId)
+    if(iframe) iframe.addEventListener('load', iframeLoaded);
+
 
     setTimeout(function() {
         if (!isIframeLoaded) {
-            document.getElementById(iframeId).style.display = "none";
-            document.getElementById(fallbackId).style.display = "block";
+            const iframe = document.getElementById(iframeId);
+            if (iframe) iframe.style.display = "none";
+
+            const fallback = document.getElementById(fallbackId);
+            if (fallback) fallback.style.display = "block";
         }
     }, 2000);
 }

@@ -37,8 +37,6 @@ header {
     justify-content: space-between;
     align-items: center;
     height: 11vh;
-    /* background-color: var(--charcoal, #333333); */
-    /* border-radius: 0 0 8px 8px; */
 }
 
 .logo-barberia {
@@ -385,7 +383,7 @@ nav div {
 #gallery-content img {
     width: 376px;
     height: 401px;
-    border-radius: 30px;
+    border-radius: 8px;
     border: 2px solid var(--rich-gold, #DAA520);
 }
 
@@ -429,7 +427,7 @@ nav div {
     flex-shrink: 0;
     cursor: pointer;
     
-    border-radius: 30px;
+    border-radius: 8px;
     border: 2px solid var(--slate-gray, #708090);
 }
 
@@ -1119,4 +1117,289 @@ footer p {
     display: flex;
     align-items: flex-start;
     gap: 25px;
+}
+
+.hamburger-menu {
+    display: none;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+@media (width <= 500px) {
+    body {
+        box-sizing: border-box;
+        width: 100vw;
+    }
+
+    header {
+        box-sizing: border-box;
+        height: 70px;
+        width: 100%;
+        background-color: var(--charcoal, #333333);
+        border-radius: 0 0 8px 8px;
+        color: var(--white, #FFFFFF);
+    }
+    
+    .logo-barberia {
+        height: 2.5em;
+        max-width: 150px;
+    }
+    
+    .hamburger-menu {
+        display: flex;
+    }
+
+    header nav {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    
+    header nav.active {
+        border-bottom: none;
+        box-sizing: border-box;
+        display: flex;
+        width: 150px;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        background-color: #333;
+        margin-right: 10px;
+        border-radius: 0 0 8px 8px;
+        gap: 20px;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .sect-li a {
+        padding: 5px 0;
+    }
+
+    #account-btns {
+        flex-direction: column;
+    }
+
+    #account-btns button {
+        padding: 5px 8px;
+    }
+
+    #signout-btn {
+        box-sizing: border-box;
+        width: 130px;
+        border-color: var(--white, #FFFFFF);
+        margin-bottom: 10px;
+    }
+
+    #home-content {
+        align-items: stretch;
+    }
+
+    #home-content h1 {
+        font-size: 60px;
+    }
+
+    #home-content button {
+        height: auto;
+        width: auto;
+        padding: 6px 10px;
+        font-size: 30px;
+    }
+
+    h2 {
+        font-size: 32px;
+    }
+
+    #services {
+        box-sizing: border-box;
+        padding: 33px 3.47vw 0 3.47vw;
+        gap: 0;
+    }
+
+    #services-content {
+        box-sizing: border-box;
+        flex-direction: column;
+        justify-content: start;
+        gap: 1em;
+        height: auto;
+    }
+
+    #services-content div {
+        box-sizing: border-box;
+        width: 100%;
+        height: 340px;
+    }
+
+    #services-content ul {
+        width: 100%;
+    }
+
+    #services-content ul li {
+        width: 120px;
+        height: auto;
+        padding: 7px;
+        gap: 4px;
+        border-radius: 8px;
+    }
+
+    #services-content ul li img {
+        width: 50px;
+        height: 50px;
+    }
+
+    #services-content ul li p {
+        font-size: 18px;
+        padding: 0;
+    }
+
+    #pricing {
+        box-sizing: border-box;
+        padding: 33px 0 0 0;
+        gap: 1em;
+    }
+
+    #pricing-content {
+        gap: 1em;
+    }
+
+    #service-tags, #service-tags ul {
+        gap: 5px;
+    }
+
+    #service-tags ul li {
+        box-sizing: border-box;
+        gap: 5px;
+        width: 60px;
+        height: 65px;
+    }
+
+    #service-tags ul li img {
+        height: 30px;
+        width: 30px;
+    }
+
+    #service-tags ul li p {
+        font-size: 8px;
+    }
+
+    #service-details {
+        box-sizing: border-box;
+        gap: 5px;
+    }
+
+    #service-details ul  {
+        width: auto;
+    }
+    
+    #service-details ul li {
+        box-sizing: border-box;
+        width: 255px;
+        padding: 3.5px;
+    }
+    
+    #service-details ul li img {
+        width: 50px;
+        height: 50px;
+    }
+
+    #service-details ul li div  {
+        width: auto;
+    }
+    
+    #service-details ul li div div  {
+        width: auto;
+        margin-right: 4px;
+        gap: 2px;
+    }
+
+    #service-details ul li div div p:first-of-type {
+        font-size: 12px;
+    }
+    
+    .service-details-time {
+        font-size: 8px;
+    }
+    
+    .service-details-price {
+        font-size: 10px;
+    }
+
+    #gallery {
+        box-sizing: border-box;
+        width: 100vw;
+        padding: 33px 3.47vw 0 3.47vw;
+        gap: 1em;
+    }
+    
+    #gallery-content {
+        box-sizing: border-box;
+        width: 100%;
+        height: auto;
+        gap: 1em;
+    }
+    
+    #gallery-content img {
+        width: 45%;
+        height: auto;
+    }
+
+    .gradient-background {
+        height: 30px;
+        padding: 0 3.47vw;
+    }
+    
+    #barbers {
+        box-sizing: border-box;
+        padding: 3px 3.47vw 0 3.47vw;
+        gap: 1em;
+    }
+    
+    #barbers-content {
+        width: 100%;
+        gap: 1em;
+    }
+
+    .barber-card {
+        box-sizing: border-box;
+        width: 45%;
+        height: 400px;
+        padding: 4px;
+    }
+
+    .barber-card-details {
+        gap: 0px;
+    }
+    
+    .barber-card-details div:first-child {
+        gap: 0px;
+    }
+
+    .barber-card-details div:first-child p:first-child {
+        line-height: 1.2;
+        font-size: 20px;
+    }
+    
+    .barber-card-details p {
+        line-height: 1.3;
+        font-size: 12px;
+    }
+
+    .barber-card-selected .barber-card-description {
+        margin-bottom: 5px;
+    }
+
+    .barber-card-social-media {
+        gap: 5px;
+    }
+
+    .barber-card-social-media svg {
+        width: 20px;
+        height: 20px;
+    }
 }

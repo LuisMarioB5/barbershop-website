@@ -6,6 +6,12 @@ import { parseJwt, isTokenExpired } from '../../utils.js';
 export function setUserPage() {
     setSignoutButtons(document.getElementById('signout-btn'));
 
+    // Establecer el menu hamburguesa
+    document.querySelector('.hamburger-menu').addEventListener('click', () => {
+        const navMenu = document.querySelector('nav');
+        navMenu.classList.toggle('active');
+    });
+    
     const token = localStorage.getItem('JWT');
     const body = document.querySelector('body');
 

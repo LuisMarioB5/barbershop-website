@@ -27,7 +27,7 @@ header {
     padding: 0 3.47vw;
     justify-content: space-between;
     align-items: center;
-    height: 11vh;
+    height: 70px;
     width: 100%;
     background: var(--charcoal, #333333);
     color: var(--white, #FFFFFF);
@@ -406,7 +406,7 @@ input[type="checkbox"] {
 }
 
 /* Dispositivos Móviles Pequeños (Teléfonos) */
-@media (width <= 480px ) {
+@media (width <= 500px) {
 
     body {
         display: flex;

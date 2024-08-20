@@ -100,7 +100,6 @@ async function setServicesSection() {
         const servicesContent = document.getElementById('services-content');
         
         // Lista de las categorías
-        servicesContent.appendChild(document.createElement('ul'));
         const categoriesList = document.querySelector('#services-content ul');
 
         // Agregando las categorías al DOM
@@ -110,7 +109,7 @@ async function setServicesSection() {
                 <img src="${category.imagePath}" alt="${category.imageDescription}">
                 <p>${category.name}</p>
             `;
-            categoriesList.appendChild(li);
+            categoriesList && categoriesList.appendChild(li);
         });
     } catch (error) {
         console.error('Error al agregar las categorías de los servicios al DOM:', error);
@@ -120,23 +119,17 @@ async function setServicesSection() {
 async function setPricingCategories(serviceRenderer) {
     const activeCategories = await fetchServiceCategories();
 
-    // Contenedor principal de la sección de precios
     const pricingContent = document.getElementById('pricing-content');
-
-    // Contenedor del carousel que contiene las categorías de los servicios
     const serviceTags = document.createElement('div');
     serviceTags.id = 'service-tags';
-    pricingContent.appendChild(serviceTags);
+    pricingContent && pricingContent.appendChild(serviceTags);
 
-    // Flecha izquierda
     const prevArrow = createArrowsSvg("rotate(-90 40 40)", "M46 50.9999L34.3871 39.6259L46 29.0644");
     serviceTags.appendChild(prevArrow);
-    
-    // Lista de las categorías
+
     const carousel = document.createElement('ul');
     serviceTags.appendChild(carousel);
 
-    // Flecha derecha
     const nextArrow = createArrowsSvg("rotate(90 40 40)", "M34 29.0001L45.6129 40.3741L34 50.9356");
     serviceTags.appendChild(nextArrow);
 
@@ -144,11 +137,25 @@ async function setPricingCategories(serviceRenderer) {
     activeCategories.unshift(all);
 
     let currentIndex = 0;
-    const categoriesToShow = 5;
-    const visibleCategories = Math.min(categoriesToShow, activeCategories.length);
     let selectedIndex = 0;
+    let visibleCategories = calculateVisibleCategories();
 
     renderCategories();
+
+    // Recalcula las categorías visibles al cambiar el tamaño de la ventana
+    window.addEventListener('resize', () => {
+        visibleCategories = calculateVisibleCategories();
+        renderCategories();
+    });
+
+    function calculateVisibleCategories() {
+        const windowWidth = document.documentElement.clientWidth;
+
+        if (windowWidth < 500) return 4; // Móviles
+        // if (windowWidth < 768) return 2; // Tablets
+        // if (windowWidth < 1024) return 3; // Pantallas pequeñas
+        return 5; // Pantallas grandes
+    }
 
     function renderCategories() {
         carousel.innerHTML = '';
@@ -172,16 +179,19 @@ async function setPricingCategories(serviceRenderer) {
 
             li.addEventListener('click', async () => {
                 selectedIndex = categoryIndex;
-                const selectedCategory = activeCategories[selectedIndex];
                 renderCategories();
 
                 const services = await fetchActiveServices();
-                const filteredServices = services.filter(service => service.category.name == selectedCategory.name);
-                serviceRenderer.renderServices(selectedCategory.name === 'Todos' ? services : filteredServices);
+                const filteredServices = services.filter(service => service.category.name === category.name);
+                serviceRenderer.renderServices(category.name === 'Todos' ? services : filteredServices);
             });
 
             carousel.appendChild(li);
         }
+
+        // Muestra u oculta las flechas según la cantidad de categorías visibles
+        prevArrow.style.display = activeCategories.length > visibleCategories ? 'block' : 'none';
+        nextArrow.style.display = activeCategories.length > visibleCategories ? 'block' : 'none';
     }
 
     prevArrow.addEventListener('click', () => {
@@ -194,6 +204,7 @@ async function setPricingCategories(serviceRenderer) {
         renderCategories();
     });
 }
+
 
 function createArrowsSvg(transform, pathD) {
     const innerHtmlContent = `
@@ -230,7 +241,7 @@ async function setPricingDetails(serviceRenderer) {
     
     // Contenedor principal de la sección de precios
     const pricingContent = document.getElementById('pricing-content');
-    pricingContent.appendChild(serviceDetails);
+    pricingContent && pricingContent.appendChild(serviceDetails);
     
     // Renderiza los servicios a mostrar
     serviceRenderer.renderServices(await fetchActiveServices());
@@ -246,9 +257,9 @@ function createServicePrincingRenderer() {
         const serviceInput = document.querySelector('#reservation-content form input:not(input.iti__search-input):nth-of-type(4)');
 
         const carousel = document.querySelector('#service-details ul');
-        carousel.innerHTML = '';
+        if(carousel) carousel.innerHTML = '';
 
-        visibleServices = Math.min(serviceToShow, services.length);
+        visibleServices = 1//Math.min(serviceToShow, services.length);
 
         for (let i = 0; i < visibleServices; i++) {
             const serviceIndex = (currentIndex + i) % services.length;
@@ -283,8 +294,10 @@ function createServicePrincingRenderer() {
 
             if (service.id === selectedId) {
                 li.classList.add('service-details-active');
-                serviceInput.value = pName.textContent;
-                serviceInput.dispatchEvent(new Event('input'));
+                if (serviceInput) {
+                    serviceInput.value = pName.textContent;
+                    serviceInput.dispatchEvent(new Event('input'));
+                }
             }
 
             li.addEventListener('click', () => {
@@ -292,7 +305,7 @@ function createServicePrincingRenderer() {
                 renderServiceCards(services);
             });
 
-            carousel.appendChild(li);
+            carousel && carousel.appendChild(li);
         }
     }
 
@@ -301,30 +314,32 @@ function createServicePrincingRenderer() {
         const prevArrow = arrows[0];
         const nextArrow = arrows[1];
 
-        // Remover anteriores event listeners, clonando los nodos
-        const newPrevArrow = prevArrow.cloneNode(true);
-        const newNextArrow = nextArrow.cloneNode(true);
-        prevArrow.parentNode.replaceChild(newPrevArrow, prevArrow);
-        nextArrow.parentNode.replaceChild(newNextArrow, nextArrow);
+        if(prevArrow && nextArrow) {
+            // Remover anteriores event listeners, clonando los nodos
+            const newPrevArrow = prevArrow.cloneNode(true);
+            const newNextArrow = nextArrow.cloneNode(true);
+            prevArrow.parentNode.replaceChild(newPrevArrow, prevArrow);
+            nextArrow.parentNode.replaceChild(newNextArrow, nextArrow);
 
-        // Agregar nuevos event listeners
-        newPrevArrow.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + services.length) % services.length;
-            renderServiceCards(services);
-        });
+            // Agregar nuevos event listeners
+            newPrevArrow.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + services.length) % services.length;
+                renderServiceCards(services);
+            });
 
-        newNextArrow.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % services.length;
-            renderServiceCards(services);
-        });
+            newNextArrow.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % services.length;
+                renderServiceCards(services);
+            });
 
-        if (visibleServices !== null) {
-            if (visibleServices >= services.length) {
-                newPrevArrow.style.visibility = 'hidden';
-                newNextArrow.style.visibility = 'hidden';
-            } else {
-                newPrevArrow.style.visibility = 'visible';
-                newNextArrow.style.visibility = 'visible';
+            if (visibleServices !== null) {
+                if (visibleServices >= services.length) {
+                    newPrevArrow.style.visibility = 'hidden';
+                    newNextArrow.style.visibility = 'hidden';
+                } else {
+                    newPrevArrow.style.visibility = 'visible';
+                    newNextArrow.style.visibility = 'visible';
+                }
             }
         }
 
