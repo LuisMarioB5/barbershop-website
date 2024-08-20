@@ -1,6 +1,5 @@
 import { setToggleSwitch, setCheckboxes, toggleEditState, cancelChanges } from "./main.js";
-import { capitalizeUserRoles, memoizeFetch, parseJwt, isTokenExpired } from '../../utils.js';
-import { setSignoutButtons } from '../../auth.js';
+import { capitalizeUserRoles, memoizeFetch } from '../../utils.js';
 
 const fetchUsers = memoizeFetch(getUsers);
 const fetchRoleUsers = memoizeFetch(getRoleUsers); 
@@ -9,9 +8,6 @@ export function setUsers() {
     setUserCount();
     setUsersTbody();
 }
-
-
-
 
 // Obtiene los usuario desde el backend
 async function getUsers() {

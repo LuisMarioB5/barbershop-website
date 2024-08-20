@@ -96,7 +96,7 @@ export async function handleSignup(userName, email, password) {
 }
 
 // Maneja el cierre de sesión
-export function setSignoutButtons(signoutBtn) {
+export function setSignoutButton(signoutBtn) {
     signoutBtn.addEventListener('click', () => {
         Swal.fire({
             title: '¿Estás seguro de que deseas cerrar sesión?',

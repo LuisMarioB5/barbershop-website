@@ -1,10 +1,13 @@
 import { setUsers } from './users.js';
 import { setReservations } from './reservations.js';
-import { setSignoutButtons } from '../../auth.js';
+import { setSignoutButton } from '../../auth.js';
 import { parseJwt, isTokenExpired } from '../../utils.js';
 
 export function setUserPage() {
-    setSignoutButtons(document.getElementById('signout-btn'));
+    document.querySelector('nav button:first-of-type').addEventListener('click', () => {
+        window.location.href = '../index.html';
+    });
+    setSignoutButton(document.querySelector('nav button:last-of-type'));
 
     // Establecer el menu hamburguesa
     document.querySelector('.hamburger-menu').addEventListener('click', () => {

@@ -41,8 +41,7 @@ function hideSections() {
     const reviewLink = document.querySelector('.sect-li:nth-of-type(6)');
     const contactUs = document.getElementById('contact-us');
     const contactUsLink = document.querySelector('.sect-li:nth-of-type(8)');
-    const footerForm = document.querySelector('#footer-left-side form:first-of-type');
-    const sectionsToHide = Array.of(reviews, reviewLink, contactUs, contactUsLink, footerForm);
+    const sectionsToHide = Array.of(reviews, reviewLink, contactUs, contactUsLink);
     
     sectionsToHide.forEach(element => {
         if (element) element.style.display = 'none';
@@ -50,9 +49,28 @@ function hideSections() {
 }
 
 function setHamburgerMenu() {
-    // Establecer el menu hamburguesa
-    document.querySelector('.hamburger-menu').addEventListener('click', () => {
-        const navMenu = document.querySelector('nav');
-        navMenu && navMenu.classList.toggle('active');
+    const hamburgerButton = document.querySelector('.hamburger-menu'); // Botón del menú hamburguesa
+    const navMenu = document.querySelector('nav'); // Menú de navegación
+
+    // Abre o cierra el menú al hacer clic en el botón del menú hamburguesa
+    hamburgerButton.addEventListener('click', () => {
+        if (navMenu) {
+            navMenu.classList.toggle('active');
+            hamburgerButton.classList.toggle('open'); // Opcional: para cambiar la apariencia del botón cuando esté activo
+        }
+    });
+
+    // Cierra el menú si se hace clic fuera de él
+    document.addEventListener('click', function(event) {
+        // Verifica si el clic fue fuera del menú y del botón del menú
+        if (navMenu && hamburgerButton) {
+            const isClickInsideMenu = navMenu.contains(event.target);
+            const isClickOnButton = hamburgerButton.contains(event.target);
+
+            if (!isClickInsideMenu && !isClickOnButton && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                hamburgerButton.classList.remove('open'); // Opcional: para desactivar la apariencia activa del botón
+            }
+        }
     });
 }

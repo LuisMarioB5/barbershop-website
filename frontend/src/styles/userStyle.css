@@ -67,24 +67,28 @@ nav ul {
     border-bottom: 2px solid var(--white, #FFFFFF);
 }
 
-#signout-btn {
+nav button {
     display: flex;
     padding: 12px 20px;
     justify-content: center;
     align-items: center;
     gap: 8px;
-
+    
     border-radius: 6px;
     border: 2px solid var(--rich-gold, #DAA520);
     background-color: transparent;
     cursor: pointer;
-
+    
     color: var(--white, #FFFFFF);
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: 24px;
     letter-spacing: -0.16px;
+}
+
+nav button:first-of-type {
+    background-color: var(--rich-gold, #DAA520);
 }
 
 #user-content, #reservations-content {
@@ -453,13 +457,19 @@ input[type="checkbox"] {
         max-width: 150px;
     }
 
-    #signout-btn {
+    nav button {
         box-sizing: border-box;
         width: 130px;
-        border-color: var(--white, #FFFFFF);
         padding: 5px 8px;
         margin-bottom: 10px;
     }
+
+    /* nav button:last-of-type {
+        box-sizing: border-box;
+        width: 130px;
+        padding: 5px 8px;
+        margin-bottom: 10px;
+    } */
 
     /* PARTE DE LA BARRA DE NAVEGACION ESTABLECIDA ARRIBA DE ESTE COMENTARIO */
     #user-content, #reservations-content {

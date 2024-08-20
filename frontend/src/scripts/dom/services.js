@@ -152,8 +152,6 @@ async function setPricingCategories(serviceRenderer) {
         const windowWidth = document.documentElement.clientWidth;
 
         if (windowWidth < 500) return 4; // Móviles
-        // if (windowWidth < 768) return 2; // Tablets
-        // if (windowWidth < 1024) return 3; // Pantallas pequeñas
         return 5; // Pantallas grandes
     }
 
@@ -250,16 +248,23 @@ async function setPricingDetails(serviceRenderer) {
 function createServicePrincingRenderer() {
     let selectedId = null;
     let currentIndex = 0;
-    const serviceToShow = 2;
+    let serviceToShow = calculateVisibleServices();
     let visibleServices = null;
+
+    function calculateVisibleServices() {
+        const windowWidth = document.documentElement.clientWidth;
+
+        if (windowWidth < 500) return 1; // Móviles
+        return 2; // Pantallas grandes
+    }
 
     function renderServiceCards(services) {
         const serviceInput = document.querySelector('#reservation-content form input:not(input.iti__search-input):nth-of-type(4)');
 
         const carousel = document.querySelector('#service-details ul');
-        if(carousel) carousel.innerHTML = '';
+        if (carousel) carousel.innerHTML = '';
 
-        visibleServices = 1//Math.min(serviceToShow, services.length);
+        visibleServices = Math.min(serviceToShow, services.length);
 
         for (let i = 0; i < visibleServices; i++) {
             const serviceIndex = (currentIndex + i) % services.length;
@@ -275,16 +280,16 @@ function createServicePrincingRenderer() {
             li.appendChild(div);
 
             const divDetails = document.createElement('div');
-            
+
             const pName = document.createElement('p');
             pName.textContent = service.name;
             divDetails.appendChild(pName);
-            
+
             const pTime = document.createElement('p');
             pTime.textContent = service.estimatedTime + ' min.';
             pTime.classList.add('service-details-time');
             divDetails.appendChild(pTime);
-            
+
             div.appendChild(divDetails);
 
             const pPrice = document.createElement('p');
@@ -307,6 +312,12 @@ function createServicePrincingRenderer() {
 
             carousel && carousel.appendChild(li);
         }
+
+        // Actualizar la cantidad de servicios a mostrar cuando la ventana cambia de tamaño
+        window.addEventListener('resize', () => {
+            serviceToShow = calculateVisibleServices();
+            renderServiceCards(services);
+        });
     }
 
     function renderServices(services) {
@@ -314,14 +325,12 @@ function createServicePrincingRenderer() {
         const prevArrow = arrows[0];
         const nextArrow = arrows[1];
 
-        if(prevArrow && nextArrow) {
-            // Remover anteriores event listeners, clonando los nodos
+        if (prevArrow && nextArrow) {
             const newPrevArrow = prevArrow.cloneNode(true);
             const newNextArrow = nextArrow.cloneNode(true);
             prevArrow.parentNode.replaceChild(newPrevArrow, prevArrow);
             nextArrow.parentNode.replaceChild(newNextArrow, nextArrow);
 
-            // Agregar nuevos event listeners
             newPrevArrow.addEventListener('click', () => {
                 currentIndex = (currentIndex - 1 + services.length) % services.length;
                 renderServiceCards(services);
@@ -342,7 +351,6 @@ function createServicePrincingRenderer() {
                 }
             }
         }
-
 
         renderServiceCards(services);
     }

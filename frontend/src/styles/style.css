@@ -83,12 +83,8 @@ nav div {
     letter-spacing: -0.16px;
 }
 
-#account-btns button:first-child {
+#account-btns button:first-of-type, #account-btns button:nth-of-type(3) {
     background-color: var(--rich-gold, #DAA520);
-}
-
-#account-btns button:nth-child(3) {
-    display: none;
 }
 
 .sect-li {
@@ -500,7 +496,7 @@ nav div {
     display: flex;
 }
 
-.barber-card-social-media svg, #contact-us-info div svg, #footer-right-side svg {
+.barber-card-social-media svg, #contact-us-info div svg, #footer-contact svg {
     width: 30px;
     height: 30px;
     user-select: none;
@@ -925,10 +921,27 @@ form input:not([type="checkbox"])::placeholder, .textarea-div textarea::placehol
 footer {
     display: flex;
     padding: 50px;
-    justify-content: space-between;
+    
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    gap: 10px;
+    align-self: stretch;
 
     background-color: var(--charcoal, #333333);
+}
+
+#footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+}
+
+#footer-thanks {
+    display: flex;
+    align-items: center;
+    gap: 1em;
 }
 
 footer h3 {
@@ -947,124 +960,12 @@ footer p {
     line-height: normal;
 }
 
-#footer-left-side, #footer-center-side, #footer-right-side {
+#footer-contact {
     display: flex;
-    flex-direction: column;
-}
-
-#footer-left-side, #footer-center-side {
-    align-items: flex-start;
-}
-
-#footer-center-side, #footer-right-side {
-    gap: 20px;
-}
-
-#footer-left-side {
-    width: 600px;
-    gap: 30px;
-}
-
-#footer-left-side div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-    align-self: stretch;
-}
-
-#footer-left-side div .logo-barberia {
-    width: 237px;
-    height: 107px;
-}
-
-#footer-left-side div p {
-    width: 600px;
-}
-
-#footer-left-side form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    align-self: stretch;
-
-    background-color: transparent;
-    border-radius: 0;
-    width: auto;
-    padding: 0;
-}
-
-#footer-left-side form input {
-    color: var(--white, #FFFFFF);
-    
-    width: 80%;
-    
-    border-radius: 8px;
-    border: 2px solid var(--slate-gray, #708090);
-    background: rgba(255, 255, 255, 0.50);
-}
-
-#footer-left-side form input::placeholder {
-    color: var(--white, #FFFFFF);
-}
-
-#footer-left-side form button {
-    display: flex;
-    width: 180px;
-    height: 60px;
-    padding: 12px 20px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-
-    border-radius: 10px;
-    border: 2px solid var(--white, #FFFFFF);
-    background: rgba(112, 128, 144, 0.60);
-
-    color: var(--white, #FFFFFF);
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 120%;
-    letter-spacing: 0.2px;
-}
-
-#footer-center-side {
-    width: 277px;
-}
-
-#footer-center-side ul {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    align-self: stretch;
-}
-
-#footer-center-side ul li svg {
-    fill: var(--rich-gold, #DAA520);
-    user-select: none;
-
-    width: 14px;
-    height: 14px;
-}
-
-#footer-center-side ul li a {
-    color: var(--white, #FFFFFF);
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    
-    flex: 1 0 0;
-
-    text-decoration: none;
-}
-
-#footer-right-side {
     width: 380px;
+    flex-direction: column;
     align-items: center;
+    gap: 20px;
 }
 
 #footer-work-hours {
@@ -1160,17 +1061,22 @@ footer p {
     }
     
     header nav.active {
-        border-bottom: none;
+        background-color: #333;
+        width: auto;
+        
         box-sizing: border-box;
         display: flex;
-        width: 150px;
+        gap: 20px;
+        
         position: absolute;
         top: 70px;
         right: 0;
-        background-color: #333;
+        
+        padding: 0 1em 1em;
         margin-right: 10px;
+        
         border-radius: 0 0 8px 8px;
-        gap: 20px;
+        border-bottom: none;
     }
 
     header nav ul {
@@ -1184,17 +1090,12 @@ footer p {
 
     #account-btns {
         flex-direction: column;
+        align-items: center;
     }
 
     #account-btns button {
         padding: 5px 8px;
-    }
-
-    #signout-btn {
-        box-sizing: border-box;
-        width: 130px;
-        border-color: var(--white, #FFFFFF);
-        margin-bottom: 10px;
+        width: 100%;
     }
 
     #home-content {
@@ -1225,14 +1126,15 @@ footer p {
     #services-content {
         box-sizing: border-box;
         flex-direction: column;
-        justify-content: start;
+        justify-content: center;
+        align-items: center;
         gap: 1em;
         height: auto;
     }
 
     #services-content div {
         box-sizing: border-box;
-        width: 100%;
+        width: 75.7%;
         height: 340px;
     }
 
@@ -1368,7 +1270,7 @@ footer p {
     .barber-card {
         box-sizing: border-box;
         width: 45%;
-        height: 400px;
+        height: 350px;
         padding: 4px;
     }
 
@@ -1401,5 +1303,103 @@ footer p {
     .barber-card-social-media svg {
         width: 20px;
         height: 20px;
+    }
+
+    #reservation {
+        box-sizing: border-box;
+        padding: 3px 3.47vw 10px;
+        gap: 1em;
+    }
+
+    #reservation-content {
+        box-sizing: border-box;
+        border-radius: 8px;
+        padding: 1em;
+    }
+
+    #reservation-content form {
+        box-sizing: border-box;
+        flex-direction: column;
+        width: 100%;
+        padding: 1em;
+        gap: 0.5em;
+    }
+    
+    #reservation-content form *:not([type="checkbox"]) {
+        box-sizing: border-box;
+        font-size: 14px;
+        width: 100%;
+    }
+    
+    #reservation-content form input:not([type="checkbox"]) {
+        box-sizing: border-box;
+        height: 40px;
+        padding: 20px;
+    }
+    
+    #reservation-content form div:first-of-type svg {
+        width: 22px;
+        height: 22px;
+    }
+    
+    #reservation-content form input[type="checkbox"] {
+        box-sizing: border-box;
+        width: 20px;
+    }
+
+    #reservation-content form button:last-child {
+        padding: 10px 16px;
+        width: auto;
+        height: auto;
+        font-size: 18px;
+    }
+    
+    footer {
+        box-sizing: border-box;
+        padding: 3px 3.47vw 10px;
+        gap: 0.5em;
+    }
+    
+    footer h3 {
+        font-size: 20px;
+    }
+    
+    footer p {
+        font-size: 16px;
+    }
+
+    #footer-content {
+        box-sizing: border-box;
+        flex-direction: column;
+        gap: 0.5em;
+        padding-top: 0.5em  ;
+    }
+    
+    #footer-contact {
+        box-sizing: border-box;
+        width: 100%;
+        gap: 10px;
+    }
+
+    #footer-work-hours {
+        padding: 0 0 0 35px;
+    }
+
+    #footer-work-hours div {
+        width: auto;
+        gap: 1em;
+    }
+
+    #footer-work-hours div p:first-of-type, #footer-business-contact div p {
+        font-size: 16px;
+    }
+
+    #footer-work-hours div p:last-of-type {
+        font-size: 14px;
+    }
+
+    #footer-contact svg {
+        height: 25px;
+        width: 25px;
     }
 }
