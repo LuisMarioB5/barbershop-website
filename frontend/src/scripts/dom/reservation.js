@@ -340,9 +340,10 @@ async function setDateTimeInput(dateTimeInput, serviceInput, barberInput) {
 
         // Establecer un mensaje de validación por defecto
         dateTimeInput.setCustomValidity(defaultValidationMessage);
-
+        
         dateTimeInput.addEventListener('input', async (event) => {
             const value = dateTimeInput.value;
+            if (value.length !== 0) dateTimeInput.setCustomValidity('');
 
             try {
                 if (value.length === 16) {

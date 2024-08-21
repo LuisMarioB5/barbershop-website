@@ -67,6 +67,11 @@ nav ul {
     border-bottom: 2px solid var(--white, #FFFFFF);
 }
 
+nav div {
+    display: flex;
+    gap: 1em;
+}
+
 nav button {
     display: flex;
     padding: 12px 20px;
@@ -457,19 +462,18 @@ input[type="checkbox"] {
         max-width: 150px;
     }
 
+    nav div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+    }
+
     nav button {
         box-sizing: border-box;
         width: 130px;
         padding: 5px 8px;
         margin-bottom: 10px;
     }
-
-    /* nav button:last-of-type {
-        box-sizing: border-box;
-        width: 130px;
-        padding: 5px 8px;
-        margin-bottom: 10px;
-    } */
 
     /* PARTE DE LA BARRA DE NAVEGACION ESTABLECIDA ARRIBA DE ESTE COMENTARIO */
     #user-content, #reservations-content {
